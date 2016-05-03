@@ -16,10 +16,13 @@ class DataBase {
 		DataBase(char*);
 		~DataBase();
 		void addUser(User);
+		void delUser(User);
+		User getUserByName(std::string);
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
 		int getHighestId(char*);
 		static int callbackFunction(void*, int, char**, char**);
+		static int selectCallbackFunction(void*, int, char**, char**);
 		
 };

@@ -2,18 +2,20 @@
 
 
 DataBase::DataBase(char* dataBaseName) {
+	char* errorMsg;
 	_nextUserId = 1;
 	_nextAdminId = 1;
 	sqlite3_open(dataBaseName, &_dataBase);
 	sqlite3_exec(_dataBase, "PRAGMA foreign_keys = ON", 0, 0, 0);
 	initUsersTable();
 	initEtablishmentTable();
-	const char* dbRequest = "INSERT INTO Utilisateurs(NameId, Email, Password, dateInscription) VALUES('David', 'david@gmail.com', 'password123', 160502)";
-	char* errorMsg;
 	User newUser("Flo", "legrand", "flo@gmail.com", 160502);
-	int errorStatus = sqlite3_exec(_dataBase, dbRequest, callbackFunction, 0, &errorMsg);
-	checkError(errorStatus, errorMsg);
-	addUser(newUser);
+	User newUser2("David", "password123", "david@gmail.com", 160501);
+	//addUser(newUser);
+	//addUser(newUser2);
+	//delUser(newUser2);
+	User yoUser = getUserByName("Flo");
+	std::cout<<yoUser.getEmail()<<yoUser.getPassword()<<yoUser.getCreationDate()<<std::endl;
 }
 
 
@@ -83,7 +85,6 @@ void DataBase::initEtablishmentTable() {
 
 
 void DataBase::addUser(User newUser) {
-	char* userAdding; 
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "'";
@@ -98,7 +99,33 @@ void DataBase::addUser(User newUser) {
 
 
 
-int DataBase::callbackFunction(void *NotUsed, int argc, char **argv, char **azColName) {
+void DataBase::delUser(User userToDel) {
+	char* errorMsg;
+	std::string gu = "'";
+	std::string query = "DELETE FROM Utilisateurs WHERE (NameId = "+gu+userToDel.getName()+gu;
+	query += ")";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);	
+}
+ 
+
+
+User DataBase::getUserByName(std::string nameId) {
+	char* errorMsg;
+	std::string gu="'";
+	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE(NameId = "+gu+nameId+gu;
+	query += ")";
+	User* userRequested = new User("bidon", "bidon", "bidon", -1);
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), selectCallbackFunction, userRequested, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	std::cout<<"adr1 "<<userRequested<<std::endl;
+	//std::cout<<userRequested->getEmail()<<std::endl;
+	return *userRequested;
+}
+
+
+
+int DataBase::callbackFunction(void* NotUsed, int argc, char** argv, char** azColName) {
    int i;
    std::cout<<argc<<std::endl;
    for(i=0; i<argc; i++){
@@ -106,6 +133,23 @@ int DataBase::callbackFunction(void *NotUsed, int argc, char **argv, char **azCo
    }
    printf("\n");
    return 0;	
+}
+
+
+
+int DataBase::selectCallbackFunction(void* user, int argc, char** argv, char** azColName) {
+    int i;
+    for(i=0; i<argc; i++){
+      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n"); 
+    User* temp = (User*) user; 	
+    temp->setName(argv[0]);
+    temp->setEmail(argv[1]);
+    temp->setPassword(argv[2]);
+    temp->setCreationDate(atoi(argv[3]));
+    std::cout<<"adr2 "<<user<<std::endl;
+    return 0;	
 }
 
 

@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 
 class User {
@@ -17,4 +18,8 @@ class User {
 		std::string getEmail();
 		std::string getPassword();
 		int getCreationDate();
+		void setName(std::string);
+		void setEmail(std::string);
+		void setPassword(std::string);
+		void setCreationDate(int);
 };
