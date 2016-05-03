@@ -8,19 +8,19 @@ DataBase::DataBase(char* dataBaseName) {
 	sqlite3_exec(_dataBase, "PRAGMA foreign_keys = ON", 0, 0, 0);
 	initUsersTable();
 	initEtablishmentTable();
-	char* dbRequest = "INSERT INTO Utilisateurs(NameId, Email, Password, dateInscription) VALUES('David', 'david@gmail.com', 'password123', 160502)";
+	const char* dbRequest = "INSERT INTO Utilisateurs(NameId, Email, Password, dateInscription) VALUES('David', 'david@gmail.com', 'password123', 160502)";
 	char* errorMsg;
 	User newUser("Flo", "legrand", "flo@gmail.com", 160502);
 	int errorStatus = sqlite3_exec(_dataBase, dbRequest, callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
-	sqlite3_exec(_dataBase, "PRAGMA foreign_keys", 0, 0, 0);
+	addUser(newUser);
 }
 
 
 void DataBase::initUsersTable() {
 	int errorStatus;
 	char* errorMsg;
-	char* tableCreation = "CREATE TABLE IF NOT EXISTS Utilisateurs("\
+	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Utilisateurs("\
 	"UID INTEGER PRIMARY KEY AUTOINCREMENT,"\
 	"NameId TEXT NOT NULL UNIQUE,"\
 	"Email TEXT NOT NULL UNIQUE,"\
@@ -37,7 +37,7 @@ void DataBase::initEtablishmentTable() {
 	int errorStatus;
 	char* errorMsg;
 	
-	char* tableCreation = "CREATE TABLE IF NOT EXISTS Etablissements("\
+	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Etablissements("\
 	"EID INTEGER PRIMARY KEY AUTOINCREMENT,"\
 	"Nom TEXT NOT NULL,"\
 	"Adresse TEXT NOT NULL,"\
@@ -53,7 +53,7 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 	
 	tableCreation = "CREATE TABLE IF NOT EXISTS Restaurants("\
-	"RID INTEGER PRIMARY KEY AUTOINCREMENT,"\
+	"RID INTEGER PRIMARY KEY,"\
 	"PrixPlats REAL NOT NULL,"\
 	"TakeAway INTEGER NOT NULL,"\
 	"HoraireFermeture TEXT NOT NULL,"\
@@ -64,7 +64,7 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 	
 	tableCreation = "CREATE TABLE IF NOT EXISTS Bars("\
-	"BID INTEGER PRIMARY KEY AUTOINCREMENT,"\
+	"BID INTEGER PRIMARY KEY,"\
 	"Fumeur INTEGER NOT NULL,"\
 	"PetiteRestauration INTEGER NOT NULL,"\
 	"FOREIGN KEY (BID) REFERENCES Etablissements)";
@@ -72,7 +72,7 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 	
 	tableCreation = "CREATE TABLE IF NOT EXISTS Hotels("\
-	"HID INTEGER PRIMARY KEY AUTOINCREMENT,"\
+	"HID INTEGER PRIMARY KEY,"\
 	"NbEtoiles INTEGER NOT NULL,"\
 	"IndicePrix INTEGER NOT NULL,"\
 	"FOREIGN KEY (HID) REFERENCES Etablissements)";
@@ -85,9 +85,12 @@ void DataBase::initEtablishmentTable() {
 void DataBase::addUser(User newUser) {
 	char* userAdding; 
 	char* errorMsg;
-	sprintf(userAdding, "INSERT INTO Utilisateurs VALUES("\
-	"%d, '%s', '%s', '%s', %d, %d)", _nextUserId, newUser.getName(), newUser.getEmail(), newUser.getPassword(), newUser.getCreationDate());
-	int errorStatus = sqlite3_exec(_dataBase, userAdding, callbackFunction, 0, &errorMsg);
+	std::string vir = ",";
+	std::string gu = "'";
+	std::string query = "INSERT INTO Utilisateurs(NameId, Email, Password, dateInscription) VALUES("+\
+	gu+newUser.getName()+gu+vir +gu+newUser.getEmail()+gu+vir +gu+newUser.getPassword()+gu+vir +std::to_string(newUser.getCreationDate());
+	query += ")";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 	_nextUserId+=1;
 	_nextAdminId+=1;
@@ -107,20 +110,20 @@ int DataBase::callbackFunction(void *NotUsed, int argc, char **argv, char **azCo
 
 
 
-int DataBase::getHighestId(void *NotUsed, int argc, char **argv, char **azColName) {
-	char* highestIdchar = argv[i] ? argv[i] : "0";
-	int highestId = (int) highestIdchar;
+int DataBase::getHighestId(char* res) {
+	const char* highestIdchar = res ? res : "0";
+	int highestId = atoi(highestIdchar);
 	return highestId;
 }
 
 
 
 void DataBase::checkError(int errorStatus, char* errorMsg) {
-    if (errorStatus){
+    if (errorStatus) {
         fprintf(stderr, "Error on database: %s\n", errorMsg);
         exit(0);
 	}
-    else{
+    else {
         fprintf(stdout, "Operation succeed\n");
     }
 }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <sqlite3.h> 
 #include <iostream>
+#include <string>
 #include "User.hpp"
 
 
@@ -18,6 +19,7 @@ class DataBase {
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
+		int getHighestId(char*);
 		static int callbackFunction(void*, int, char**, char**);
-		static int getHighestId(void*, int, char**, char**);
+		
 };
