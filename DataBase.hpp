@@ -4,6 +4,10 @@
 #include <iostream>
 #include <string>
 #include "User.hpp"
+//#include "Etablissement.hpp"
+#include "Bar.hpp"
+#include "Restaurant.hpp"
+#include "Hotel.hpp"
 
 
 class DataBase {
