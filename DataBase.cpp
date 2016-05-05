@@ -43,7 +43,7 @@ void DataBase::initEtablishmentTable() {
 	"EID INTEGER PRIMARY KEY AUTOINCREMENT,"\
 	"Nom TEXT NOT NULL,"\
 	"Adresse TEXT NOT NULL,"\
-	"Localite INT NOT NULL,"\
+	"Localite INTEGER NOT NULL,"\
 	"NumTel TEXT NOT NULL,"\
 	"SiteWeb TEXT,"\
 	"AdminCreateur INTEGER NOT NULL,"\
@@ -115,12 +115,27 @@ User DataBase::getUserByName(std::string nameId) {
 	std::string gu="'";
 	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE(NameId = "+gu+nameId+gu;
 	query += ")";
-	User* userRequested = new User("bidon", "bidon", "bidon", -1);
+	User* userRequested = new User("", "", "", -1);
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), selectCallbackFunction, userRequested, &errorMsg);
 	checkError(errorStatus, errorMsg);
 	std::cout<<"adr1 "<<userRequested<<std::endl;
 	//std::cout<<userRequested->getEmail()<<std::endl;
 	return *userRequested;
+}
+
+
+
+Etablissement DataBase::getEtablissement(int eID) {
+	char* errorMsg;
+	std::string gu="'";
+	std::string query = "SELECT Nom, Adresse, Localite, NumTel, SiteWeb, Latitude, Longitude FROM Etablissements WHERE(EID = "+eID;
+	query += ")";
+	Etablissement* etablRequested = new Etablissement("", "", -1, "", "", -1, -1);
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtablCallback, userRequested, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	std::cout<<"adr1 "<<userRequested<<std::endl;
+	//std::cout<<userRequested->getEmail()<<std::endl;
+	return *etablRequested;
 }
 
 
@@ -148,6 +163,25 @@ int DataBase::selectCallbackFunction(void* user, int argc, char** argv, char** a
     temp->setEmail(argv[1]);
     temp->setPassword(argv[2]);
     temp->setCreationDate(atoi(argv[3]));
+    std::cout<<"adr2 "<<user<<std::endl;
+    return 0;	
+}
+
+
+
+int DataBase::getEtablCallback(void* etabl, int argc, char** argv, char** azColName) {
+    int i;
+    for(i=0; i<argc; i++){
+      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n"); 
+    Etablissement* temp = (Etablissement*) etabl; 	
+    temp->setNom(argv[0]);
+    temp->setAdresse(argv[1]);
+    temp->setLocalite(atoi(argv[2]);
+    temp->setNumTel(atoi(argv[3]));
+    temp->setSiteWeb(argv[4]);
+    temp->setCoords(atof(argv[5]), atof(argv[6]));
     std::cout<<"adr2 "<<user<<std::endl;
     return 0;	
 }
