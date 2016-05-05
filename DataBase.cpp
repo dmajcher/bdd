@@ -134,7 +134,7 @@ void DataBase::addBar(Bar newBar) {
 	std::string vir = ",";
 	std::string gu = "'";
 	std::string query = "INSERT INTO Bars(BID, Fumeur, PetiteRestauration) VALUES("+\
-	std::to_string(_nextEtabId+vir) +std::to_string(newBar.getPrix())+vir +std::to_string(newBar.getPetiteResto());
+	std::to_string(_nextEtabId+vir) +std::to_string(newBar.getFumeur())+vir +std::to_string(newBar.getPetiteResto());
 	query+=")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
