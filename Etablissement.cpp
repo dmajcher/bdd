@@ -3,7 +3,7 @@
 
 
 
-Etablissement(std::string nom, std::string adresse, int localite, std::string numTel, std::string webSite, float latit, float longit) {
+Etablissement::Etablissement(std::string nom, std::string adresse, int localite, std::string numTel, std::string webSite, float latit, float longit) {
 	_nom = nom;
 	_adresse = adresse;
 	_localite = localite;

@@ -1,3 +1,7 @@
+#ifndef USER_HPP
+#define USER_HPP
+
+
 #include <string>
 #include <iostream>
 
@@ -23,3 +27,6 @@ class User {
 		void setPassword(std::string);
 		void setCreationDate(int);
 };
+
+
+#endif /* USER_HPP */

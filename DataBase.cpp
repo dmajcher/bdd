@@ -116,7 +116,7 @@ User DataBase::getUserByName(std::string nameId) {
 	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE(NameId = "+gu+nameId+gu;
 	query += ")";
 	User* userRequested = new User("", "", "", -1);
-	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), selectCallbackFunction, userRequested, &errorMsg);
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getUserCallback, userRequested, &errorMsg);
 	checkError(errorStatus, errorMsg);
 	std::cout<<"adr1 "<<userRequested<<std::endl;
 	//std::cout<<userRequested->getEmail()<<std::endl;
@@ -131,10 +131,8 @@ Etablissement DataBase::getEtablissement(int eID) {
 	std::string query = "SELECT Nom, Adresse, Localite, NumTel, SiteWeb, Latitude, Longitude FROM Etablissements WHERE(EID = "+eID;
 	query += ")";
 	Etablissement* etablRequested = new Etablissement("", "", -1, "", "", -1, -1);
-	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtablCallback, userRequested, &errorMsg);
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtablCallback, etablRequested, &errorMsg);
 	checkError(errorStatus, errorMsg);
-	std::cout<<"adr1 "<<userRequested<<std::endl;
-	//std::cout<<userRequested->getEmail()<<std::endl;
 	return *etablRequested;
 }
 
@@ -152,7 +150,7 @@ int DataBase::callbackFunction(void* NotUsed, int argc, char** argv, char** azCo
 
 
 
-int DataBase::selectCallbackFunction(void* user, int argc, char** argv, char** azColName) {
+int DataBase::getUserCallback(void* user, int argc, char** argv, char** azColName) {
     int i;
     for(i=0; i<argc; i++){
       printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
@@ -178,11 +176,10 @@ int DataBase::getEtablCallback(void* etabl, int argc, char** argv, char** azColN
     Etablissement* temp = (Etablissement*) etabl; 	
     temp->setNom(argv[0]);
     temp->setAdresse(argv[1]);
-    temp->setLocalite(atoi(argv[2]);
-    temp->setNumTel(atoi(argv[3]));
+    temp->setLocalite(atoi(argv[2]));
+    temp->setNumTel(argv[3]);
     temp->setSiteWeb(argv[4]);
     temp->setCoords(atof(argv[5]), atof(argv[6]));
-    std::cout<<"adr2 "<<user<<std::endl;
     return 0;	
 }
 

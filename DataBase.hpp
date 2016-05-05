@@ -22,13 +22,13 @@ class DataBase {
 		void addUser(User);
 		void delUser(User);
 		User getUserByName(std::string);
-		Etablissement getEtablissment(int);
+		Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
 		int getHighestId(char*);
 		static int callbackFunction(void*, int, char**, char**);
-		static int selectCallbackFunction(void*, int, char**, char**);
+		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);
 		
 };
