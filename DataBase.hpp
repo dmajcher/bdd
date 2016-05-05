@@ -5,9 +5,9 @@
 #include <string>
 #include "User.hpp"
 #include "Etablissement.hpp"
-//#include "Bar.hpp"
-//#include "Restaurant.hpp"
-//#include "Hotel.hpp"
+#include "Restaurant.hpp"
+#include "Bar.hpp"
+#include "Hotel.hpp"
 
 
 class DataBase {
@@ -15,14 +15,18 @@ class DataBase {
 		sqlite3* _dataBase;
 		int _nextUserId;
 		int _nextAdminId;
+		int _nextEtabId;
 	
 	public:
 		DataBase(char*);
 		~DataBase();
 		void addUser(User);
+		void addRestaurant(Restaurant);
+		void addBar(Bar);
+		void addHotel(Hotel);
 		void delUser(User);
 		User getUserByName(std::string);
-		Etablissement getEtablissement(int);
+		// Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);

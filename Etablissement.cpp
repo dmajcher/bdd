@@ -3,17 +3,6 @@
 
 
 
-Etablissement::Etablissement(std::string nom, std::string adresse, int localite, std::string numTel, std::string webSite, float latit, float longit) {
-	_nom = nom;
-	_adresse = adresse;
-	_localite = localite;
-	_numTel = numTel;
-	_siteWeb = webSite;
-	_latitude = latit;
-	_longitude = longit;
-}
-
-
 
 int Etablissement::getEid(){return _EID;}
 

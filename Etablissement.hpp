@@ -16,7 +16,6 @@ class Etablissement{
 	float _longitude;
 
 public:
-	Etablissement(std::string, std::string, int, std::string, std::string, float, float);
 	int getEid();
 	std::string getNom();
 	std::string getAdresse();
