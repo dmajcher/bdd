@@ -82,6 +82,41 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 }	
 
+void debut_element(void *user_data, const xmlChar *name, const xmlChar **attrs) {
+    printf("Début de l'élément : %s\n", name);
+}
+
+void xmlParser(){
+	// Initialisation à zéro de tous les membres (NULL pour un pointeur par conversion)
+    xmlSAXHandler sh = { 0 };
+
+    // Affectation des fonctions de rappel
+    sh.startElement = debut_element;
+
+    xmlParserCtxtPtr ctxt;
+    // Création du contexte
+    if ((ctxt = xmlCreateFileParserCtxt("Restaurants.xml")) == NULL) {
+        fprintf(stderr, "Erreur lors de la création du contexte\n");
+        return EXIT_FAILURE;
+    }
+    // Fonctions de rappel à utiliser
+    ctxt->sax = &sh;
+    // Analyse
+    xmlParseDocument(ctxt);
+    // Le document est-il bien formé ?
+    if (ctxt->wellFormed) {
+        printf("Document XML bien formé\n");
+    } else {
+        fprintf(stderr, "Document XML mal formé\n");
+        xmlFreeParserCtxt(ctxt);
+        return EXIT_FAILURE;
+    }
+    // Libération de la mémoire
+    xmlFreeParserCtxt(ctxt);
+
+    return EXIT_SUCCESS;
+}
+}
 
 
 void DataBase::addUser(User newUser) {
@@ -171,6 +206,8 @@ void DataBase::checkError(int errorStatus, char* errorMsg) {
         fprintf(stdout, "Operation succeed\n");
     }
 }
+
+Bar Database::fetchBarInfos()
 
 
 

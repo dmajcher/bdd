@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 #include "User.hpp"
+#include <libxml/tree.h>
+#include <libxml/parser.h>
+#include <libxml/parserInternals.h>
 //#include "Etablissement.hpp"
 #include "Bar.hpp"
 #include "Restaurant.hpp"
