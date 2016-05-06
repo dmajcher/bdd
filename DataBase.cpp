@@ -112,14 +112,13 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 	std::string info = temp->Value();
 	if (temp == nullptr){return 1;}
 	else if (info == "Restaurant"){
-		if (_currentEtab){
-		addEtablissement(*_currentEtab);
+		if (_currentRest){
 		addRestaurant(*_currentRest);
 		}
-		_currentEtab = new Etablissement();
+		// _currentRest = new Etablissement();
 		_currentRest = new Restaurant(-1,false,false,"",-1);
-		_currentEtab->setDate(temp->Attribute("creationDate"));
-		_currentEtab->setAdmin(temp->Attribute("nickname"));
+		_currentRest->setDate(temp->Attribute("creationDate"));
+		_currentRest->setAdmin(temp->Attribute("nickname"));
 	}
 	restCase(temp);
 	if (temp->FirstChildElement()){recursiveParser(temp->FirstChildElement());}
@@ -131,18 +130,18 @@ void DataBase::restCase(TiXmlElement* temp){
 	if (temp->GetText()){tempText = temp->GetText();}
 	std::string elem = temp->Value();
 	std::string::size_type sz;
-	if (elem =="Name"){_currentEtab->setNom(tempText);}
+	if (elem =="Name"){_currentRest->setNom(tempText);}
 	else if (elem =="Street"){_currentAdr = tempText;}
 	else if(elem =="Num"){_currentAdr += " " + tempText;}
 	else if(elem =="Zip"){ 
 		_currentAdr += " " + tempText;
-		_currentEtab->setLocalite(std::stoi(tempText));
+		_currentRest->setLocalite(std::stoi(tempText));
 	}
 	else if(elem =="City"){_currentAdr += " " + tempText;}	
 	else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
-	else if(elem =="Latitude") {_currentEtab->setCoords(std::stof(tempText,&sz),_long);}
-	else if(elem =="Tel"){_currentEtab->setNumTel(tempText);}
-	else if(elem =="Site"){_currentEtab->setSiteWeb(temp->Attribute("link"));}
+	else if(elem =="Latitude") {_currentRest->setCoords(std::stof(tempText,&sz),_long);}
+	else if(elem =="Tel"){_currentRest->setNumTel(tempText);}
+	else if(elem =="Site"){_currentRest->setSiteWeb(temp->Attribute("link"));}
 	else if(elem =="On"){}	
 	else if(elem =="TakeAway"){_currentRest->setTakeAway(true);}
 	else if(elem =="Delivery"){_currentRest->setLivraison(true);}
@@ -172,12 +171,14 @@ void DataBase::addUser(User newUser) {
 
 
 void DataBase::addEtablissement(Etablissement &newEtab) {
+	std::cout<<"etab"<<std::endl;
+	std::cout<<newEtab.getAdmin();
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
 	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude) VALUES("+\
     gu+newEtab.getNom()+gu+vir +gu+newEtab.getAdresse()+gu+vir +std::to_string(newEtab.getLocalite())+vir +gu+newEtab.getNumTel()+gu+vir +gu+newEtab.getSiteWeb()+gu+vir+\
-	(newEtab.getAdmin())+vir +(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
+	gu+newEtab.getAdmin()+gu+vir +(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
@@ -186,6 +187,7 @@ void DataBase::addEtablissement(Etablissement &newEtab) {
 
 void DataBase::addRestaurant(Restaurant &newResto) {
 	addEtablissement(newResto);
+	std::cout<<"resto"<<std::endl;
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";

@@ -22,7 +22,7 @@ class DataBase {
 		int _nextEtabId;
 		float _long;
 		Etablissement* _currentEtab=nullptr;
-		Restaurant* _currentRest;
+		Restaurant* _currentRest=nullptr;
 		std::string _currentAdr;
 	
 	public:
