@@ -1,3 +1,5 @@
+#ifndef BAR_HPP
+#define BAR_HPP
 #include "Etablissement.hpp"
 
 class Bar: public Etablissement{
@@ -8,3 +10,5 @@ public:
 	int getBid();
 	bool isFumeur();
 	bool hasPetiteRestaur();
+};
+#endif /* BAR_HPP */

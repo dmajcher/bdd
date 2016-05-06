@@ -1,18 +1,16 @@
+#ifndef DATABASE_HPP
+#define DATABASE_HPP
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <sqlite3.h> 
 #include <iostream>
 #include <string>
-#include "User.hpp"
-<<<<<<< HEAD
+#include "User.hpp"	
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
-//#include "Etablissement.hpp"
-#include "Bar.hpp"
-=======
 #include "Etablissement.hpp"
->>>>>>> 629ad5fc9d6267193afc4047dba1281f57d2693b
 #include "Restaurant.hpp"
 #include "Bar.hpp"
 #include "Hotel.hpp"
@@ -38,9 +36,12 @@ class DataBase {
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
+		void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		int getHighestId(char*);
+		int xmlParser();
 		static int callbackFunction(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);
 		
 };
+#endif /* DATABASE_HPP */

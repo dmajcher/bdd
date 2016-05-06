@@ -83,11 +83,11 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 }	
 
-void debut_element(void *user_data, const xmlChar *name, const xmlChar **attrs) {
+void DataBase::debut_element(void *user_data, const xmlChar *name, const xmlChar **attrs) {
     printf("Début de l'élément : %s\n", name);
 }
 
-void xmlParser(){
+int DataBase::xmlParser(){
 	// Initialisation à zéro de tous les membres (NULL pour un pointeur par conversion)
     xmlSAXHandler sh = { 0 };
 
@@ -116,7 +116,6 @@ void xmlParser(){
     xmlFreeParserCtxt(ctxt);
 
     return EXIT_SUCCESS;
-}
 }
 
 
@@ -307,7 +306,7 @@ void DataBase::checkError(int errorStatus, char* errorMsg) {
     }
 }
 
-Bar Database::fetchBarInfos()
+Bar DataBase::fetchBarInfos(){}
 
 
 

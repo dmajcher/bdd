@@ -1,3 +1,5 @@
+#ifndef HOTEL_HPP
+#define HOTEL_HPP
 #include "Etablissement.hpp"
 
 class Hotel: public Etablissement{
@@ -10,3 +12,6 @@ public:
 	int getNbEtoiles();
 	int getNbChambres();
 	int getIndicePrix();
+};
+
+#endif /* HOTEL_HPP */

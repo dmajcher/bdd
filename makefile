@@ -1,4 +1,4 @@
-FLAGS = -std=c++14 -lsqlite3 -Wall xml2-config --cflags xml2-config --libs
+FLAGS = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -Wconversion -Wold-style-cast  -Wctor-dtor-privacy -Woverloaded-virtual -Wconversion -Wsign-promo -I/usr/include/libxml2 -libxml2 -l sqlite3
 GCC = FALSE
 COMPILATORG=g++-5
 COMPILATORC=gcc-5
@@ -11,6 +11,9 @@ endif
 links: database.o user.o etablissement.o restaurant.o bar.o hotel.o main.o
 	$(COMPILATORG) $(FLAGS) -o $@ database.o user.o etablissement.o restaurant.o bar.o hotel.o main.o
 
+database.o: DataBase.hpp DataBase.cpp
+	$(COMPILATORG) $(FLAGS) -c DataBase.cpp -o database.o
+	
 user.o: User.cpp User.hpp
 	$(COMPILATORG) $(FLAGS) -c User.cpp -o user.o
 
@@ -25,9 +28,6 @@ bar.o: Bar.cpp Bar.hpp
 
 hotel.o: Hotel.cpp Hotel.hpp
 	$(COMPILATORG) $(FLAGS) -c Hotel.cpp -o hotel.o
-
-database.o: DataBase.hpp DataBase.cpp
-	$(COMPILATORG) $(FLAGS) -c DataBase.cpp -o database.o
 
 main.o: main.cpp
 	$(COMPILATORG) $(FLAGS) -c main.cpp -o main.o

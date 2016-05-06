@@ -1,3 +1,6 @@
+#ifndef RESTAURANT_HPP
+#define RESTAURANT_HPP
+
 #include "Etablissement.hpp"
 #include <vector>
 #include <string>
@@ -19,3 +22,6 @@ public:
 	std::string getHorraireDeFermeture();
 	bool hasTakeAway();
 	bool hasLivraison();
+};
+
+#endif /* RESTAURANT_HPP */
