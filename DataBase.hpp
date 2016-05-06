@@ -29,12 +29,12 @@ class DataBase {
 		DataBase(char*);
 		~DataBase();
 		void addUser(User);
-		void addEtablissement(Etablissement);
-		void addRestaurant(Restaurant);
-		void addBar(Bar);
-		void addHotel(Hotel);
+		void addEtablissement(Etablissement&);
+		void addRestaurant(Restaurant&);
+		void addBar(Bar&);
+		void addHotel(Hotel&);
 		void delUser(User);
-		void delEtablissement(Etablissement);
+		void delEtablissement(Etablissement&);
 		User getUserByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
@@ -44,6 +44,8 @@ class DataBase {
 		int getHighestId(char*);
 		int xmlParser();
 		int recursiveParser(TiXmlElement*);
+		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
+		//int getHighestId(char*);
 		static int callbackFunction(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);

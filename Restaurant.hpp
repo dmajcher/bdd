@@ -8,17 +8,16 @@
 class Restaurant: public Etablissement {
 	int _RID;
 	int _nbDePlaceBanquet;
-	int _nbDemiJourDeConge;
-	float  _prixPlats;
+	int  _prixPlats;
 	std::string _horraireDeFermeture;
 	bool _takeAway;
 	bool _livraison;
 
 public:
+	Restaurant(int, bool, bool, std::string, int);
 	int getRid();
 	int getNbPlaces();
-	int getDemiJours();
-	float getPrix();
+	int getPrix();
 	std::string getHoraire();
 	bool hasTakeAway();
 	bool hasLivraison();
@@ -26,7 +25,7 @@ public:
 	void setLivraison(bool);
 	void setPrix(float);
 	void setNbPlaces(int);
-	void setHorraire();
+	void setHoraire(std::string);
 };
 
 #endif /* RESTAURANT_HPP */

@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Etablissement{
+class Etablissement {
 	int _EID;
 	std::string _nom;
 	std::string _adresse;
@@ -26,6 +26,8 @@ public:
 	std::string getDateCreation();
 	float getLatitude();
 	float getLongitude();
+	void setEid(int);
+	void setEtabInfos(std::string, std::string, int, std::string, std::string, int, int, float, float);
 	void setNom(std::string);
 	void setAdresse(std::string);
 	void setNumTel(std::string);
