@@ -16,6 +16,7 @@ DataBase::DataBase(char* dataBaseName) {
 	//addUser(newUser2);
 	//delUser(newUser2);
 	User yoUser = getUserByName("Flo");
+	xmlParser();
 	std::cout<<yoUser.getEmail()<<yoUser.getPassword()<<yoUser.getCreationDate()<<std::endl;
 }
 
@@ -34,8 +35,6 @@ void DataBase::initUsersTable() {
 	checkError(errorStatus, errorMsg);
 }
 
-
-
 void DataBase::initEtablishmentTable() {
 	int errorStatus;
 	char* errorMsg;
@@ -48,7 +47,7 @@ void DataBase::initEtablishmentTable() {
 	"NumTel TEXT NOT NULL,"\
 	"SiteWeb TEXT,"\
 	"AdminCreateur INTEGER NOT NULL,"\
-	"DateCreation INTEGER NOT NULL,"\
+	"DateCreation TEXT NOT NULL,"\
 	"Latitude REAL NOT NULL,"\
 	"Longitude REAL NOT NULL,"\
 	"FOREIGN KEY(AdminCreateur) REFERENCES Admin)";
@@ -83,41 +82,63 @@ void DataBase::initEtablishmentTable() {
 	"FOREIGN KEY (HID) REFERENCES Etablissements ON DELETE CASCADE)";
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
-}	
-
-void DataBase::debut_element(void *user_data, const xmlChar *name, const xmlChar **attrs) {
-    printf("Début de l'élément : %s\n", name);
 }
 
 int DataBase::xmlParser(){
-	// Initialisation à zéro de tous les membres (NULL pour un pointeur par conversion)
-    xmlSAXHandler sh = { 0 };
+	TiXmlDocument doc("Restaurants.xml");
+	if(!doc.LoadFile()){
+    	std::cerr << "erreur lors du chargement" << std::endl;
+    	std::cerr << "error #" << doc.ErrorId() << " : " << doc.ErrorDesc() << std::endl;
+    return 1;
+	}
 
-    // Affectation des fonctions de rappel
-    sh.startElement = debut_element;
+	TiXmlHandle hdlparent(&doc);
+	TiXmlElement* restaurant = hdlparent.FirstChildElement().FirstChildElement().Element();
+	recursiveParser(restaurant);
+	//TiXmlElement* temp = doc
+}
+int DataBase::recursiveParser(TiXmlElement *temp){
+	//std::cout<<temp->Value()<<std::endl;
+	std::cout<<temp->Value()<<std::endl;
+	std::string info = temp->Value();
+	if (temp == nullptr){return 1;}
+	else if (info == "Restaurant"){
+		if (_currentEtab){
+		addEtablissement(*_currentEtab);
+		addRestaurant(*_currentRest);
+		}
+		_currentEtab = new Etablissement();
+		_currentRest = new Restaurant();
+		_currentEtab->setDate(temp->Attribute("creationDate"));
+		_currentEtab->setAdmin(temp->Attribute("nickname"));
+	}
+	restCase(temp);
+	if (temp->FirstChildElement()){recursiveParser(temp->FirstChildElement());}
+	if(temp->NextSiblingElement()){recursiveParser(temp->NextSiblingElement());} 
+}
 
-    xmlParserCtxtPtr ctxt;
-    // Création du contexte
-    if ((ctxt = xmlCreateFileParserCtxt("Restaurants.xml")) == NULL) {
-        fprintf(stderr, "Erreur lors de la création du contexte\n");
-        return EXIT_FAILURE;
-    }
-    // Fonctions de rappel à utiliser
-    ctxt->sax = &sh;
-    // Analyse
-    xmlParseDocument(ctxt);
-    // Le document est-il bien formé ?
-    if (ctxt->wellFormed) {
-        printf("Document XML bien formé\n");
-    } else {
-        fprintf(stderr, "Document XML mal formé\n");
-        xmlFreeParserCtxt(ctxt);
-        return EXIT_FAILURE;
-    }
-    // Libération de la mémoire
-    xmlFreeParserCtxt(ctxt);
-
-    return EXIT_SUCCESS;
+void DataBase::restCase(TiXmlElement* temp){
+	std::string tempText;
+	if (temp->GetText()){tempText = temp->GetText();}
+	std::string elem = temp->Value();
+	std::string::size_type sz;
+	if (elem =="Name"){_currentEtab->setNom(tempText);}
+	else if (elem =="Street"){_currentAdr = tempText;}
+	else if(elem =="Num"){_currentAdr += " " + tempText;}
+	else if(elem =="Zip"){ 
+		_currentAdr += " " + tempText;
+		_currentEtab->setLocalite(std::stoi(tempText));
+	}
+	else if(elem =="City"){_currentAdr += " " + tempText;}	
+	else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
+	else if(elem =="Latitude") {_currentEtab->setCoords(std::stof(tempText,&sz),_long);}
+	else if(elem =="Tel"){_currentEtab->setNumTel(tempText);}
+	else if(elem =="Site"){_currentEtab->setSiteWeb(temp->Attribute("link"));}
+	else if(elem =="On"){}	
+	else if(elem =="TakeAway"){_currentRest->setTakeAway(true);}
+	else if(elem =="Delivery"){_currentRest->setLivraison(true);}
+	else if(elem =="PriceRange"){_currentRest->setPrix(std::stof((tempText),&sz));}
+	else if(elem =="Banquet"){_currentRest->setNbPlaces(std::stoi(temp->Attribute("capacity")));}
 }
 
 
@@ -142,7 +163,7 @@ void DataBase::addEtablissement(Etablissement newEtab) {
 	std::string gu = "'";
 	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude) VALUES("+\
     gu+newEtab.getNom()+gu+vir +gu+newEtab.getAdresse()+gu+vir +std::to_string(newEtab.getLocalite())+vir +gu+newEtab.getNumTel()+gu+vir +\
-	gu+newEtab.getAdmin()+gu+vir +std::to_string(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude());
+	gu+newEtab.getAdmin()+gu+vir +(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude());
 	query += ")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);

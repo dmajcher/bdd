@@ -11,7 +11,7 @@ class Etablissement{
 	int _localite;
 	std::string _siteWeb;
 	std::string _adminCreateur;
-	int _dateDeCreation;
+	std::string _dateDeCreation;
 	float _latitude;
 	float _longitude;
 
@@ -23,15 +23,17 @@ public:
 	int getLocalite();
 	std::string getSiteWeb();
 	std::string getAdmin();
-	int getDateCreation();
+	std::string getDateCreation();
 	float getLatitude();
 	float getLongitude();
 	void setNom(std::string);
 	void setAdresse(std::string);
 	void setNumTel(std::string);
+	void setAdmin(std::string);
 	void setLocalite(int);
 	void setSiteWeb(std::string);
 	void setCoords(float, float);
+	void setDate(std::string);
 };
 
 #endif /* ETABLISSEMENT_HPP */

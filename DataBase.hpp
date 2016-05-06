@@ -3,13 +3,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <sqlite3.h> 
+#include <sqlite3.h>
+#include <tinyxml.h> 
 #include <iostream>
 #include <string>
 #include "User.hpp"	
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
 #include "Etablissement.hpp"
 #include "Restaurant.hpp"
 #include "Bar.hpp"
@@ -22,6 +20,10 @@ class DataBase {
 		int _nextUserId;
 		int _nextAdminId;
 		int _nextEtabId;
+		float _long;
+		Etablissement* _currentEtab=nullptr;
+		Restaurant* _currentRest;
+		std::string _currentAdr;
 	
 	public:
 		DataBase(char*);
@@ -38,9 +40,10 @@ class DataBase {
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
-		void debut_element(void *user_data, const xmlChar *, const xmlChar **);
+		void restCase(TiXmlElement*);
 		int getHighestId(char*);
 		int xmlParser();
+		int recursiveParser(TiXmlElement*);
 		static int callbackFunction(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);

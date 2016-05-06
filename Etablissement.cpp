@@ -1,9 +1,6 @@
 #include "Etablissement.hpp"
 
 
-
-
-
 int Etablissement::getEid(){return _EID;}
 
 std::string Etablissement::getNom(){return _nom;}
@@ -18,7 +15,7 @@ std::string Etablissement::getSiteWeb(){return _siteWeb;}
 
 std::string Etablissement::getAdmin(){return _adminCreateur;}
 
-int Etablissement::getDateCreation(){return _dateDeCreation;}
+std::string Etablissement::getDateCreation(){return _dateDeCreation;}
 
 float Etablissement::getLatitude(){return _latitude;}
 
@@ -43,8 +40,12 @@ void Etablissement::setLocalite(int localite) {
 void Etablissement::setSiteWeb(std::string site) {
 	_siteWeb = site;
 }
+void Etablissement::setAdmin(std::string admin){
+	_adminCreateur = admin;
+}
 
 void Etablissement::setCoords(float latitude, float longitude) {
 	_latitude = latitude;
 	_longitude = longitude;
 }
+void Etablissement::setDate(std::string date){_dateDeCreation = date;}

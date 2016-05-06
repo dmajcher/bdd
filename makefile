@@ -1,4 +1,4 @@
-FLAGS = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -Wconversion -Wold-style-cast  -Wctor-dtor-privacy -Woverloaded-virtual -Wconversion -Wsign-promo -I/usr/include/libxml2 -libxml2 -l sqlite3
+FLAGS = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -Wconversion -Wold-style-cast  -Wctor-dtor-privacy -Woverloaded-virtual -Wconversion -Wsign-promo -l sqlite3 -ltinyxml
 GCC = FALSE
 COMPILATORG=g++-5
 COMPILATORC=gcc-5
