@@ -137,7 +137,9 @@ void DataBase::restCase(TiXmlElement* temp){
 		_currentAdr += " " + tempText;
 		_currentRest->setLocalite(std::stoi(tempText));
 	}
-	else if(elem =="City"){_currentAdr += " " + tempText;}	
+	else if(elem =="City"){_currentAdr += " " + tempText;
+		_currentRest->setAdresse(_currentAdr);
+	}
 	else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
 	else if(elem =="Latitude") {_currentRest->setCoords(std::stof(tempText,&sz),_long);}
 	else if(elem =="Tel"){_currentRest->setNumTel(tempText);}
