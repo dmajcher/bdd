@@ -19,4 +19,3 @@ public:
 	std::string getHorraireDeFermeture();
 	bool hasTakeAway();
 	bool hasLivraison();
-};

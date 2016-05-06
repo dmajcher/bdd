@@ -10,4 +10,3 @@ public:
 	int getNbEtoiles();
 	int getNbChambres();
 	int getIndicePrix();
-};

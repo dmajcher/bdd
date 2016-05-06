@@ -8,4 +8,3 @@ public:
 	int getBid();
 	bool isFumeur();
 	bool hasPetiteRestaur();
-};
