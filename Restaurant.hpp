@@ -8,24 +8,21 @@
 class Restaurant: public Etablissement {
 	int _RID;
 	int _nbDePlaceBanquet;
-	int _nbDemiJourDeConge;
-	float  _prixPlats;
+	int  _prixPlats;
 	std::string _horraireDeFermeture;
 	bool _takeAway;
 	bool _livraison;
 
 public:
-	Restaurant(float, bool, bool, std::string, int, int);
+	Restaurant(int, bool, bool, std::string, int);
 	int getRid();
 	int getNbPlaces();
-	int getDemiJours();
-	float getPrix();
+	int getPrix();
 	std::string getHoraire();
 	bool hasTakeAway();
 	bool hasLivraison();
 	void setNbPlaces(int);
-	void setDemiJours(int);
-	void setPrix(float);
+	void setPrix(int);
 	void setHoraire(std::string);
 	void setTakeAway(bool);
 	void setLivraison(bool);

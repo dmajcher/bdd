@@ -7,9 +7,9 @@
 #include <iostream>
 #include <string>
 #include "User.hpp"	
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
+// #include <libxml/tree.h>
+// #include <libxml/parser.h>
+// #include <libxml/parserInternals.h>
 #include "Etablissement.hpp"
 #include "Restaurant.hpp"
 #include "Bar.hpp"
@@ -27,20 +27,20 @@ class DataBase {
 		DataBase(char*);
 		~DataBase();
 		void addUser(User);
-		void addEtablissement(Etablissement);
-		void addRestaurant(Restaurant);
-		void addBar(Bar);
-		void addHotel(Hotel);
+		void addEtablissement(Etablissement&);
+		void addRestaurant(Restaurant&);
+		void addBar(Bar&);
+		void addHotel(Hotel&);
 		void delUser(User);
-		void delEtablissement(Etablissement);
+		void delEtablissement(Etablissement&);
 		User getUserByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
-		void debut_element(void *user_data, const xmlChar *, const xmlChar **);
+		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		int getHighestId(char*);
-		int xmlParser();
+		// int xmlParser();
 		static int callbackFunction(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);

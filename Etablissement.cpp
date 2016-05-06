@@ -16,13 +16,29 @@ int Etablissement::getLocalite(){return _localite;}
 
 std::string Etablissement::getSiteWeb(){return _siteWeb;}
 
-std::string Etablissement::getAdmin(){return _adminCreateur;}
+int Etablissement::getAdmin(){return _adminCreateur;}
 
 int Etablissement::getDateCreation(){return _dateDeCreation;}
 
 float Etablissement::getLatitude(){return _latitude;}
 
 float Etablissement::getLongitude(){return _longitude;}
+
+void Etablissement::setEtabInfos(std::string nom, std::string adresse, int localite, std::string numTel, std::string siteWeb, int admin, int date, float latitude, float longitude) {
+    _nom = nom;
+    _adresse = adresse;
+    _localite = localite;
+    _numTel = numTel;
+    _siteWeb = siteWeb;
+    _adminCreateur = admin;
+    _dateDeCreation = date;
+    _latitude = latitude;
+    _longitude = longitude;
+}
+
+void Etablissement::setEid(int eid){
+    _EID = eid;
+}
 
 void Etablissement::setNom(std::string name) {
 	_nom = name;

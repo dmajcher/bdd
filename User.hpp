@@ -14,18 +14,19 @@ class User {
 		int _userId;
 		int _creationDate;
 		int _adminId;
-		bool _isAdmin;
 		
 	public:
-		User(std::string, std::string, std::string, int);
+		User(std::string, std::string, std::string, int, int);
 		std::string getName();
 		std::string getEmail();
 		std::string getPassword();
+		int getAdminId();
 		int getCreationDate();
 		void setName(std::string);
 		void setEmail(std::string);
 		void setPassword(std::string);
 		void setCreationDate(int);
+		void setAdminId(int);
 };
 
 
