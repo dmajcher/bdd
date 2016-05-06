@@ -180,7 +180,7 @@ void DataBase::addEtablissement(Etablissement &newEtab) {
 	std::string gu = "\"";
 	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude) VALUES("+\
     gu+newEtab.getNom()+gu+vir +gu+newEtab.getAdresse()+gu+vir +std::to_string(newEtab.getLocalite())+vir +gu+newEtab.getNumTel()+gu+vir +gu+newEtab.getSiteWeb()+gu+vir+\
-	gu+newEtab.getAdmin()+gu+vir +(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
+	gu+newEtab.getAdmin()+gu+vir +gu+newEtab.getDateCreation()+gu+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
