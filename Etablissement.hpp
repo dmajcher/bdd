@@ -3,7 +3,7 @@
 
 #include <string>
 
-class Etablissement{
+class Etablissement {
 	int _EID;
 	std::string _nom;
 	std::string _adresse;

@@ -11,7 +11,8 @@ public:
 	int getBid();
 	bool isFumeur();
 	bool hasPetiteResto();
-    bool setFumeur(bool);
-    bool setPetiteResto(bool);
+    void setFumeur(bool);
+    void setPetiteResto(bool);
 };
+
 #endif /* BAR_HPP */

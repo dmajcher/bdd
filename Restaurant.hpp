@@ -15,6 +15,7 @@ class Restaurant: public Etablissement {
 	bool _livraison;
 
 public:
+	Restaurant(float, bool, bool, std::string, int, int);
 	int getRid();
 	int getNbPlaces();
 	int getDemiJours();
@@ -25,7 +26,7 @@ public:
 	void setNbPlaces(int);
 	void setDemiJours(int);
 	void setPrix(float);
-	void setHoraire(float);
+	void setHoraire(std::string);
 	void setTakeAway(bool);
 	void setLivraison(bool);
 };

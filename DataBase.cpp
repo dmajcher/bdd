@@ -12,7 +12,7 @@ DataBase::DataBase(char* dataBaseName) {
 	initEtablishmentTable();
 	User newUser("Flo", "legrand", "flo@gmail.com", 160502);
 	User newUser2("David", "password123", "david@gmail.com", 160501);
-	//addUser(newUser);
+	addUser(newUser);
 	//addUser(newUser2);
 	//delUser(newUser2);
 	User yoUser = getUserByName("Flo");
@@ -221,11 +221,11 @@ User DataBase::getUserByName(std::string nameId) {
 	char* errorMsg;
 	std::string gu="'";
 	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE(NameId = "+gu+nameId+gu+")";
-	User* userRequested = new User("", "", "", -1);
-	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getUserCallback, userRequested, &errorMsg);
+	User userRequested("", "", "", -1);
+    User* userRequestedPtr = &userRequested;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getUserCallback, userRequestedPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
-	std::cout<<"adr1 "<<userRequested<<std::endl;
-	return *userRequested;
+	return userRequested;
 }
 
 
