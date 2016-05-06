@@ -22,6 +22,12 @@ public:
 	std::string getHoraire();
 	bool hasTakeAway();
 	bool hasLivraison();
+	void setNbPlaces(int);
+	void setDemiJours(int);
+	void setPrix(float);
+	void setHoraire(float);
+	void setTakeAway(bool);
+	void setLivraison(bool);
 };
 
 #endif /* RESTAURANT_HPP */

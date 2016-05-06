@@ -7,8 +7,11 @@ class Bar: public Etablissement{
 	bool _fumeur;
 	bool _petiteRestaur;
 public:
+    Bar(bool, bool);
 	int getBid();
 	bool isFumeur();
 	bool hasPetiteResto();
+    bool setFumeur(bool);
+    bool setPetiteResto(bool);
 };
 #endif /* BAR_HPP */

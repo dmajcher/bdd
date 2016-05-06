@@ -20,6 +20,7 @@ DataBase::DataBase(char* dataBaseName) {
 }
 
 
+
 void DataBase::initUsersTable() {
 	int errorStatus;
 	char* errorMsg;
@@ -85,9 +86,13 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 }	
 
+
+
 void DataBase::debut_element(void *user_data, const xmlChar *name, const xmlChar **attrs) {
     printf("Début de l'élément : %s\n", name);
 }
+
+
 
 int DataBase::xmlParser(){
 	// Initialisation à zéro de tous les membres (NULL pour un pointeur par conversion)
@@ -119,6 +124,7 @@ int DataBase::xmlParser(){
 
     return EXIT_SUCCESS;
 }
+
 
 
 void DataBase::addUser(User newUser) {
