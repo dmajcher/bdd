@@ -9,6 +9,6 @@ class Bar: public Etablissement{
 public:
 	int getBid();
 	bool isFumeur();
-	bool hasPetiteRestaur();
+	bool hasPetiteResto();
 };
 #endif /* BAR_HPP */

@@ -27,10 +27,12 @@ class DataBase {
 		DataBase(char*);
 		~DataBase();
 		void addUser(User);
+		void addEtablissement(Etablissement);
 		void addRestaurant(Restaurant);
 		void addBar(Bar);
 		void addHotel(Hotel);
 		void delUser(User);
+		void delEtablissement(Etablissement);
 		User getUserByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();

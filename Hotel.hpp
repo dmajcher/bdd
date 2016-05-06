@@ -9,8 +9,8 @@ class Hotel: public Etablissement{
 	int _indicePrix;
 public:
 	int getHid();
-	int getNbEtoiles();
-	int getNbChambres();
+	int getEtoiles();
+	int getChambres();
 	int getIndicePrix();
 };
 
