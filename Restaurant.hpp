@@ -6,7 +6,6 @@
 #include <string>
 
 class Restaurant: public Etablissement {
-	int _RID;
 	int _nbDePlaceBanquet;
 	int  _prixPlats;
 	std::string _horraireDeFermeture;
@@ -15,13 +14,11 @@ class Restaurant: public Etablissement {
 
 public:
 	Restaurant(int, bool, bool, std::string, int);
-	int getRid();
 	int getNbPlaces();
 	int getPrix();
 	std::string getHoraire();
 	bool hasTakeAway();
 	bool hasLivraison();
-	void setRid(int);
 	void setTakeAway(bool);
 	void setLivraison(bool);
 	void setPrix(float);

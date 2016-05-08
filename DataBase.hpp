@@ -12,6 +12,7 @@
 #include "Restaurant.hpp"
 #include "Bar.hpp"
 #include "Hotel.hpp"
+#include "Commentaire.hpp"
 
 
 class DataBase {
@@ -25,13 +26,15 @@ class DataBase {
 	public:
 		DataBase(char*);
 		~DataBase();
-		void addUser(User);
+		void addUser(User&);
 		void addEtablissement(Etablissement&);
 		void addRestaurant(Restaurant&);
 		void addBar(Bar&);
 		void addHotel(Hotel&);
-		void delUser(User);
+		void addCommentaire(Commentaire&);
+		void delUser(User&);
 		void delEtablissement(Etablissement&);
+		void delCommentaire(Commentaire&);
 		User getUserByName(std::string);
 		Restaurant getRestoByName(std::string);
 		// Etablissement getEtablissement(int);

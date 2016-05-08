@@ -13,12 +13,11 @@ DataBase::DataBase(char* dataBaseName) {
     addUser(newUser);
 	addUser(newUser2);
 	//delUser(newUser2);
-	User yoUser = getUserByName("Flo");
 	xmlParser();
-	std::cout<<yoUser.getEmail()<<yoUser.getPassword()<<yoUser.getCreationDate()<<std::endl;
     // Bar bar(true, true);
     // Hotel hotel(3,40,100);
-    // Restaurant resto(12, true, true, "FOOOOOO", 50);
+    Restaurant resto(12, true, true, "FOOOOOO", 50);
+    // resto.setEid(1);
     // bar.setEtabInfos("le dorum", "rue du poulet", 1080, "0474225229", "www.lepoulet.be", 1, 160505, 160, 95);
     // resto.setEtabInfos("le reste haut", "rue du chevreuil", 1050, "0478275299", "www.lechevreuil.be", 1, 160505, 120, 90);
     // hotel.setEtabInfos("l'autel", "rue du marsouin", 1050, "0478789635", "www.lautel.be", 1, 160505, 140, 110);
@@ -26,6 +25,10 @@ DataBase::DataBase(char* dataBaseName) {
     // addBar(bar);
     // addHotel(hotel);
     // delEtablissement(resto);
+    Commentaire comm("David", "à chier", 0, 1);
+    // addCommentaire(comm);
+    comm.setCid(1);
+    delCommentaire(comm);
 }
 
 
@@ -50,10 +53,10 @@ void DataBase::initCommentsTable() {
 	char* errorMsg;
 	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Commentaires("\
 	"CID INTEGER PRIMARY KEY AUTOINCREMENT,"\
+	"Auteur TEXT NOT NULL,"\
 	"Texte TEXT NOT NULL,"\
 	"Score INTEGER NOT NULL,"\
 	"EidConcerne INTEGER NOT NULL,"\
-	"Auteur TEXT NOT NULL,"\
 	"FOREIGN KEY (EidConcerne) REFERENCES Etablissements ON DELETE CASCADE,"\
 	"FOREIGN KEY (Auteur) REFERENCES Utilisateurs ON DELETE CASCADE)";
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
@@ -170,7 +173,7 @@ void DataBase::restCase(TiXmlElement* temp){
 }
 	
 
-void DataBase::addUser(User newUser) {
+void DataBase::addUser(User &newUser) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
@@ -240,7 +243,19 @@ void DataBase::addHotel(Hotel &newHotel) {
 
 
 
-void DataBase::delUser(User userToDel) {
+void DataBase::addCommentaire(Commentaire &newComm) {
+	char* errorMsg;
+	std::string vir = ",";
+	std::string gu = "\"";
+	std::string query = "INSERT INTO Commentaires(Auteur, Texte, Score, EidConcerne) VALUES("+\
+	gu+newComm.getAuteur()+gu+vir +gu+newComm.getTexte()+gu+vir +std::to_string(newComm.getScore())+vir +std::to_string(newComm.getEidConcerne())+")";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
+}
+
+
+
+void DataBase::delUser(User &userToDel) {
 	char* errorMsg;
 	std::string gu = "\"";
 	std::string query = "DELETE FROM Utilisateurs WHERE (NameId = "+gu+userToDel.getName()+gu+")";
@@ -255,6 +270,16 @@ void DataBase::delEtablissement(Etablissement &etabToDel) {
 	char* errorMsg;
 	std::string gu = "\"";
 	std::string query = "DELETE FROM Etablissements WHERE (EID = "+std::to_string(etabToDel.getEid())+")";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);	
+}
+
+
+
+void DataBase::delCommentaire(Commentaire &commToDel) {
+	char* errorMsg;
+	std::string gu = "\"";
+	std::string query = "DELETE FROM Commentaires WHERE (CID = "+std::to_string(commToDel.getCid())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);	
 }
