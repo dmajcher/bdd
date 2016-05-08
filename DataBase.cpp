@@ -16,7 +16,9 @@ DataBase::DataBase(char* dataBaseName) {
 	addUser(newUser2);
 	//delUser(newUser2);
 	User yoUser = getUserByName("Flo");
-	xmlParser();
+	xmlParser("Restaurants.xml");
+	_isRestaurant = false;
+	xmlParser("Cafes.xml");
 	std::cout<<yoUser.getEmail()<<yoUser.getPassword()<<yoUser.getCreationDate()<<std::endl;
     // Bar bar(true, true);
     // Hotel hotel(3,40,100);
@@ -93,8 +95,9 @@ void DataBase::initEtablishmentTable() {
 	checkError(errorStatus, errorMsg);
 }
 
-int DataBase::xmlParser(){
-	TiXmlDocument doc("Restaurants.xml");
+int DataBase::xmlParser(std::string filename){
+	std::cout<<filename<<std::endl;
+	TiXmlDocument doc(filename);
 	if(!doc.LoadFile()){
     	std::cerr << "erreur lors du chargement" << std::endl;
     	std::cerr << "error #" << doc.ErrorId() << " : " << doc.ErrorDesc() << std::endl;
@@ -102,55 +105,77 @@ int DataBase::xmlParser(){
 	}
 
 	TiXmlHandle hdlparent(&doc);
-	TiXmlElement* restaurant = hdlparent.FirstChildElement().FirstChildElement().Element();
-	recursiveParser(restaurant);
+	TiXmlElement* etablissement = hdlparent.FirstChildElement().FirstChildElement().Element();
+	recursiveParser(etablissement);
 	//TiXmlElement* temp = doc
 }
 int DataBase::recursiveParser(TiXmlElement *temp){
-	//std::cout<<temp->Value()<<std::endl;
-	std::cout<<temp->Value()<<std::endl;
 	std::string info = temp->Value();
 	if (temp == nullptr){return 1;}
 	else if (info == "Restaurant"){
-		if (_currentRest){
-		addRestaurant(*_currentRest);
+		_isRestaurant = true;
+		if (_currentEtab){
+			_currentEtab->setHorraire(_tempConge);
+			_tempConge="00000000000000";
+			addRestaurant(*_currentEtab);
 		}
-		// _currentRest = new Etablissement();
-		_currentRest = new Restaurant(-1,false,false,"",-1);
-		_currentRest->setDate(temp->Attribute("creationDate"));
-		_currentRest->setAdmin(temp->Attribute("nickname"));
+		// _currentEtab = new Etablissement();
+		_currentEtab = new Restaurant(-1,false,false,"",-1);
+		_currentEtab->setDate(temp->Attribute("creationDate"));
+		_currentEtab->setAdmin(temp->Attribute("nickname"));
 	}
-	restCase(temp);
+	else if (info == "Cafe"){
+		if (_currentBar){
+			addBar(*_currentBar);
+		}
+		_currentBar = new Bar(false,false);
+		_currentBar->setDate(temp->Attribute("creationDate"));
+		_currentBar->setAdmin(temp->Attribute("nickname"));
+	}
+
+	if (_isRestaurant){restCase(temp,_currentEtab);
+		restInfos(temp);
+	}
+	else{
+		restCase(temp,_currentBar);
+		barInfos(temp);
+	}
+
 	if (temp->FirstChildElement()){recursiveParser(temp->FirstChildElement());}
 	if(temp->NextSiblingElement()){recursiveParser(temp->NextSiblingElement());} 
 }
 
-void DataBase::restCase(TiXmlElement* temp){
+void DataBase::restInfos(TiXmlElement* temp){
+
+	std::string tempCongeAttrib;
 	std::string tempText;
 	if (temp->GetText()){tempText = temp->GetText();}
 	std::string elem = temp->Value();
+	std::cout<<elem<<std::endl;
 	std::string::size_type sz;
-	if (elem =="Name"){_currentRest->setNom(tempText);}
-	else if (elem =="Street"){_currentAdr = tempText;}
-	else if(elem =="Num"){_currentAdr += " " + tempText;}
-	else if(elem =="Zip"){ 
-		_currentAdr += " " + tempText;
-		_currentRest->setLocalite(std::stoi(tempText));
-	}
-	else if(elem =="City"){_currentAdr += " " + tempText;
-		_currentRest->setAdresse(_currentAdr);
-	}
-	else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
-	else if(elem =="Latitude") {_currentRest->setCoords(std::stof(tempText,&sz),_long);}
-	else if(elem =="Tel"){_currentRest->setNumTel(tempText);}
-	else if(elem =="Site"){_currentRest->setSiteWeb(temp->Attribute("link"));}
-	else if(elem =="On"){}	
-	else if(elem =="TakeAway"){_currentRest->setTakeAway(true);}
-	else if(elem =="Delivery"){_currentRest->setLivraison(true);}
-	else if(elem =="PriceRange"){_currentRest->setPrix(std::stof((tempText),&sz));}
-	else if(elem =="Banquet"){_currentRest->setNbPlaces(std::stoi(temp->Attribute("capacity")));}
+	if(elem =="On"){
+		if (temp->Attribute("hour")){tempCongeAttrib = temp->Attribute("hour");}
+		if (tempCongeAttrib=="am"){_tempConge.replace(std::stoi(temp->Attribute("day"))*2,1,"F");}
+		else if (tempCongeAttrib=="pm"){_tempConge.replace(std::stoi(temp->Attribute("day"))*2+1,1,"F");}
+		else{_tempConge.replace(std::stoi(temp->Attribute("day"))*2,2,"FF");}
+	}	
+	else if(elem =="TakeAway"){_currentEtab->setTakeAway(true);}
+	else if(elem =="Delivery"){_currentEtab->setLivraison(true);}
+	else if(elem =="PriceRange"){_currentEtab->setPrix(std::stof((tempText),&sz));}
+	else if(elem =="Banquet"){_currentEtab->setNbPlaces(std::stoi(temp->Attribute("capacity")));}
+
 }
-	
+
+void DataBase::barInfos(TiXmlElement* temp){
+	std::string tempText;
+	if (temp->GetText()){tempText = temp->GetText();}
+	std::string elem = temp->Value();
+	std::cout<<elem<<std::endl;
+	std::string::size_type sz;
+	if(elem == "Smoking"){_currentBar->setFumeur(true);}
+	else if (elem == "Snack"){_currentBar->setPetiteResto(true);}
+}
+
 
 void DataBase::addUser(User newUser) {
 	char* errorMsg;
@@ -175,12 +200,13 @@ void DataBase::addUser(User newUser) {
 void DataBase::addEtablissement(Etablissement &newEtab) {
 	std::cout<<"etab"<<std::endl;
 	std::cout<<newEtab.getAdmin();
+	std::cout<<newEtab.getDateCreation();
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
 	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude) VALUES("+\
     gu+newEtab.getNom()+gu+vir +gu+newEtab.getAdresse()+gu+vir +std::to_string(newEtab.getLocalite())+vir +gu+newEtab.getNumTel()+gu+vir +gu+newEtab.getSiteWeb()+gu+vir+\
-	gu+newEtab.getAdmin()+gu+vir +(newEtab.getDateCreation())+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
+	gu+newEtab.getAdmin()+gu+vir +gu+(newEtab.getDateCreation())+gu+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }

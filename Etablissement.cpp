@@ -65,3 +65,11 @@ void Etablissement::setCoords(float latitude, float longitude) {
 	_longitude = longitude;
 }
 void Etablissement::setDate(std::string date){_dateDeCreation = date;}
+
+void Etablissement::setTakeAway(bool takeAway){}
+void Etablissement::setLivraison(bool livraison){}
+void Etablissement::setPrix(float prix){}
+void Etablissement::setNbPlaces(int nbPlaces){}
+void Etablissement::setHorraire(std::string horraire) {}
+void Etablissement::setFumeur(bool isFumeur) {}
+void Etablissement::setPetiteResto(bool petiteResto){}

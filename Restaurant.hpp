@@ -25,7 +25,7 @@ public:
 	void setLivraison(bool);
 	void setPrix(float);
 	void setNbPlaces(int);
-	void setHoraire(std::string);
+	void setHorraire(std::string);
 };
 
 #endif /* RESTAURANT_HPP */

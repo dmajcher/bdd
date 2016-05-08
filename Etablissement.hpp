@@ -36,6 +36,14 @@ public:
 	void setSiteWeb(std::string);
 	void setCoords(float, float);
 	void setDate(std::string);
+	virtual void setTakeAway(bool);
+	virtual void setLivraison(bool);
+	virtual void setPrix(float);
+	virtual void setNbPlaces(int);
+	virtual void setHorraire(std::string);
+	virtual void setFumeur(bool);
+    virtual void setPetiteResto(bool);
+
 };
 
 #endif /* ETABLISSEMENT_HPP */

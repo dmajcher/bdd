@@ -21,8 +21,10 @@ class DataBase {
 		int _nextAdminId;
 		int _nextEtabId;
 		float _long;
-		Etablissement* _currentEtab=nullptr;
-		Restaurant* _currentRest=nullptr;
+		bool _isRestaurant = false;
+		Bar* _currentBar = nullptr;
+		Restaurant* _currentEtab = nullptr;
+		std::string _tempConge = "OOOOOOOOOOOOOO";
 		std::string _currentAdr;
 	
 	public:
@@ -40,15 +42,40 @@ class DataBase {
 		void initUsersTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
-		void restCase(TiXmlElement*);
 		int getHighestId(char*);
-		int xmlParser();
+		int xmlParser(std::string);
 		int recursiveParser(TiXmlElement*);
+		void restInfos(TiXmlElement*);
+		void barInfos(TiXmlElement*);
 		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		//int getHighestId(char*);
 		static int callbackFunction(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getEtablCallback(void*, int, char**, char**);
+		template<typename xml,class etab>
+
+		void restCase(xml temp,etab currentEtab){
+
+			std::string tempText;
+			if (temp->GetText()){tempText = temp->GetText();}
+			std::string elem = temp->Value();
+			std::cout<<elem<<std::endl;
+			std::string::size_type sz;
+			if (elem =="Name"){currentEtab->setNom(tempText);}
+			else if (elem =="Street"){_currentAdr = tempText;}
+			else if(elem =="Num"){_currentAdr += " " + tempText;}
+			else if(elem =="Zip"){ 
+			_currentAdr += " " + tempText;
+			currentEtab->setLocalite(std::stoi(tempText));
+			}
+			else if(elem =="City"){_currentAdr += " " + tempText;
+				currentEtab->setAdresse(_currentAdr);
+			}
+			else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
+			else if(elem =="Latitude") {currentEtab->setCoords(std::stof(tempText,&sz),_long);}
+			else if(elem =="Tel"){currentEtab->setNumTel(tempText);}
+			else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
+		}
 		
 };
 #endif /* DATABASE_HPP */
