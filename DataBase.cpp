@@ -17,10 +17,9 @@ DataBase::DataBase(char* dataBaseName) {
 	_isRestaurant = false;
 	xmlParser("Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
-    Commentaire comm("David", "à chier", 0, 1);
     // addCommentaire(comm);
-    comm.setCid(1);
-    delCommentaire(comm);
+    // comm.setCid(1);
+    // delCommentaire(comm);
 }
 
 
@@ -46,6 +45,7 @@ void DataBase::initCommentsTable() {
 	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Commentaires("\
 	"CID INTEGER PRIMARY KEY AUTOINCREMENT,"\
 	"Auteur TEXT NOT NULL,"\
+	"Date TEXT NOT NULL,"\
 	"Texte TEXT NOT NULL,"\
 	"Score INTEGER NOT NULL,"\
 	"EidConcerne INTEGER NOT NULL,"\
@@ -125,7 +125,8 @@ int DataBase::xmlParser(std::string filename){
 
 int DataBase::recursiveParser(TiXmlElement *temp){
 	std::string info = temp->Value();
-	if (temp == nullptr){return 1;}
+	if (temp == nullptr) 
+		return 1;
 	else if (info == "Restaurant"){
 		_isRestaurant = true;
 		if (_currentEtab){
@@ -139,15 +140,15 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 		_currentEtab->setAdmin(temp->Attribute("nickname"));
 	}
 	else if (info == "Cafe"){
-		if (_currentBar){
+		if (_currentBar)
 			addBar(*_currentBar);
-		}
 		_currentBar = new Bar(false,false);
 		_currentBar->setDate(temp->Attribute("creationDate"));
 		_currentBar->setAdmin(temp->Attribute("nickname"));
 	}
 
-	if (_isRestaurant){restCase(temp,_currentEtab);
+	if (_isRestaurant){
+		restCase(temp,_currentEtab);
 		restInfos(temp);
 	}
 	else{
@@ -155,8 +156,10 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 		barInfos(temp);
 	}
 
-	if (temp->FirstChildElement()){recursiveParser(temp->FirstChildElement());}
-	if(temp->NextSiblingElement()){recursiveParser(temp->NextSiblingElement());} 
+	if (temp->FirstChildElement()) 
+		recursiveParser(temp->FirstChildElement());
+	if (temp->NextSiblingElement()) 
+		recursiveParser(temp->NextSiblingElement()); 
 }
 		
 
@@ -295,8 +298,9 @@ void DataBase::addCommentaire(Commentaire &newComm) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
-	std::string query = "INSERT INTO Commentaires(Auteur, Texte, Score, EidConcerne) VALUES("+\
-	gu+newComm.getAuteur()+gu+vir +gu+newComm.getTexte()+gu+vir +std::to_string(newComm.getScore())+vir +std::to_string(newComm.getEidConcerne())+")";
+	std::string query = "INSERT INTO Commentaires(Auteur, Date, Texte, Score, EidConcerne) VALUES("+\
+	gu+newComm.getAuteur()+gu+vir +gu+newComm.getDate()+gu+vir +gu+newComm.getTexte()+gu+vir +\
+	std::to_string(newComm.getScore())+vir +std::to_string(newComm.getEidConcerne())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }

@@ -12,19 +12,22 @@ class Commentaire {
 		int _eidConcerne;
 		std::string _texte;
 		std::string _auteur;
+		std::string _date;
 
 	public:
-		Commentaire(std::string, std::string, int, int);
+		Commentaire(std::string, std::string, std::string, int, int);
 		int getCid();
 		int getScore();
 		int getEidConcerne();
 		std::string getTexte();
 		std::string getAuteur();
+		std::string getDate();
 		void setCid(int);
 		void setScore(int);
 		void setEidConcerne(int);
 		void setText(std::string);
 		void setAuteur(std::string);
+		void setDate(std::string);
 
 };
 
