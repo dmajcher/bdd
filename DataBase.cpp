@@ -12,23 +12,11 @@ DataBase::DataBase(char* dataBaseName) {
 	User newUser2("David", "password123", "david@gmail.com", 160501, -1);
     addUser(newUser);
 	addUser(newUser2);
-	//delUser(newUser2);
 	User yoUser = getUserByName("Flo");
 	xmlParser("Restaurants.xml");
 	_isRestaurant = false;
 	xmlParser("Cafes.xml");
-	std::cout<<yoUser.getEmail()<<yoUser.getPassword()<<yoUser.getCreationDate()<<std::endl;
-    // Bar bar(true, true);
-    // Hotel hotel(3,40,100);
     Restaurant resto(12, true, true, "FOOOOOO", 50);
-    // resto.setEid(1);
-    // bar.setEtabInfos("le dorum", "rue du poulet", 1080, "0474225229", "www.lepoulet.be", 1, 160505, 160, 95);
-    // resto.setEtabInfos("le reste haut", "rue du chevreuil", 1050, "0478275299", "www.lechevreuil.be", 1, 160505, 120, 90);
-    // hotel.setEtabInfos("l'autel", "rue du marsouin", 1050, "0478789635", "www.lautel.be", 1, 160505, 140, 110);
-    // addRestaurant(resto);
-    // addBar(bar);
-    // addHotel(hotel);
-    // delEtablissement(resto);
     Commentaire comm("David", "à chier", 0, 1);
     // addCommentaire(comm);
     comm.setCid(1);
@@ -115,6 +103,9 @@ void DataBase::initEtablishmentTable() {
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
+
+
+
 int DataBase::xmlParser(std::string filename){
 	std::cout<<filename<<std::endl;
 	TiXmlDocument doc(filename);
@@ -129,6 +120,9 @@ int DataBase::xmlParser(std::string filename){
 	recursiveParser(etablissement);
 	//TiXmlElement* temp = doc
 }
+
+
+
 int DataBase::recursiveParser(TiXmlElement *temp){
 	std::string info = temp->Value();
 	if (temp == nullptr){return 1;}
@@ -164,6 +158,33 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 	if (temp->FirstChildElement()){recursiveParser(temp->FirstChildElement());}
 	if(temp->NextSiblingElement()){recursiveParser(temp->NextSiblingElement());} 
 }
+		
+
+
+template<typename xml, class etab>
+void DataBase::restCase(xml temp,etab currentEtab){
+	std::string tempText;
+		if (temp->GetText()){tempText = temp->GetText();}
+		std::string elem = temp->Value();
+		std::cout<<elem<<std::endl;
+		std::string::size_type sz;
+		if (elem =="Name"){currentEtab->setNom(tempText);}
+		else if (elem =="Street"){_currentAdr = tempText;}
+		else if(elem =="Num"){_currentAdr += " " + tempText;}
+		else if(elem =="Zip"){ 
+		_currentAdr += " " + tempText;
+		currentEtab->setLocalite(std::stoi(tempText));
+		}
+		else if(elem =="City"){_currentAdr += " " + tempText;
+			currentEtab->setAdresse(_currentAdr);
+		}
+		else if(elem =="Longitude") {_long = std::stof(tempText,&sz);}
+		else if(elem =="Latitude") {currentEtab->setCoords(std::stof(tempText,&sz),_long);}
+		else if(elem =="Tel"){currentEtab->setNumTel(tempText);}
+		else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
+}
+
+
 
 void DataBase::restInfos(TiXmlElement* temp){
 
@@ -186,6 +207,8 @@ void DataBase::restInfos(TiXmlElement* temp){
 
 }
 
+
+
 void DataBase::barInfos(TiXmlElement* temp){
 	std::string tempText;
 	if (temp->GetText()){tempText = temp->GetText();}
@@ -195,6 +218,7 @@ void DataBase::barInfos(TiXmlElement* temp){
 	if(elem == "Smoking"){_currentBar->setFumeur(true);}
 	else if (elem == "Snack"){_currentBar->setPetiteResto(true);}
 }
+
 
 
 void DataBase::addUser(User &newUser) {
@@ -382,14 +406,6 @@ int DataBase::getEtablCallback(void* etabl, int argc, char** argv, char** azColN
     temp->setSiteWeb(argv[4]);
     temp->setCoords(atof(argv[5]), atof(argv[6]));
     return 0;	
-}
-
-
-
-int DataBase::getHighestId(char* res) {
-	const char* highestIdchar = res ? res : "0";
-	int highestId = atoi(highestIdchar);
-	return highestId;
 }
 
 
