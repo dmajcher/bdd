@@ -12,14 +12,12 @@
 #include "Restaurant.hpp"
 #include "Bar.hpp"
 #include "Hotel.hpp"
+#include "Commentaire.hpp"
 
 
 class DataBase {
 	private:
 		sqlite3* _dataBase;
-		int _nextUserId;
-		int _nextAdminId;
-		int _nextEtabId;
 		float _long;
 		bool _isRestaurant = false;
 		Bar* _currentBar = nullptr;
@@ -30,16 +28,20 @@ class DataBase {
 	public:
 		DataBase(char*);
 		~DataBase();
-		void addUser(User);
+		void addUser(User&);
 		void addEtablissement(Etablissement&);
 		void addRestaurant(Restaurant&);
 		void addBar(Bar&);
 		void addHotel(Hotel&);
-		void delUser(User);
+		void addCommentaire(Commentaire&);
+		void delUser(User&);
 		void delEtablissement(Etablissement&);
+		void delCommentaire(Commentaire&);
 		User getUserByName(std::string);
+		Restaurant getRestoByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
+		void initCommentsTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
 		int getHighestId(char*);

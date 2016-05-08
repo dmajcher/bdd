@@ -8,8 +8,8 @@ ifeq ($(GCC),TRUE)
 	COMPILATORC=gcc 
 endif
 
-links: database.o user.o etablissement.o restaurant.o bar.o hotel.o main.o
-	$(COMPILATORG) -o $@ database.o user.o etablissement.o restaurant.o bar.o hotel.o main.o $(FLAGS)
+links: database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o main.o
+	$(COMPILATORG) -o $@ database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o main.o $(FLAGS)
 
 database.o: DataBase.hpp DataBase.cpp
 	$(COMPILATORG) -c DataBase.cpp -o database.o $(FLAGS)
@@ -28,6 +28,9 @@ bar.o: Bar.cpp Bar.hpp
 
 hotel.o: Hotel.cpp Hotel.hpp
 	$(COMPILATORG) -c Hotel.cpp -o hotel.o $(FLAGS)
+
+commentaire.o: Commentaire.cpp Commentaire.hpp
+	$(COMPILATORG) -c Commentaire.cpp -o commentaire.o $(FLAGS)
 
 main.o: main.cpp
 	$(COMPILATORG) -c main.cpp -o main.o $(FLAGS)

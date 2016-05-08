@@ -9,7 +9,6 @@ Restaurant::Restaurant(int prixPlats, bool takeAway, bool livraison, std::string
     _livraison = livraison;
 }
 
-int Restaurant::getRid(){return _RID;}
 int Restaurant::getNbPlaces(){return _nbDePlaceBanquet;}
 int Restaurant::getPrix(){return _prixPlats;}
 std::string Restaurant::getHoraire(){return _horraireDeFermeture;}

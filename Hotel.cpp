@@ -8,7 +8,6 @@ Hotel::Hotel(int nbEtoiles, int nbChambres, int indicePrix) {
 }
 
 
-int Hotel::getHid(){return _HID;}
 
 int Hotel::getEtoiles(){return _nbEtoiles;}
 

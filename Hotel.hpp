@@ -3,14 +3,12 @@
 #include "Etablissement.hpp"
 
 class Hotel: public Etablissement{
-	int _HID;
 	int _nbEtoiles;
 	int _nbChambres;
 	int _indicePrix;
 
 public:
     Hotel(int, int, int); 
-	int getHid();
 	int getEtoiles();
 	int getChambres();
 	int getIndicePrix();
