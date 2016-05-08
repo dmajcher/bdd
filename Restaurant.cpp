@@ -21,6 +21,7 @@ std::string Restaurant::getHoraire(){return _horraireDeFermeture;}
 
 bool Restaurant::hasTakeAway(){return _takeAway;}
 bool Restaurant::hasLivraison(){return _livraison;}
+void Restaurant::setRid(int rid){_RID = rid;}
 void Restaurant::setTakeAway(bool takeAway){_takeAway = takeAway;}
 void Restaurant::setLivraison(bool livraison){_livraison = livraison;}
 void Restaurant::setPrix(float prix){_prixPlats = prix;}

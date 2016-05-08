@@ -193,8 +193,9 @@ void DataBase::addRestaurant(Restaurant &newResto) {
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
+	std::string maxEid = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Restaurants(RID, PrixPlats, TakeAway, Livraison, HoraireFermeture, NbPlacesBanquet) VALUES("+\
-	std::to_string(_nextEtabId)+vir +std::to_string(newResto.getPrix())+vir +std::to_string(newResto.hasTakeAway())+vir +std::to_string(newResto.hasLivraison())+\
+	maxEid+vir +std::to_string(newResto.getPrix())+vir +std::to_string(newResto.hasTakeAway())+vir +std::to_string(newResto.hasLivraison())+\
     vir +gu+newResto.getHoraire()+gu+vir +std::to_string(newResto.getNbPlaces())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
@@ -209,8 +210,9 @@ void DataBase::addBar(Bar &newBar) {
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
+	std::string maxEid = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Bars(BID, Fumeur, PetiteRestauration) VALUES("+\
-	std::to_string(_nextEtabId)+vir +std::to_string(newBar.isFumeur())+vir +std::to_string(newBar.hasPetiteResto())+")";
+	maxEid+vir +std::to_string(newBar.isFumeur())+vir +std::to_string(newBar.hasPetiteResto())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
     newBar.setEid(_nextEtabId);
@@ -224,8 +226,9 @@ void DataBase::addHotel(Hotel &newHotel) {
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
+	std::string maxEid = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Hotels(HID, NbEtoiles, NbChambres, IndicePrix) VALUES("+\
-	std::to_string(_nextEtabId)+vir +std::to_string(newHotel.getEtoiles())+vir +std::to_string(newHotel.getChambres())+vir +std::to_string(newHotel.getIndicePrix())+")";
+	maxEid+vir +std::to_string(newHotel.getEtoiles())+vir +std::to_string(newHotel.getChambres())+vir +std::to_string(newHotel.getIndicePrix())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
     newHotel.setEid(_nextEtabId);
@@ -268,16 +271,16 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
-// Etablissement DataBase::getEtablissement(int eID) {
-// 	char* errorMsg;
-// 	std::string gu="'";
-// 	std::string query = "SELECT Nom, Adresse, Localite, NumTel, SiteWeb, Latitude, Longitude FROM Etablissements WHERE(EID = "+eID;
-// 	query += ")";
-// 	Etablissement* etablRequested = new Etablissement("", "", -1, "", "", -1, -1);
-// 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtablCallback, etablRequested, &errorMsg);
-// 	checkError(errorStatus, errorMsg);
-// 	return *etablRequested;
-// }
+Restaurant DataBase::getRestoByName(std::string restoName) {
+	char* errorMsg;
+	std::string gu="\"";
+	std::string query = "SELECT Nom, Adresse, Localite, NumTel, SiteWeb, Latitude, Longitude FROM Etablissements WHERE(EID = "+gu+restoName+gu+")";
+	Restaurant restoRequested(-1, false, false, "", -1);
+	Restaurant* restoRequestedPtr = &restoRequested;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, restoRequestedPtr, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	return restoRequested;
+}
 
 
 

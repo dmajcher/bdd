@@ -21,6 +21,7 @@ public:
 	std::string getHoraire();
 	bool hasTakeAway();
 	bool hasLivraison();
+	void setRid(int);
 	void setTakeAway(bool);
 	void setLivraison(bool);
 	void setPrix(float);

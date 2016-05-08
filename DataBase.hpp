@@ -36,6 +36,7 @@ class DataBase {
 		void delUser(User);
 		void delEtablissement(Etablissement&);
 		User getUserByName(std::string);
+		Restaurant getRestoByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initEtablishmentTable();
