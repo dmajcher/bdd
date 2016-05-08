@@ -17,9 +17,6 @@
 class DataBase {
 	private:
 		sqlite3* _dataBase;
-		int _nextUserId;
-		int _nextAdminId;
-		int _nextEtabId;
 		float _long;
 		Etablissement* _currentEtab=nullptr;
 		Restaurant* _currentRest=nullptr;
@@ -39,6 +36,7 @@ class DataBase {
 		Restaurant getRestoByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
+		void initCommentsTable();
 		void initEtablishmentTable();
 		void checkError(int, char*);
 		void restCase(TiXmlElement*);

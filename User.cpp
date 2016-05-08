@@ -1,11 +1,11 @@
 #include "User.hpp"
 
-User::User(std::string name, std::string password, std::string email, int dateCreation, int adminId) {
+User::User(std::string name, std::string password, std::string email, int dateCreation, bool isAdmin) {
 	_name = name;
 	_password = password;
 	_email = email;
 	_creationDate = dateCreation;
-    _adminId = adminId;
+    _isAdmin = isAdmin;
 }
 
 
@@ -15,7 +15,7 @@ std::string User::getPassword() {return _password;}
 
 std::string User::getEmail() {return _email;}
 
-int User::getAdminId() {return _adminId;}
+bool User::isAdmin() {return _isAdmin;}
 
 int User::getCreationDate() {return _creationDate;}
 
@@ -35,6 +35,6 @@ void User::setCreationDate(int date) {
 	_creationDate = date;
 }
 
-void User::setAdminId(int adminId) {
-    _adminId = adminId;
+void User::setAdmin(bool isAdmin) {
+    _isAdmin = isAdmin;
 }
