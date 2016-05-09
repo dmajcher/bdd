@@ -19,7 +19,7 @@ DataBase::DataBase(char* dataBaseName) {
     Restaurant resto(12, true, true, "FOOOOOO", 50);
     Commentaire comm("Flo", "10/05/16", "mauvais", 1, 1);
     addCommentaire(comm);
-    std::vector<Etablissement*> t = getEtabByName("Mirabelle");
+    std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
     Bar* barPtr;
     Restaurant* restoPtr;
     Hotel* hotelPtr;
@@ -366,13 +366,13 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
-std::vector<Etablissement*> DataBase::getEtabByName(std::string etabName) {
+std::vector<Etablissement*> DataBase::getEtabByName(std::string condition) {
 	char* errorMsg;
 	std::string gu="\"";
    	std::string restoQuery = "SELECT PrixPlats, TakeAway, Livraison, HoraireFermeture, NbPlacesBanquet FROM Restaurants WHERE(RID = ";
    	std::string barQuery = "SELECT Fumeur, PetiteRestauration FROM Bars WHERE(BID = ";
    	std::string hotelQuery = "SELECT NbEtoiles, NbChambres, IndicePrix FROM Hotels WHERE(HID = ";
-	std::string query = "SELECT Type, EID, Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude FROM Etablissements WHERE(Nom = "+gu+etabName+gu+")";
+	std::string query = "SELECT Type, EID, Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude FROM Etablissements WHERE("+condition+")";
 	std::string eid;
 	std::vector<Etablissement*> etabVector;
 	std::vector<Etablissement*> * vectorPtr = &etabVector;
