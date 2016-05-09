@@ -7,6 +7,7 @@
 #include <tinyxml.h> 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "User.hpp"	
 #include "Etablissement.hpp"
 #include "Restaurant.hpp"
@@ -29,7 +30,7 @@ class DataBase {
 		DataBase(char*);
 		~DataBase();
 		void addUser(User&);
-		void addEtablissement(Etablissement&);
+		void addEtablissement(Etablissement&, std::string);
 		void addRestaurant(Restaurant&);
 		void addBar(Bar&);
 		void addHotel(Hotel&);
@@ -38,7 +39,7 @@ class DataBase {
 		void delEtablissement(Etablissement&);
 		void delCommentaire(Commentaire&);
 		User getUserByName(std::string);
-		Restaurant getRestoByName(std::string);
+		std::vector<Etablissement*> getEtabByName(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initCommentsTable();
@@ -52,9 +53,11 @@ class DataBase {
 		void barInfos(TiXmlElement*);
 		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		//int getHighestId(char*);
-		static int callbackFunction(void*, int, char**, char**);
+		static int getEtabCallback(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
-		static int getEtablCallback(void*, int, char**, char**);
+		static int getRestoCallback(void*, int, char**, char**);
+		static int getBarCallback(void*, int, char**, char**);
+		static int getHotelCallback(void*, int, char**, char**);
 
 
 		

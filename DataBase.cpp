@@ -19,6 +19,16 @@ DataBase::DataBase(char* dataBaseName) {
     Restaurant resto(12, true, true, "FOOOOOO", 50);
     Commentaire comm("Flo", "10/05/16", "mauvais", 1, 1);
     addCommentaire(comm);
+    std::vector<Etablissement*> t = getEtabByName("Mirabelle");
+    Bar* barPtr;
+    Restaurant* restoPtr;
+    Hotel* hotelPtr;
+    barPtr = dynamic_cast<Bar*>(t[0]);
+	restoPtr = dynamic_cast<Restaurant*>(t[0]);
+	hotelPtr = dynamic_cast<Hotel*>(t[0]);
+	Restaurant rest = *restoPtr;
+
+
     // comm.setCid(1);
     // delCommentaire(comm);
 }
@@ -72,7 +82,8 @@ void DataBase::initEtablishmentTable() {
 	"AdminCreateur TEXT NOT NULL,"\
 	"DateCreation TEXT NOT NULL,"\
 	"Latitude REAL NOT NULL,"\
-	"Longitude REAL NOT NULL)";
+	"Longitude REAL NOT NULL,"\
+	"Type CHARACTER(1) NOT NULL)";
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 	
@@ -131,7 +142,7 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 	else if (info == "Restaurant"){
 		_isRestaurant = true;
 		if (_currentEtab){
-			_currentEtab->setHorraire(_tempConge);
+			_currentEtab->setHoraire(_tempConge);
 			_tempConge="00000000000000";
 			addRestaurant(*_currentEtab);
 		}
@@ -238,13 +249,13 @@ void DataBase::addUser(User &newUser) {
 
 
 
-void DataBase::addEtablissement(Etablissement &newEtab) {
+void DataBase::addEtablissement(Etablissement &newEtab, std::string type) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
-	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude) VALUES("+\
+	std::string query = "INSERT INTO Etablissements(Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude, Type) VALUES("+\
     gu+newEtab.getNom()+gu+vir +gu+newEtab.getAdresse()+gu+vir +std::to_string(newEtab.getLocalite())+vir +gu+newEtab.getNumTel()+gu+vir +gu+newEtab.getSiteWeb()+gu+vir+\
-	gu+newEtab.getAdmin()+gu+vir +gu+newEtab.getDateCreation()+gu+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+")";
+	gu+newEtab.getAdmin()+gu+vir +gu+newEtab.getDateCreation()+gu+vir +std::to_string(newEtab.getLatitude())+vir +std::to_string(newEtab.getLongitude())+vir +gu+type+gu+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
@@ -252,7 +263,7 @@ void DataBase::addEtablissement(Etablissement &newEtab) {
 
 
 void DataBase::addRestaurant(Restaurant &newResto) {
-	addEtablissement(newResto);
+	addEtablissement(newResto, "R");
 	std::cout<<"resto"<<std::endl;
     char* errorMsg;
 	std::string vir = ",";
@@ -268,7 +279,7 @@ void DataBase::addRestaurant(Restaurant &newResto) {
 
 
 void DataBase::addBar(Bar &newBar) {
-	addEtablissement(newBar);
+	addEtablissement(newBar, "B");
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
@@ -282,7 +293,7 @@ void DataBase::addBar(Bar &newBar) {
 
 
 void DataBase::addHotel(Hotel &newHotel) {
-	addEtablissement(newHotel);
+	addEtablissement(newHotel, "H");
     char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
@@ -355,64 +366,126 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
-Restaurant DataBase::getRestoByName(std::string restoName) {
+std::vector<Etablissement*> DataBase::getEtabByName(std::string etabName) {
 	char* errorMsg;
 	std::string gu="\"";
-	std::string query = "SELECT Nom, Adresse, Localite, NumTel, SiteWeb, Latitude, Longitude FROM Etablissements WHERE(EID = "+gu+restoName+gu+")";
-	Restaurant restoRequested(-1, false, false, "", -1);
-	Restaurant* restoRequestedPtr = &restoRequested;
-	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), callbackFunction, restoRequestedPtr, &errorMsg);
+   	std::string restoQuery = "SELECT PrixPlats, TakeAway, Livraison, HoraireFermeture, NbPlacesBanquet FROM Restaurants WHERE(RID = ";
+   	std::string barQuery = "SELECT Fumeur, PetiteRestauration FROM Bars WHERE(BID = ";
+   	std::string hotelQuery = "SELECT NbEtoiles, NbChambres, IndicePrix FROM Hotels WHERE(HID = ";
+	std::string query = "SELECT Type, EID, Nom, Adresse, Localite, NumTel, SiteWeb, AdminCreateur, DateCreation, Latitude, Longitude FROM Etablissements WHERE(Nom = "+gu+etabName+gu+")";
+	std::string eid;
+	std::vector<Etablissement*> etabVector;
+	std::vector<Etablissement*> * vectorPtr = &etabVector;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtabCallback, vectorPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
-	return restoRequested;
+
+	Bar* barPtr;
+	Restaurant* restoPtr;
+	Hotel* hotelPtr;
+	for (int i = 0; i<etabVector.size(); ++i) {
+		barPtr = dynamic_cast<Bar*>(etabVector[i]);
+		restoPtr = dynamic_cast<Restaurant*>(etabVector[i]);
+		hotelPtr = dynamic_cast<Hotel*>(etabVector[i]);
+		eid = std::to_string(etabVector[i]->getEid()) + ")";
+		if (barPtr != nullptr) {
+			query = barQuery + eid;
+			errorStatus = sqlite3_exec(_dataBase, query.c_str(), getBarCallback, etabVector[i], &errorMsg);
+		}
+		else if (restoPtr != nullptr) {
+			query = restoQuery + eid;
+			errorStatus = sqlite3_exec(_dataBase, query.c_str(), getRestoCallback, etabVector[i], &errorMsg);
+		}
+		else if (hotelPtr != nullptr) {
+			query = hotelQuery + eid;
+			errorStatus = sqlite3_exec(_dataBase, query.c_str(), getHotelCallback, etabVector[i], &errorMsg);
+		}
+		checkError(errorStatus, errorMsg);
+
+	}
+
+	return etabVector;
 }
 
 
 
-int DataBase::callbackFunction(void* NotUsed, int argc, char** argv, char** azColName) {
-   int i;
-   std::cout<<argc<<std::endl;
-   for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-   }
-   printf("\n");
-   return 0;	
+int DataBase::getEtabCallback(void* etabVectorPtr, int argc, char** argv, char** azColName) {
+   	std::vector<Etablissement*> * vectorPtr = (std::vector<Etablissement*>*) etabVectorPtr;
+   	std::cout<<argv[0]<<std::endl;
+   	for (int i = 0; i<argc; i += 11) {
+   		if (std::string(argv[i]) == "R") {
+   			std::cout<<"R"<<std::endl;
+   			vectorPtr->push_back(new Restaurant(-1, false, false, "", -1));
+   		}
+   		else if (std::string(argv[i]) == "H") {
+   			std::cout<<"H"<<std::endl;
+   			vectorPtr->push_back(new Hotel(-1, -1, -1));
+   		}
+   		else if (std::string(argv[i]) == "B") {
+   			std::cout<<"B"<<std::endl;
+   			vectorPtr->push_back(new Bar(false, false));
+   		}
+   		vectorPtr->at(i)->setEid(atoi(argv[1]));
+   		vectorPtr->at(i)->setNom(argv[i+2]);
+   		vectorPtr->at(i)->setAdresse(argv[i+3]);
+   		vectorPtr->at(i)->setLocalite(atoi(argv[i+4]));
+   		vectorPtr->at(i)->setNumTel(argv[i+5]);
+   		vectorPtr->at(i)->setSiteWeb(argv[i+6]);
+   		vectorPtr->at(i)->setAdmin(argv[i+7]);
+   		vectorPtr->at(i)->setDate(argv[i+8]);
+   		vectorPtr->at(i)->setCoords(atof(argv[i+9]), atof(argv[i+10]));
+   		
+   	}
+   	return 0;	
 }
 
 
 
-int DataBase::getUserCallback(void* user, int argc, char** argv, char** azColName) {
+int DataBase::getRestoCallback(void* restoPtr, int argc, char** argv, char** azColName) {
+	Restaurant* tempRest = (Restaurant*) restoPtr;
+	tempRest->setPrix(atoi(argv[0]));
+	tempRest->setTakeAway(atoi(argv[1]));
+	tempRest->setLivraison(atoi(argv[2]));
+	tempRest->setHoraire(argv[3]);
+	tempRest->setNbPlaces(atoi(argv[4]));
+	return 0;
+}
+
+
+
+int DataBase::getBarCallback(void* barPtr, int argc, char** argv, char** azColName) {
+	Bar* tempBar = (Bar*) barPtr;
+	tempBar->setFumeur(atoi(argv[0]));
+	tempBar->setPetiteResto(atoi(argv[1]));
+	return 0;
+}
+
+
+
+int DataBase::getHotelCallback(void* hotelPtr, int argc, char** argv, char** azColName) {
+	Hotel* tempHotel = (Hotel*) hotelPtr;
+	tempHotel->setEtoiles(atoi(argv[0]));
+	tempHotel->setChambres(atoi(argv[1]));
+	tempHotel->setIndicePrix(atoi(argv[2]));
+	return 0;
+}
+
+
+
+int DataBase::getUserCallback(void* userPtr, int argc, char** argv, char** azColName) {
     int i;
     for(i=0; i<argc; i++){
       printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
     }
     printf("\n"); 
-    User* temp = (User*) user; 	
-    temp->setName(argv[0]);
-    temp->setEmail(argv[1]);
-    temp->setPassword(argv[2]);
-    temp->setCreationDate(atoi(argv[3]));
+    User* tempUser = (User*) userPtr; 	
+    tempUser->setName(argv[0]);
+    tempUser->setEmail(argv[1]);
+    tempUser->setPassword(argv[2]);
+    tempUser->setCreationDate(atoi(argv[3]));
     // if (argv[4] != "NULL")
     //     temp->setAdminId(atoi(argv[4]));
     // else
     //     temp->setAdminId(-1);
-    return 0;	
-}
-
-
-
-int DataBase::getEtablCallback(void* etabl, int argc, char** argv, char** azColName) {
-    int i;
-    for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n"); 
-    Etablissement* temp = (Etablissement*) etabl; 	
-    temp->setNom(argv[0]);
-    temp->setAdresse(argv[1]);
-    temp->setLocalite(atoi(argv[2]));
-    temp->setNumTel(argv[3]);
-    temp->setSiteWeb(argv[4]);
-    temp->setCoords(atof(argv[5]), atof(argv[6]));
     return 0;	
 }
 

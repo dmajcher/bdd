@@ -15,14 +15,8 @@ int Hotel::getChambres(){return _nbChambres;}
 
 int Hotel::getIndicePrix(){return _indicePrix;}
 
-void Hotel::setEtoiles(int nbEtoiles) {
-    _nbEtoiles = nbEtoiles;
-}
+void Hotel::setEtoiles(int nbEtoiles) {_nbEtoiles = nbEtoiles;}
 
-void Hotel::setChambres(int nbChambres) {
-    _nbChambres = nbChambres;
-}
+void Hotel::setChambres(int nbChambres) {_nbChambres = nbChambres;}
 
-void Hotel::setIndicePrix(int indicePrix) {
-    _indicePrix = indicePrix;
-}
+void Hotel::setIndicePrix(int indicePrix) {_indicePrix = indicePrix;}

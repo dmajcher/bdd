@@ -15,6 +15,7 @@ public:
     void setEtoiles(int);
     void setChambres(int);
     void setIndicePrix(int);
+    // ~Hotel();
 };
 
 #endif /* HOTEL_HPP */

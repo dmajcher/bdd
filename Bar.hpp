@@ -11,6 +11,7 @@ public:
 	bool hasPetiteResto();
     void setFumeur(bool);
     void setPetiteResto(bool);
+    //~Bar();
 };
 
 #endif /* BAR_HPP */
