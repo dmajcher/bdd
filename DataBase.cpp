@@ -17,6 +17,7 @@ DataBase::DataBase(char* dataBaseName) {
 	_isRestaurant = false;
 	xmlParser("Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
+    Commentaire comm("Flo", "10/05/16", "mauvais", 1);
     // addCommentaire(comm);
     // comm.setCid(1);
     // delCommentaire(comm);
@@ -298,9 +299,10 @@ void DataBase::addCommentaire(Commentaire &newComm) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
+	std::string maxEid = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Commentaires(Auteur, Date, Texte, Score, EidConcerne) VALUES("+\
 	gu+newComm.getAuteur()+gu+vir +gu+newComm.getDate()+gu+vir +gu+newComm.getTexte()+gu+vir +\
-	std::to_string(newComm.getScore())+vir +std::to_string(newComm.getEidConcerne())+")";
+	std::to_string(newComm.getScore())+vir +maxEid+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }

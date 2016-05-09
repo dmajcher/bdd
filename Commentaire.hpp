@@ -15,7 +15,7 @@ class Commentaire {
 		std::string _date;
 
 	public:
-		Commentaire(std::string, std::string, std::string, int, int);
+		Commentaire(std::string, std::string, std::string, int, int eidConcerne = -1);
 		int getCid();
 		int getScore();
 		int getEidConcerne();
