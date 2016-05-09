@@ -51,6 +51,7 @@ class DataBase {
 		int recursiveParser(TiXmlElement*);
 		void restInfos(TiXmlElement*);
 		void barInfos(TiXmlElement*);
+		void requeteR1();
 		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		//int getHighestId(char*);
 		static int getEtabCallback(void*, int, char**, char**);
@@ -58,6 +59,7 @@ class DataBase {
 		static int getRestoCallback(void*, int, char**, char**);
 		static int getBarCallback(void*, int, char**, char**);
 		static int getHotelCallback(void*, int, char**, char**);
+		static int printCallback(void*, int, char**, char**);
 
 
 		

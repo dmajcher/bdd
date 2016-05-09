@@ -10,23 +10,45 @@ DataBase::DataBase(char* dataBaseName) {
 	initCommentsTable();
 	User newUser("Flo", "legrand", "flo@gmail.com", 160502, 1);
 	User newUser2("David", "password123", "david@gmail.com", 160501, -1);
+	User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, -1);
     addUser(newUser);
 	addUser(newUser2);
-	User yoUser = getUserByName("Flo");
+	addUser(newUser3);
 	xmlParser("Restaurants.xml");
 	_isRestaurant = false;
 	xmlParser("Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
-    Commentaire comm("Flo", "10/05/16", "mauvais", 1, 1);
-    addCommentaire(comm);
-    std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
-    Bar* barPtr;
-    Restaurant* restoPtr;
-    Hotel* hotelPtr;
-    barPtr = dynamic_cast<Bar*>(t[0]);
-	restoPtr = dynamic_cast<Restaurant*>(t[0]);
-	hotelPtr = dynamic_cast<Hotel*>(t[0]);
-	Restaurant rest = *restoPtr;
+    Commentaire comm1("Brenda", "10/05/16", "bon", 5, 1);
+    Commentaire comm2("Brenda", "10/05/16", "bon", 5, 2);
+    Commentaire comm3("Brenda", "10/05/16", "bon", 5, 3);
+    Commentaire comm4("Brenda", "10/05/16", "bon", 5, 4);
+    Commentaire comm6("Flo", "10/05/16", "bon", 5, 1);
+    Commentaire comm7("Flo", "10/05/16", "bon", 5, 2);
+    Commentaire comm8("Flo", "10/05/16", "bon", 5, 3);
+    Commentaire comm9("David", "10/05/16", "bon", 5, 3);
+    Commentaire comm10("David", "10/05/16", "bon", 5, 4);
+    Commentaire comm11("David", "10/05/16", "bon", 5, 5);
+    addCommentaire(comm1);
+    addCommentaire(comm2);
+    addCommentaire(comm3);
+    addCommentaire(comm4);
+    addCommentaire(comm4);
+    addCommentaire(comm6);
+    addCommentaire(comm7);
+    addCommentaire(comm8);
+    addCommentaire(comm9);
+    addCommentaire(comm10);
+    addCommentaire(comm11);
+    requeteR1();
+
+    // std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
+ //    Bar* barPtr;
+ //    Restaurant* restoPtr;
+ //    Hotel* hotelPtr;
+ //    barPtr = dynamic_cast<Bar*>(t[0]);
+	// restoPtr = dynamic_cast<Restaurant*>(t[0]);
+	// hotelPtr = dynamic_cast<Hotel*>(t[0]);
+	// Restaurant rest = *restoPtr;
 
 
     // comm.setCid(1);
@@ -472,20 +494,11 @@ int DataBase::getHotelCallback(void* hotelPtr, int argc, char** argv, char** azC
 
 
 int DataBase::getUserCallback(void* userPtr, int argc, char** argv, char** azColName) {
-    int i;
-    for(i=0; i<argc; i++){
-      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n"); 
     User* tempUser = (User*) userPtr; 	
     tempUser->setName(argv[0]);
     tempUser->setEmail(argv[1]);
     tempUser->setPassword(argv[2]);
     tempUser->setCreationDate(atoi(argv[3]));
-    // if (argv[4] != "NULL")
-    //     temp->setAdminId(atoi(argv[4]));
-    // else
-    //     temp->setAdminId(-1);
     return 0;	
 }
 
@@ -501,7 +514,25 @@ void DataBase::checkError(int errorStatus, char* errorMsg) {
     }
 }
 
-// Bar DataBase::fetchBarInfos(){}
+
+
+void DataBase::requeteR1() {
+	char* errorMsg;
+	std::string query = "SELECT Auteur FROM Commentaires WHERE(COUNT(SELECT EID FROM Commentaires WHERE (Score >= 4 and EID IN (SELECT EID FROM Commentaires WHERE Auteur = 'Brenda' AND Score >=4 ))))";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), printCallback, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
+}
+
+
+
+int DataBase::printCallback(void* notUsed, int argc, char** argv, char** azColName) {
+    int i;
+    for(i=0; i<argc; i++){
+      printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    }
+    printf("\n"); 
+    return 0;
+}
 
 
 
