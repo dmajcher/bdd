@@ -52,6 +52,7 @@ class DataBase {
 		void restInfos(TiXmlElement*);
 		void barInfos(TiXmlElement*);
 		void requeteR1();
+		void requeteR2();
 		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
 		//int getHighestId(char*);
 		static int getEtabCallback(void*, int, char**, char**);

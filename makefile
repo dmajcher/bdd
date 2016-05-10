@@ -8,35 +8,36 @@ ifeq ($(GCC),TRUE)
 	COMPILATORC=gcc 
 endif
 
-links: database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o main.o
-	$(COMPILATORG) -o $@ database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o main.o $(FLAGS)
+links: database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o
+# 	$(COMPILATORG) -o $@ database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o main.o $(FLAGS)
 
 database.o: DataBase.hpp DataBase.cpp
-	$(COMPILATORG) -c DataBase.cpp -o database.o $(FLAGS)
+	$(COMPILATORG) -c DataBase.cpp -o DataBase.o $(FLAGS)
 	
 user.o: User.cpp User.hpp
-	$(COMPILATORG) -c User.cpp -o user.o $(FLAGS)
+	$(COMPILATORG) -c User.cpp -o User.o $(FLAGS)
 
 etablissement.o: Etablissement.cpp Etablissement.hpp
-	$(COMPILATORG) -c Etablissement.cpp -o etablissement.o $(FLAGS)
+	$(COMPILATORG) -c Etablissement.cpp -o Etablissement.o $(FLAGS)
  
 restaurant.o: Restaurant.cpp Restaurant.hpp
-	$(COMPILATORG) -c Restaurant.cpp -o restaurant.o $(FLAGS)
+	$(COMPILATORG) -c Restaurant.cpp -o Restaurant.o $(FLAGS)
 
 bar.o: Bar.cpp Bar.hpp
-	$(COMPILATORG) -c Bar.cpp -o bar.o $(FLAGS)
+	$(COMPILATORG) -c Bar.cpp -o Bar.o $(FLAGS)
 
 hotel.o: Hotel.cpp Hotel.hpp
-	$(COMPILATORG) -c Hotel.cpp -o hotel.o $(FLAGS)
+	$(COMPILATORG) -c Hotel.cpp -o Hotel.o $(FLAGS)
 
 commentaire.o: Commentaire.cpp Commentaire.hpp
-	$(COMPILATORG) -c Commentaire.cpp -o commentaire.o $(FLAGS)
+	$(COMPILATORG) -c Commentaire.cpp -o Commentaire.o $(FLAGS)
 
-main.o: main.cpp
-	$(COMPILATORG) -c main.cpp -o main.o $(FLAGS)
+# main.o: main.cpp
+# 	$(COMPILATORG) -c main.cpp -o main.o $(FLAGS)
 
 clean: 
 	rm -rf *.o
+	rm -rf objectFiles/moc*
 
 mrproper: clean
 	rm -f links

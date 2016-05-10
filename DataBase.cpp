@@ -11,12 +11,12 @@ DataBase::DataBase(char* dataBaseName) {
 	User newUser("Flo", "legrand", "flo@gmail.com", 160502, 1);
 	User newUser2("David", "password123", "david@gmail.com", 160501, -1);
 	User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, -1);
-    addUser(newUser);
-	addUser(newUser2);
-	addUser(newUser3);
-	xmlParser("Restaurants.xml");
-	_isRestaurant = false;
-	xmlParser("Cafes.xml");
+ //    addUser(newUser);
+	// addUser(newUser2);
+	// addUser(newUser3);
+	// xmlParser("Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
     Commentaire comm1("Brenda", "10/05/16", "bon", 5, 1);
     Commentaire comm2("Brenda", "10/05/16", "bon", 5, 2);
@@ -25,21 +25,24 @@ DataBase::DataBase(char* dataBaseName) {
     Commentaire comm6("Flo", "10/05/16", "bon", 5, 1);
     Commentaire comm7("Flo", "10/05/16", "bon", 5, 2);
     Commentaire comm8("Flo", "10/05/16", "bon", 5, 3);
+        Commentaire comm12("Flo", "10/05/16", "bon", 5, 4);
+       Commentaire comm13("Flo", "10/05/16", "bon", 5, 5);
     Commentaire comm9("David", "10/05/16", "bon", 5, 3);
     Commentaire comm10("David", "10/05/16", "bon", 5, 4);
-    Commentaire comm11("David", "10/05/16", "bon", 5, 5);
-    addCommentaire(comm1);
-    addCommentaire(comm2);
-    addCommentaire(comm3);
-    addCommentaire(comm4);
-    addCommentaire(comm4);
-    addCommentaire(comm6);
-    addCommentaire(comm7);
-    addCommentaire(comm8);
-    addCommentaire(comm9);
-    addCommentaire(comm10);
-    addCommentaire(comm11);
-    requeteR1();
+    Commentaire comm11("David", "10/05/16", "bon", 5, 1);
+    // addCommentaire(comm1);
+    // addCommentaire(comm2);
+    // addCommentaire(comm3);
+    // addCommentaire(comm4);
+    // addCommentaire(comm6);
+    // addCommentaire(comm7);
+    // addCommentaire(comm8);
+    // addCommentaire(comm9);
+    // addCommentaire(comm10);
+    // addCommentaire(comm11);
+    // addCommentaire(comm12);
+    // addCommentaire(comm13);
+    // requeteR2();
 
     // std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
  //    Bar* barPtr;
@@ -432,18 +435,14 @@ std::vector<Etablissement*> DataBase::getEtabByName(std::string condition) {
 
 int DataBase::getEtabCallback(void* etabVectorPtr, int argc, char** argv, char** azColName) {
    	std::vector<Etablissement*> * vectorPtr = (std::vector<Etablissement*>*) etabVectorPtr;
-   	std::cout<<argv[0]<<std::endl;
    	for (int i = 0; i<argc; i += 11) {
    		if (std::string(argv[i]) == "R") {
-   			std::cout<<"R"<<std::endl;
    			vectorPtr->push_back(new Restaurant(-1, false, false, "", -1));
    		}
    		else if (std::string(argv[i]) == "H") {
-   			std::cout<<"H"<<std::endl;
    			vectorPtr->push_back(new Hotel(-1, -1, -1));
    		}
    		else if (std::string(argv[i]) == "B") {
-   			std::cout<<"B"<<std::endl;
    			vectorPtr->push_back(new Bar(false, false));
    		}
    		vectorPtr->at(i)->setEid(atoi(argv[1]));
@@ -518,8 +517,21 @@ void DataBase::checkError(int errorStatus, char* errorMsg) {
 
 void DataBase::requeteR1() {
 	char* errorMsg;
-	std::string query = "SELECT Auteur FROM Commentaires WHERE(COUNT(SELECT EID FROM Commentaires WHERE (Score >= 4 and EID IN (SELECT EID FROM Commentaires WHERE Auteur = 'Brenda' AND Score >=4 ))))";
+	std::string query = "SELECT Auteur FROM (SELECT Auteur, COUNT(Auteur) AS CNT FROM ("\
+	"SELECT Auteur,Score FROM Commentaires WHERE(EidConcerne IN ("\
+	"SELECT EidConcerne FROM Commentaires WHERE(Auteur = 'Brenda' AND Score >=4)) AND Score >=4)) GROUP BY Auteur HAVING CNT >= 3)";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), printCallback, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
+}
+
+
+
+void DataBase::requeteR2() {
+	char* errorMsg;
+	std::string sd = "SELECT EidConcerne FROM Commentaires WHERE(Auteur IN (SELECT Auteur, COUNT(Auteur) AS CNT FROM ("\
+	"SELECT Auteur,Score FROM Commentaires WHERE(EidConcerne IN ("\
+	"SELECT EidConcerne FROM Commentaires WHERE(Auteur = 'Brenda' AND Score >=4)) AND Score >=4)) GROUP BY Auteur HAVING COUNT(SELECT EidConcerne WHERE(Auteur = 'Brenda' AND Score>=4)) = CNT)";
+	int errorStatus = sqlite3_exec(_dataBase, sd.c_str(), printCallback, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
 
