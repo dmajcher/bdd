@@ -18,7 +18,7 @@ CXXFLAGS      = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -
 INCPATH       = -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I. -I. -I/usr/include/qt5 -I/usr/include/qt5/QtWidgets -I/usr/include/qt5/QtGui -I/usr/include/qt5/QtCore -I.
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
-LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread -ltinyxml -l sqlite3
+LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -ltinyxml -l sqlite3 -lQt5Widgets -L/usr/lib/x86_64-linux-gnu -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
@@ -48,20 +48,18 @@ OBJECTS_DIR   = ./
 SOURCES       = GuiInterface.cpp \
 		HomeWindow.cpp \
 		SearchWidget.cpp \
-		main.cpp \
-
-OBJECTS       = GuiInterface.o \
+		main.cpp 
+OBJECTS       = ../DataBase.o \
+		../Restaurant.o \
+		../Hotel.o \
+		../Bar.o \
+		../Etablissement.o \
+		../Commentaire.o \
+		../User.o \
+		GuiInterface.o \
 		HomeWindow.o \
 		SearchWidget.o \
-		main.o \
-		../DataBase.o\
-		../Restaurant.o\
-		../Hotel.o\
-		../Bar.o\
-		../Etablissement.o\
-		../Commentaire.o\
-		../User.o\
-
+		main.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -295,7 +293,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/qt1.0.0 || mkdir -p .tmp/qt1.0.0
-	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/qt1.0.0/ && $(COPY_FILE) --parents GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp ../bdd/DataBase.hpp .tmp/qt1.0.0/ && $(COPY_FILE) --parents GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp ../bdd/DataBase.cpp .tmp/qt1.0.0/ && (cd `dirname .tmp/qt1.0.0` && $(TAR) qt1.0.0.tar qt1.0.0 && $(COMPRESS) qt1.0.0.tar) && $(MOVE) `dirname .tmp/qt1.0.0`/qt1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/qt1.0.0
+	$(COPY_FILE) --parents $(SOURCES) $(DIST) .tmp/qt1.0.0/ && $(COPY_FILE) --parents GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp .tmp/qt1.0.0/ && $(COPY_FILE) --parents GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp .tmp/qt1.0.0/ && (cd `dirname .tmp/qt1.0.0` && $(TAR) qt1.0.0.tar qt1.0.0 && $(COMPRESS) qt1.0.0.tar) && $(MOVE) `dirname .tmp/qt1.0.0`/qt1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/qt1.0.0
 
 
 clean:compiler_clean 
@@ -726,7 +724,7 @@ SearchWidget.o: SearchWidget.cpp SearchWidget.hpp \
 		/usr/include/qt5/QtWidgets/qcheckbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SearchWidget.o SearchWidget.cpp
 
-main.o: main.cpp ../bdd/DataBase.hpp \
+main.o: main.cpp ../DataBase.hpp \
 		../User.hpp \
 		../Etablissement.hpp \
 		../Restaurant.hpp \

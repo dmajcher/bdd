@@ -6,9 +6,10 @@ TEMPLATE = app
 TARGET = qt
 INCLUDEPATH += .
 QT += widgets
+LIBS += -ltinyxml -l sqlite3
 QMAKE_CXX = g++-5
 QMAKE_CXXFLAGS = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -Wconversion -Wold-style-cast  -Wctor-dtor-privacy -Woverloaded-virtual -Wconversion -Wsign-promo
-
+OBJECTS +=    ../DataBase.o ../Restaurant.o ../Hotel.o ../Bar.o ../Etablissement.o ../Commentaire.o ../User.o
 # Input
-HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp ../bdd/DataBase.hpp
-SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp ../bdd/DataBase.cpp
+HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp
+SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp

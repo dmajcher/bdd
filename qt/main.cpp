@@ -1,4 +1,4 @@
-#include "../bdd/DataBase.hpp"
+#include "../DataBase.hpp"
 #include "GuiInterface.hpp"
 
 
