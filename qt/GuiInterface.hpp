@@ -20,6 +20,7 @@
 
 
 class GuiInterface: public QApplication {
+	Q_OBJECT
 	private:
 		int _width;
 		int _height;

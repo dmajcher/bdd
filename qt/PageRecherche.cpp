@@ -7,6 +7,8 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 	_db = db;
 	_searchEntry = searchEntry;
 	this->setParent(parent);
+	this->show();
+	this->raise();
 	initPage();
 	//makeLabelTableSlot();
 	makeSearchTableSlot(request);
