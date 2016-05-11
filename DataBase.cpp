@@ -18,6 +18,8 @@ DataBase::DataBase(char* dataBaseName) {
 	// _isRestaurant = false;
 	// xmlParser("Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
+
+    resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
     Commentaire comm1("Brenda", "10/05/16", "bon", 5, 1);
     Commentaire comm2("Brenda", "10/05/16", "bon", 5, 2);
     Commentaire comm3("Brenda", "10/05/16", "bon", 5, 3);
@@ -45,6 +47,7 @@ DataBase::DataBase(char* dataBaseName) {
     // requeteR2();
 
     // std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
+    // std::cout<<t.size()<<std::endl;
  //    Bar* barPtr;
  //    Restaurant* restoPtr;
  //    Hotel* hotelPtr;
@@ -391,7 +394,7 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
-std::vector<Etablissement*> DataBase::getEtabByName(std::string condition) {
+std::vector<Etablissement*> DataBase::getEtabByCond(std::string condition) {
 	char* errorMsg;
 	std::string gu="\"";
    	std::string restoQuery = "SELECT PrixPlats, TakeAway, Livraison, HoraireFermeture, NbPlacesBanquet FROM Restaurants WHERE(RID = ";
@@ -435,27 +438,24 @@ std::vector<Etablissement*> DataBase::getEtabByName(std::string condition) {
 
 int DataBase::getEtabCallback(void* etabVectorPtr, int argc, char** argv, char** azColName) {
    	std::vector<Etablissement*> * vectorPtr = (std::vector<Etablissement*>*) etabVectorPtr;
-   	for (int i = 0; i<argc; i += 11) {
-   		if (std::string(argv[i]) == "R") {
-   			vectorPtr->push_back(new Restaurant(-1, false, false, "", -1));
-   		}
-   		else if (std::string(argv[i]) == "H") {
-   			vectorPtr->push_back(new Hotel(-1, -1, -1));
-   		}
-   		else if (std::string(argv[i]) == "B") {
-   			vectorPtr->push_back(new Bar(false, false));
-   		}
-   		vectorPtr->at(i)->setEid(atoi(argv[1]));
-   		vectorPtr->at(i)->setNom(argv[i+2]);
-   		vectorPtr->at(i)->setAdresse(argv[i+3]);
-   		vectorPtr->at(i)->setLocalite(atoi(argv[i+4]));
-   		vectorPtr->at(i)->setNumTel(argv[i+5]);
-   		vectorPtr->at(i)->setSiteWeb(argv[i+6]);
-   		vectorPtr->at(i)->setAdmin(argv[i+7]);
-   		vectorPtr->at(i)->setDate(argv[i+8]);
-   		vectorPtr->at(i)->setCoords(atof(argv[i+9]), atof(argv[i+10]));
-   		
+   	if (std::string(argv[0]) == "R") {
+   		vectorPtr->push_back(new Restaurant(-1, false, false, "", -1));
    	}
+   	else if (std::string(argv[0]) == "H") {
+   		vectorPtr->push_back(new Hotel(-1, -1, -1));
+	}
+   	else if (std::string(argv[0]) == "B") {
+   		vectorPtr->push_back(new Bar(false, false));
+   	}
+   	vectorPtr->at(vectorPtr->size()-1)->setEid(atoi(argv[1]));
+   	vectorPtr->at(vectorPtr->size()-1)->setNom(argv[2]);
+   	vectorPtr->at(vectorPtr->size()-1)->setAdresse(argv[3]);
+   	vectorPtr->at(vectorPtr->size()-1)->setLocalite(atoi(argv[4]));
+   	vectorPtr->at(vectorPtr->size()-1)->setNumTel(argv[5]);
+   	vectorPtr->at(vectorPtr->size()-1)->setSiteWeb(argv[6]);
+   	vectorPtr->at(vectorPtr->size()-1)->setAdmin(argv[7]);
+   	vectorPtr->at(vectorPtr->size()-1)->setDate(argv[8]);
+   	vectorPtr->at(vectorPtr->size()-1)->setCoords(atof(argv[9]), atof(argv[10]));
    	return 0;	
 }
 

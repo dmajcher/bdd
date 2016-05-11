@@ -9,6 +9,7 @@
 #include <QRect>
 #include <QCheckBox>
 #include <QWidget>
+#include <QSize>
 #include "SearchWidget.hpp"
 #include "../DataBase.hpp"
 

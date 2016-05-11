@@ -39,7 +39,7 @@ class DataBase {
 		void delEtablissement(Etablissement&);
 		void delCommentaire(Commentaire&);
 		User getUserByName(std::string);
-		std::vector<Etablissement*> getEtabByName(std::string);
+		std::vector<Etablissement*> getEtabByCond(std::string);
 		// Etablissement getEtablissement(int);
 		void initUsersTable();
 		void initCommentsTable();

@@ -21,7 +21,7 @@ float Etablissement::getLatitude(){return _latitude;}
 
 float Etablissement::getLongitude(){return _longitude;}
 
-void Etablissement::setEtabInfos(std::string nom, std::string adresse, int localite, std::string numTel, std::string siteWeb, int admin, int date, float latitude, float longitude) {
+void Etablissement::setEtabInfos(std::string nom, std::string adresse, int localite, std::string numTel, std::string siteWeb, std::string admin, std::string date, float latitude, float longitude) {
     _nom = nom;
     _adresse = adresse;
     _localite = localite;

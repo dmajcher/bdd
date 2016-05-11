@@ -23,6 +23,7 @@ class SearchWidget: public QWidget {
 	public:
 		SearchWidget(int, int, QWidget*);
 		void setWidgetsPosition();
+		void setWidgetsStyle();
 };
 
 
