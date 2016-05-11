@@ -23,10 +23,10 @@ GuiInterface::GuiInterface(int argc, char** argv) : QApplication(argc, argv) {
 	sw->move(x,(_height/2-h));
 	// _mainWindow->resize(_width, _height);
 	_mainWindow->showMaximized();
-	w->raise();
-	t->raise();
-	t->show();
-	w->show();
+	// w->raise();
+	// t->raise();
+	// t->show();
+	// w->show();
 	sw->raise();
 	sw->show();
 	exec();

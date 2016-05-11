@@ -9,6 +9,7 @@ SearchWidget::SearchWidget(int width, int height, QWidget* parent) : QWidget(par
 	_thisWidth = _width/3;
 	_thisHeight = _height/8;
 	_borderSize = _thisHeight/3;
+	_checkSize = (_thisWidth-_thisWidth/4-_borderSize/2)/3 - _borderSize/3;
 	_searchEntry = new QLineEdit(this);
 	_searchButton = new QPushButton(this);
 	_restoCheck = new QCheckBox(this);
@@ -26,19 +27,35 @@ void SearchWidget::setWidgetsPosition() {
 	this->setGeometry(_thisWidth-_borderSize/2, _height/4, _thisWidth + _borderSize, _thisHeight-_borderSize/2);
 	_searchEntry->setGeometry(_borderSize/2, _borderSize/2, _thisWidth-_thisWidth/4-_borderSize/2, _borderSize/1.5);
 	_searchButton->setGeometry(_thisWidth - _thisWidth/4 + _borderSize/2, _borderSize/2, _thisWidth/4, _borderSize/1.5);
-	_restoCheck->setGeometry(_borderSize/2, _borderSize+(_borderSize/2), (_thisWidth/1.5)/3, _borderSize/1.5);
-	_hotelCheck->setGeometry((_borderSize/2) + ((_thisWidth/1.5)/3) + _borderSize/2, _borderSize+(_borderSize/2), (_thisWidth/1.5)/3, _borderSize/1.5);
-	_barCheck->setGeometry((_borderSize/2) + (((_thisWidth/1.5)/3)*2) + _borderSize/2, _borderSize+(_borderSize/2), (_thisWidth/1.5)/3, _borderSize/1.5);
+	_restoCheck->setGeometry(_borderSize/2, _borderSize+(_borderSize/2), _checkSize, _borderSize/1.5);
+	_hotelCheck->setGeometry((_borderSize) + (_checkSize) , _borderSize+(_borderSize/2), _checkSize, _borderSize/1.5);
+	_barCheck->setGeometry((_borderSize/2)*3 + (_checkSize)*2, _borderSize+(_borderSize/2), _checkSize, _borderSize/1.5);
 }
 
 
 
 void SearchWidget::setWidgetsStyle() {
 	this->setStyleSheet("background : lightgrey ; border-radius : 7px");
+	_searchEntry->setPlaceholderText("Rechercher par nom ou localité");
 	_hotelCheck->setText("Hôtels");
 	_barCheck->setText("Bars");
 	_restoCheck->setText("Restaurants");
 	_searchButton->setStyleSheet("background : white ; border-radius : 5px");
 	_searchEntry->setStyleSheet("background : white ; border-radius : 5px");
 	_searchButton->setText("Rechercher");
+}
+
+
+
+void SearchWidget::connectWidgets() {
+	connect(_searchButton, SIGNAL(clicked()), this, SLOT(searchSlot()));
+}
+
+
+
+void SearchWidget::searchSlot() {
+	std::string gu = "\"";
+	std::string askedSearch = _searchEntry->text().toStdString();
+	std::string cond = "Nom = "+gu+askedSearch+gu +"OR Localite = "+askedSearch;
+	emit searchSig(cond);
 }
