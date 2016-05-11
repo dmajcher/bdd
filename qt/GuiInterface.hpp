@@ -14,6 +14,7 @@
 #include "SearchWidget.hpp"
 #include "PageRecherche.hpp"
 #include "../DataBase.hpp"
+#include "HomeWindow.hpp"
 
 
 class GuiInterface: public QApplication {
@@ -24,9 +25,9 @@ class GuiInterface: public QApplication {
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
 		PageRecherche* _searchPage;
-		HomePage* _homePage;
+		//HomeWindow* _homePage;
 		SearchWidget* _searchWidget;
-		// HomeWindow* _homeWindow;
+		HomeWindow* _homeWindow;
 	public:
 		GuiInterface(DataBase*, int, char**);
 
