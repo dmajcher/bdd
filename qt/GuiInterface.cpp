@@ -32,11 +32,16 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 
 
 
+void GuiInterface::connectSearch(){
+	connect(_searchWidget,SIGNAL(searchSig(std::string)),this,SLOT(searchSigSlot(std::string)));
+}
+
+
+
 void GuiInterface::searchSigSlot(std::string askedSearch) {
+	std::cout<<"tichke"<<std::endl;
 	if (_searchPage == nullptr) {
-		_searchPage = new PageRecherche(_dataBase, askedSearch, _width, _height, _mainWindow);
-		_searchPage->raise();
-		_searchPage->showMaximized(); 
+		_searchPage = new PageRecherche(_dataBase, askedSearch, _width, _height, _mainWindow,_searchWidget);
 	}
 }
 

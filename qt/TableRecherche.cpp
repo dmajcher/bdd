@@ -18,7 +18,7 @@ void TableRecherche::buildTable(){
 }                                           
 
 void TableRecherche::connectCells(){
-	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEstabProfileSlot(int,int)));
+	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEtabProfileSlot(int,int)));
 }
 
 void TableRecherche::goToEtabProfileSlot(int row,int column){

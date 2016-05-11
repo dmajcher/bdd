@@ -1,10 +1,14 @@
 #include "PageRecherche.hpp"
 
-PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int width, QWidget*parent){
+PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int width, QWidget*parent,SearchWidget* searchEntry){
+	std::cout<<"yooop"<<std::endl;
 	_height = height;
 	_width = width;
 	_db = db;
+	_searchEntry = searchEntry;
 	this->setParent(parent);
+	this->show();
+	this->raise();
 	initPage();
 	//makeLabelTableSlot();
 	makeSearchTableSlot(request);
@@ -12,7 +16,6 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 }
 
 void PageRecherche::initPage(){
-	_searchEntry = new SearchWidget(_width,_height,this);
 	_searchEntry->setGeometry(QRect(_width/15+2*_width/13+ _width/70,_height/4-_searchEntry->height()-_height/200,_searchEntry->width(),_searchEntry->height()));
 }
 

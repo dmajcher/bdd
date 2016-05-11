@@ -7,9 +7,9 @@ TARGET = qt
 INCLUDEPATH += .
 QT += widgets
 LIBS += -ltinyxml -l sqlite3
-QMAKE_CXX = g++-5
+QMAKE_CXX = g++
 QMAKE_CXXFLAGS = -std=c++14 -Wpedantic -fPIC -Wall -Wextra -Winit-self -Winline -Wconversion -Wold-style-cast  -Wctor-dtor-privacy -Woverloaded-virtual -Wconversion -Wsign-promo
 OBJECTS +=    ../DataBase.o ../Restaurant.o ../Hotel.o ../Bar.o ../Etablissement.o ../Commentaire.o ../User.o
 # Input
-HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp CelluleRcherche.hpp PageRecherche.hpp TableRecherche.hpp
-SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRcherche.cpp PageRecherche.cpp TableRecherche.cpp main.cpp
+HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp CelluleRecherche.hpp PageRecherche.hpp TableRecherche.hpp
+SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRecherche.cpp PageRecherche.cpp TableRecherche.cpp main.cpp
