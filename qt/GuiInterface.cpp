@@ -4,7 +4,7 @@
 
 GuiInterface::GuiInterface(int argc, char** argv) : QApplication(argc, argv) {
 	_mainWindow = new QMainWindow();
-	_mainWindow->setStyleSheet("background : url(Images/bois.jpg)");
+	_mainWindow->setStyleSheet("background : url(Images/wallpaper.jpg)");
 	QRect rec(desktop()->screenGeometry());
 	_width = rec.width();
 	_height = rec.height();
@@ -18,17 +18,19 @@ GuiInterface::GuiInterface(int argc, char** argv) : QApplication(argc, argv) {
 	int wi = sw->size().width();
 	int h = sw->size().height(); 
 	int x = sw->geometry().x();
-	t->setGeometry(_width/2-(h*1.5)/2, h, h*1.5, h*1.5);
-	t->setStyleSheet("image: url(Images/logo.jpeg) center center");
+	t->setGeometry(_width/9, h/2000, wi/2, h*1.7);
+	t->setStyleSheet("QWidget{background: url(Images/test.png) center center}");
 	sw->move(x,(_height/2-h));
 	// _mainWindow->resize(_width, _height);
 	_mainWindow->showMaximized();
 	// w->raise();
-	// t->raise();
-	// t->show();
+	 t->raise();
+	 t->show();
 	// w->show();
 	sw->raise();
 	sw->show();
 	exec();
 	// _homeWindow = new HomeWindow(_width, _height, _mainWindow);
 }
+
+
