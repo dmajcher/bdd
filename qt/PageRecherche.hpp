@@ -11,8 +11,10 @@
 #include <QGridLayout>
 #include <QString>
 #include <string>
+#include <iostream>
 #include "TableRecherche.hpp"
 #include "../DataBase.hpp"
+#include "SearchWidget.hpp"
 
 class PageRecherche: public QWidget {
 	Q_OBJECT
@@ -33,7 +35,7 @@ class PageRecherche: public QWidget {
 	//void makeTableFriendAndSearch(unsigned);
 
 public:
-	PageRecherche(DataBase*, std::string,int,int, QWidget*);
+	PageRecherche(DataBase*, std::string,int,int, QWidget*,SearchWidget*);
 	//void keyPressEvent(QKeyEvent*);
 	 ~PageRecherche();
 public slots:

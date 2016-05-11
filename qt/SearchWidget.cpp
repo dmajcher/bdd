@@ -17,6 +17,7 @@ SearchWidget::SearchWidget(int width, int height, QWidget* parent) : QWidget(par
 	_hotelCheck = new QCheckBox(this);
 	setWidgetsPosition();
 	setWidgetsStyle();
+	connectWidgets();
 	this->raise();
 	this->show();
 }

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QCheckBox>
+#include <iostream>
 
 
 class SearchWidget: public QWidget {

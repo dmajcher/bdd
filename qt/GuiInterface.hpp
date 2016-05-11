@@ -30,8 +30,8 @@ class GuiInterface: public QApplication {
 		HomeWindow* _homeWindow;
 	public:
 		GuiInterface(DataBase*, int, char**);
-
-	public:
+		void connectSearch();
+	public slots:
 		void searchSigSlot(std::string);
 
 };
