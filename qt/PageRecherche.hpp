@@ -13,7 +13,7 @@
 #include <string>
 #include <iostream>
 #include "TableRecherche.hpp"
-#include "../DataBase.hpp"
+#include "../database/DataBase.hpp"
 #include "SearchWidget.hpp"
 
 class PageRecherche: public QWidget {

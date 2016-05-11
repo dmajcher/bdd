@@ -3,6 +3,7 @@
 void CelluleRecherche::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
 	this->setStyleSheet("QLabel{background: transparent;border: 3px solid #f2be03;}");
+	std::cout<<"hllll"<<std::endl;
 	
 	// _pictureFrame = new QLabel(this);
 	// _pictureFrame->setPixmap(QPixmap(QString::fromStdString()));

@@ -15,7 +15,7 @@
 #include "SearchWidget.hpp"
 #include "PageRecherche.hpp"
 #include "HomeWindow.hpp"
-#include "../DataBase.hpp"
+#include "../database/DataBase.hpp"
 #include "HomeWindow.hpp"
 #include <iostream>
 

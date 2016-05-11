@@ -7,10 +7,10 @@
 #include <QLabel>
 #include <iostream>
 #include <QString>
-#include "../Etablissement.hpp"
-#include "../Restaurant.hpp"
-#include "../Hotel.hpp"
-#include "../Bar.hpp"
+#include "../database/Etablissement.hpp"
+#include "../database/Restaurant.hpp"
+#include "../database/Hotel.hpp"
+#include "../database/Bar.hpp"
 
 class CelluleRecherche: public QLabel{
 Q_OBJECT

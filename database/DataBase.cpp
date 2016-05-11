@@ -14,9 +14,9 @@ DataBase::DataBase(char* dataBaseName) {
  //    addUser(newUser);
 	// addUser(newUser2);
 	// addUser(newUser3);
-	// xmlParser("Restaurants.xml");
+	// xmlParser("../Restaurants.xml");
 	// _isRestaurant = false;
-	// xmlParser("Cafes.xml");
+	// xmlParser("../Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
     resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);

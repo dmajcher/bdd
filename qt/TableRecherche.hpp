@@ -11,7 +11,7 @@
 #include <QLabel>
 #include <iostream>
 #include "SearchWidget.hpp"
-#include "../Etablissement.hpp"
+#include "../database/Etablissement.hpp"
 #include "CelluleRecherche.hpp"
 
 
