@@ -17,6 +17,7 @@ SearchWidget::SearchWidget(int width, int height, QWidget* parent) : QWidget(par
 	_hotelCheck = new QCheckBox(this);
 	setWidgetsPosition();
 	setWidgetsStyle();
+	connectWidgets();
 	this->raise();
 	this->show();
 }
@@ -58,6 +59,6 @@ void SearchWidget::connectWidgets() {
 void SearchWidget::searchSlot() {
 	std::string gu = "\"";
 	std::string askedSearch = _searchEntry->text().toStdString();
-	std::string cond = "Nom = "+gu+askedSearch+gu +"OR Localite = "+askedSearch;
+	std::string cond = "Nom LIKE "+gu+"\%"+askedSearch+"\%"+gu + " OR Localite = "+gu+askedSearch+gu;
 	emit searchSig(cond);
 }

@@ -5,6 +5,7 @@
 GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplication(argc, argv) {
 	_dataBase = database;
 	_mainWindow = new QMainWindow();
+	_mainWindow->resize(_width, _height);
 	_mainWindow->setStyleSheet("background : url(Images/wood.jpg)");
 	QRect rec(desktop()->screenGeometry());
 	_width = rec.width();
@@ -20,23 +21,27 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	int x = _searchWidget->geometry().x();
 	t->setGeometry(_width/9, h/2000, wi/2, h*1.7);
 	t->setStyleSheet("QWidget{background: url(Images/test.png) center center}");
-	// _searchWidget->move(x,(_height/2-h));
-
-	// _mainWindow->resize(_width, _height);
 	_mainWindow->showMaximized();
-	// w->raise();
 	 t->raise();
 	 t->show();
-	// w->show();
 	_searchWidget->raise();
 	_searchWidget->show();
+	connectWidgets();
 	exec();
-	// _homeWindow = new HomeWindow(_width, _height, _mainWindow);
 }
+
+
 
 void GuiInterface::searchSigSlot(std::string askedSearch) {
 	if (_searchPage == nullptr) {
 		_searchPage = new PageRecherche(_dataBase, askedSearch, _width, _height, _mainWindow);
+		_searchPage->raise();
+		_searchPage->showMaximized(); 
 	}
 }
 
+
+
+void GuiInterface::connectWidgets() {
+	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
+}

@@ -11,6 +11,7 @@
 #include <QWidget>
 #include <QSize>
 #include <string>
+#include <iostream>
 #include "SearchWidget.hpp"
 #include "PageRecherche.hpp"
 #include "HomeWindow.hpp"
@@ -19,6 +20,7 @@
 
 
 class GuiInterface: public QApplication {
+	Q_OBJECT
 	private:
 		int _width;
 		int _height;
@@ -28,10 +30,12 @@ class GuiInterface: public QApplication {
 		PageRecherche* _searchPage;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
-	public:
-		GuiInterface(DataBase*, int, char**);
 
 	public:
+		GuiInterface(DataBase*, int, char**);
+		void connectWidgets();
+
+	public slots:
 		void searchSigSlot(std::string);
 
 };
