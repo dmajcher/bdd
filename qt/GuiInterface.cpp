@@ -6,6 +6,8 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	_dataBase = database;
 	_mainWindow = new QMainWindow();
 	_mainWindow->resize(_width, _height);
+	setApplicationName("RestHoBar");
+	setWindowIcon(QIcon("../qt/Images/test.png"));
 	_mainWindow->setStyleSheet("background : url(../qt/Images/wood.jpg)");
 	QRect rec(desktop()->screenGeometry());
 	_width = rec.width();
@@ -13,7 +15,6 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	_searchWidget = new SearchWidget(_width, _height, _mainWindow);
 	QWidget* w = new QWidget(_mainWindow);
 	QWidget* t = new QWidget(_mainWindow);
-
 	w->setGeometry(0, _height/5.5, _width, _height/1.75);
 	w->setStyleSheet("background : url(../qt/Images/horeca.jpg)");
 	int wi = _searchWidget->size().width();
