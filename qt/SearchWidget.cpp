@@ -35,13 +35,15 @@ void SearchWidget::setWidgetsPosition() {
 
 
 void SearchWidget::setWidgetsStyle() {
-	this->setStyleSheet("background : lightgrey ; border-radius : 7px");
 	_searchEntry->setPlaceholderText("Rechercher par nom ou localité");
 	_hotelCheck->setText("Hôtels");
 	_barCheck->setText("Bars");
 	_restoCheck->setText("Restaurants");
-	_searchButton->setStyleSheet("background : white ; border-radius : 5px");
-	_searchEntry->setStyleSheet("background : white ; border-radius : 5px");
+	_searchEntry->setStyleSheet("background : rgba(255,255,255,180) ; border-radius : 5px");
+	_barCheck->setStyleSheet("background : rgba(255,255,255,180) ; border-radius : 4px");
+	_restoCheck->setStyleSheet("background : rgba(255,255,255,180) ; border-radius : 4px");
+	_hotelCheck->setStyleSheet("background : rgba(255,255,255,180) ; border-radius : 4px");
+	_searchButton->setStyleSheet("QPushButton::hover{background : lightgrey} QPushButton{background : rgba(255,255,255,180) ; border-radius : 5px}");
 	_searchButton->setText("Rechercher");
 }
 
