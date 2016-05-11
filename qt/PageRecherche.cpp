@@ -16,7 +16,7 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 }
 
 void PageRecherche::initPage(){
-	_searchEntry->setGeometry(QRect(_width/15+2*_width/13+ _width/70,_height/4-_searchEntry->height()-_height/200,_searchEntry->width(),_searchEntry->height()));
+	_searchEntry->setGeometry(_width/15+2*_width/13+ _width/70,_height/4-_searchEntry->height()-_height/200,_searchEntry->width(),_searchEntry->height());
 }
 
 void PageRecherche::connectEntry(){
