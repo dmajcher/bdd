@@ -37,5 +37,8 @@ gui:
 clean: 
 	cd ../qt && $(MAKE) clean
 
+reset: clean
+	cd ../qt && qmake && cd ../exec && $(MAKE)
+
 mrproper: clean
 	rm -f links
