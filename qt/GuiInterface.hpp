@@ -16,6 +16,7 @@
 #include "HomeWindow.hpp"
 #include "../DataBase.hpp"
 #include "HomeWindow.hpp"
+#include <iostream>
 
 
 class GuiInterface: public QApplication {
