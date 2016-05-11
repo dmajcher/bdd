@@ -52,11 +52,11 @@ SOURCES       = GuiInterface.cpp \
 		HomeWindow.cpp \
 		SearchWidget.cpp \
 		main.cpp \
-		TableRecherche.cpp \
 		PageRecherche.cpp \
+		TableRecherche.cpp \
 		CelluleRecherche.cpp moc_SearchWidget.cpp \
-		moc_TableRecherche.cpp \
 		moc_PageRecherche.cpp \
+		moc_TableRecherche.cpp \
 		moc_CelluleRecherche.cpp
 OBJECTS       = ../DataBase.o \
 		../restaurant.o \
@@ -69,12 +69,12 @@ OBJECTS       = ../DataBase.o \
 		HomeWindow.o \
 		SearchWidget.o \
 		main.o \
-		TableRecherche.o \
 		PageRecherche.o \
+		TableRecherche.o \
 		CelluleRecherche.o \
 		moc_SearchWidget.o \
-		moc_TableRecherche.o \
 		moc_PageRecherche.o \
+		moc_TableRecherche.o \
 		moc_CelluleRecherche.o
 DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/common/unix.conf \
@@ -168,14 +168,14 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		qt.pro GuiInterface.hpp \
 		HomeWindow.hpp \
 		SearchWidget.hpp \
-		TableRecherche.hpp \
 		PageRecherche.hpp \
+		TableRecherche.hpp \
 		CelluleRecherche.hpp GuiInterface.cpp \
 		HomeWindow.cpp \
 		SearchWidget.cpp \
 		main.cpp \
-		TableRecherche.cpp \
 		PageRecherche.cpp \
+		TableRecherche.cpp \
 		CelluleRecherche.cpp
 QMAKE_TARGET  = qt
 DESTDIR       = 
@@ -389,8 +389,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp TableRecherche.hpp PageRecherche.hpp CelluleRecherche.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp TableRecherche.cpp PageRecherche.cpp CelluleRecherche.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp PageRecherche.hpp TableRecherche.hpp CelluleRecherche.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp main.cpp PageRecherche.cpp TableRecherche.cpp CelluleRecherche.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -413,28 +413,33 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_SearchWidget.cpp moc_TableRecherche.cpp moc_PageRecherche.cpp moc_CelluleRecherche.cpp
+compiler_moc_header_make_all: moc_SearchWidget.cpp moc_PageRecherche.cpp moc_TableRecherche.cpp moc_CelluleRecherche.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_SearchWidget.cpp moc_TableRecherche.cpp moc_PageRecherche.cpp moc_CelluleRecherche.cpp
+	-$(DEL_FILE) moc_SearchWidget.cpp moc_PageRecherche.cpp moc_TableRecherche.cpp moc_CelluleRecherche.cpp
 moc_SearchWidget.cpp: SearchWidget.hpp
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/tich/bdd/qt -I/home/tich/bdd/qt -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/5.3.0 -I/usr/include/c++/5.3.0/x86_64-unknown-linux-gnu -I/usr/include/c++/5.3.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed -I/usr/include SearchWidget.hpp -o moc_SearchWidget.cpp
 
-moc_TableRecherche.cpp: ../Etablissement.hpp \
+moc_PageRecherche.cpp: TableRecherche.hpp \
+		SearchWidget.hpp \
+		../Etablissement.hpp \
+		CelluleRecherche.hpp \
+		../Restaurant.hpp \
+		../Hotel.hpp \
+		../Bar.hpp \
+		../DataBase.hpp \
+		../User.hpp \
+		../Commentaire.hpp \
+		PageRecherche.hpp
+	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/tich/bdd/qt -I/home/tich/bdd/qt -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/5.3.0 -I/usr/include/c++/5.3.0/x86_64-unknown-linux-gnu -I/usr/include/c++/5.3.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed -I/usr/include PageRecherche.hpp -o moc_PageRecherche.cpp
+
+moc_TableRecherche.cpp: SearchWidget.hpp \
+		../Etablissement.hpp \
 		CelluleRecherche.hpp \
 		../Restaurant.hpp \
 		../Hotel.hpp \
 		../Bar.hpp \
 		TableRecherche.hpp
 	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/tich/bdd/qt -I/home/tich/bdd/qt -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/5.3.0 -I/usr/include/c++/5.3.0/x86_64-unknown-linux-gnu -I/usr/include/c++/5.3.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed -I/usr/include TableRecherche.hpp -o moc_TableRecherche.cpp
-
-moc_PageRecherche.cpp: TableRecherche.hpp \
-		../Etablissement.hpp \
-		CelluleRecherche.hpp \
-		../Restaurant.hpp \
-		../Hotel.hpp \
-		../Bar.hpp \
-		PageRecherche.hpp
-	/usr/lib/qt/bin/moc $(DEFINES) -I/usr/lib/qt/mkspecs/linux-g++ -I/home/tich/bdd/qt -I/home/tich/bdd/qt -I/usr/include/qt -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/5.3.0 -I/usr/include/c++/5.3.0/x86_64-unknown-linux-gnu -I/usr/include/c++/5.3.0/backward -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include -I/usr/local/include -I/usr/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed -I/usr/include PageRecherche.hpp -o moc_PageRecherche.cpp
 
 moc_CelluleRecherche.cpp: ../Etablissement.hpp \
 		../Restaurant.hpp \
@@ -459,13 +464,17 @@ compiler_clean: compiler_moc_header_clean
 
 GuiInterface.o: GuiInterface.cpp GuiInterface.hpp \
 		SearchWidget.hpp \
+		PageRecherche.hpp \
+		TableRecherche.hpp \
+		../Etablissement.hpp \
+		CelluleRecherche.hpp \
+		../Restaurant.hpp \
+		../Hotel.hpp \
+		../Bar.hpp \
 		../DataBase.hpp \
 		../User.hpp \
-		../Etablissement.hpp \
-		../Restaurant.hpp \
-		../Bar.hpp \
-		../Hotel.hpp \
-		../Commentaire.hpp
+		../Commentaire.hpp \
+		HomeWindow.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o GuiInterface.o GuiInterface.cpp
 
 HomeWindow.o: HomeWindow.cpp HomeWindow.hpp
@@ -482,25 +491,34 @@ main.o: main.cpp ../DataBase.hpp \
 		../Hotel.hpp \
 		../Commentaire.hpp \
 		GuiInterface.hpp \
-		SearchWidget.hpp
+		SearchWidget.hpp \
+		PageRecherche.hpp \
+		TableRecherche.hpp \
+		CelluleRecherche.hpp \
+		HomeWindow.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
+PageRecherche.o: PageRecherche.cpp PageRecherche.hpp \
+		TableRecherche.hpp \
+		SearchWidget.hpp \
+		../Etablissement.hpp \
+		CelluleRecherche.hpp \
+		../Restaurant.hpp \
+		../Hotel.hpp \
+		../Bar.hpp \
+		../DataBase.hpp \
+		../User.hpp \
+		../Commentaire.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PageRecherche.o PageRecherche.cpp
+
 TableRecherche.o: TableRecherche.cpp TableRecherche.hpp \
+		SearchWidget.hpp \
 		../Etablissement.hpp \
 		CelluleRecherche.hpp \
 		../Restaurant.hpp \
 		../Hotel.hpp \
 		../Bar.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o TableRecherche.o TableRecherche.cpp
-
-PageRecherche.o: PageRecherche.cpp PageRecherche.hpp \
-		TableRecherche.hpp \
-		../Etablissement.hpp \
-		CelluleRecherche.hpp \
-		../Restaurant.hpp \
-		../Hotel.hpp \
-		../Bar.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PageRecherche.o PageRecherche.cpp
 
 CelluleRecherche.o: CelluleRecherche.cpp CelluleRecherche.hpp \
 		../Etablissement.hpp \
@@ -512,11 +530,11 @@ CelluleRecherche.o: CelluleRecherche.cpp CelluleRecherche.hpp \
 moc_SearchWidget.o: moc_SearchWidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_SearchWidget.o moc_SearchWidget.cpp
 
-moc_TableRecherche.o: moc_TableRecherche.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TableRecherche.o moc_TableRecherche.cpp
-
 moc_PageRecherche.o: moc_PageRecherche.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_PageRecherche.o moc_PageRecherche.cpp
+
+moc_TableRecherche.o: moc_TableRecherche.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_TableRecherche.o moc_TableRecherche.cpp
 
 moc_CelluleRecherche.o: moc_CelluleRecherche.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CelluleRecherche.o moc_CelluleRecherche.cpp
