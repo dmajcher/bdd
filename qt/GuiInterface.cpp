@@ -20,7 +20,7 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	int x = _searchWidget->geometry().x();
 	t->setGeometry(_width/9, h/2000, wi/2, h*1.7);
 	t->setStyleSheet("QWidget{background: url(Images/test.png) center center}");
-	_searchWidget->move(x,(_height/2-h));
+	// _searchWidget->move(x,(_height/2-h));
 
 	// _mainWindow->resize(_width, _height);
 	_mainWindow->showMaximized();

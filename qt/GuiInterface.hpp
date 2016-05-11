@@ -13,6 +13,7 @@
 #include <string>
 #include "SearchWidget.hpp"
 #include "PageRecherche.hpp"
+#include "HomeWindow.hpp"
 #include "../DataBase.hpp"
 #include "HomeWindow.hpp"
 
@@ -25,7 +26,6 @@ class GuiInterface: public QApplication {
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
 		PageRecherche* _searchPage;
-		//HomeWindow* _homePage;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
 	public:

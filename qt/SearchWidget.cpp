@@ -25,7 +25,7 @@ SearchWidget::SearchWidget(int width, int height, QWidget* parent) : QWidget(par
 
 
 void SearchWidget::setWidgetsPosition() {
-	this->setGeometry(_thisWidth-_borderSize/2, _height/4, _thisWidth + _borderSize, _thisHeight-_borderSize/2);
+	this->setGeometry(_thisWidth-_borderSize/2, (_height/2-(_thisHeight-_borderSize/2)), _thisWidth + _borderSize, _thisHeight-_borderSize/2);
 	_searchEntry->setGeometry(_borderSize/2, _borderSize/2, _thisWidth-_thisWidth/4-_borderSize/2, _borderSize/1.5);
 	_searchButton->setGeometry(_thisWidth - _thisWidth/4 + _borderSize/2, _borderSize/2, _thisWidth/4, _borderSize/1.5);
 	_restoCheck->setGeometry(_borderSize/2, _borderSize+(_borderSize/2), _checkSize, _borderSize/1.5);
