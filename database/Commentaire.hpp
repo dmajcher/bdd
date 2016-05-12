@@ -1,7 +1,6 @@
 #ifndef COMMENTAIRE_HPP
 #define COMMENTAIRE_HPP
-
-
+#include <algorithm>
 #include <string>
 
 

@@ -8,15 +8,26 @@ DataBase::DataBase(char* dataBaseName) {
 	initUsersTable();
 	initEtablishmentTable();
 	initCommentsTable();
-	User newUser("Flo", "legrand", "flo@gmail.com", 160502, 1);
-	User newUser2("David", "password123", "david@gmail.com", 160501, -1);
-	User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, -1);
- //    addUser(newUser);
-	// addUser(newUser2);
-	// addUser(newUser3);
-	// xmlParser("../Restaurants.xml");
-	// _isRestaurant = false;
-	// xmlParser("../Cafes.xml");
+	initLabelsPrototypeTable();
+	initLabelsContainerTable();
+	User newUser("Boris", "legrand", "boris@gmail.com", 160502, 0);
+	User newUser2("Fred", "password123", "fred@gmail.com", 160501, 0);
+	User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, 0);
+	User newUser4("Ivan", "legrand", "ivan@gmail.com", 160502, 0);
+	User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
+	User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
+	User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
+    addUser(newUser);
+	addUser(newUser2);
+	addUser(newUser3);
+	addUser(newUser4);
+	addUser(newUser5);
+	addUser(newUser6);
+	addUser(newUser7);
+
+	xmlParser("../database/Restaurants.xml");
+	_isRestaurant = false;
+	xmlParser("../database/Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
     resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
@@ -93,6 +104,31 @@ void DataBase::initCommentsTable() {
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 
+}
+void DataBase::initLabelsPrototypeTable(){
+	int errorStatus;
+	char* errorMsg;
+	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Labels("\
+	"LID INTEGER PRIMARY KEY AUTOINCREMENT,"\
+	"Etiquette TEXT NOT NULL UNIQUE,"\
+	"Nbetab INT)";
+	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
+}
+
+void DataBase::initLabelsContainerTable(){
+	int errorStatus;
+	char* errorMsg;
+	const char* tableCreation = "CREATE TABLE IF NOT EXISTS LabelContainer("\
+	"UID TEXT NOT NULL,"\
+	"EidConcerne INTEGER NOT NULL,"\
+	"LID INTEGER NOT NULL,"\
+	"PRIMARY KEY ( UID , EidConcerne , LID ),"\
+	"FOREIGN KEY (UID) REFERENCES Utilisateurs ON DELETE CASCADE,"\
+	"FOREIGN KEY (EidConcerne) REFERENCES Etablissements ON DELETE CASCADE,"\
+	"FOREIGN KEY (LID) REFERENCES Labels ON DELETE CASCADE)";
+	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
 }
 
 
@@ -173,6 +209,8 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 			_currentEtab->setHoraire(_tempConge);
 			_tempConge="00000000000000";
 			addRestaurant(*_currentEtab);
+			addAndDeleteCommentsObj();
+
 		}
 		// _currentEtab = new Etablissement();
 		_currentEtab = new Restaurant(-1,false,false,"",-1);
@@ -182,6 +220,7 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 	else if (info == "Cafe"){
 		if (_currentBar)
 			addBar(*_currentBar);
+			addAndDeleteCommentsObj();
 		_currentBar = new Bar(false,false);
 		_currentBar->setDate(temp->Attribute("creationDate"));
 		_currentBar->setAdmin(temp->Attribute("nickname"));
@@ -202,7 +241,13 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 		recursiveParser(temp->NextSiblingElement()); 
 }
 		
-
+void DataBase::addAndDeleteCommentsObj(){
+	for (int i = 0;i<_currentComments.size();++i){
+		addCommentaire(*_currentComments[i]);
+		delete _currentComments[i];
+	}
+	_currentComments.clear();
+}
 
 template<typename xml, class etab>
 void DataBase::restCase(xml temp,etab currentEtab){
@@ -225,6 +270,14 @@ void DataBase::restCase(xml temp,etab currentEtab){
 		else if(elem =="Latitude") {currentEtab->setCoords(std::stof(tempText,&sz),_long);}
 		else if(elem =="Tel"){currentEtab->setNumTel(tempText);}
 		else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
+		else if(elem =="Comment"){
+			Commentaire* currentComment = new Commentaire("","","",0);
+			currentComment->setAuteur(temp->Attribute("nickname"));
+			currentComment->setDate(temp->Attribute("date"));
+			currentComment->setScore(std::stoi(temp->Attribute("score")));
+			currentComment->setText(tempText);
+			_currentComments.push_back(currentComment);
+		} 
 }
 
 
@@ -335,10 +388,12 @@ void DataBase::addHotel(Hotel &newHotel) {
 
 
 void DataBase::addCommentaire(Commentaire &newComm) {
+	std::cout<<"in comments"<<std::endl;
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
 	std::string eidConcerne = std::to_string(newComm.getEidConcerne());
+	std::cout<<"out of comments"<<std::endl;
 	if (eidConcerne == "-1") 
 		eidConcerne = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Commentaires(Auteur, Date, Texte, Score, EidConcerne) VALUES("+\

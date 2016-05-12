@@ -4,6 +4,7 @@
 Commentaire::Commentaire(std::string auteur, std::string date, std::string texte, int score, int eidConcerne) {
 	_auteur = auteur;
 	_texte = texte;
+	std::replace(_texte.begin(),_texte.end(),'\"','\'');
 	_score = score;
 	_date = date;
 	_eidConcerne = eidConcerne;
@@ -29,7 +30,10 @@ void Commentaire::setScore(int score) {_score = score;}
 
 void Commentaire::setEidConcerne(int eid) {_eidConcerne = eid;}
 
-void Commentaire::setText(std::string text) {_texte = text;}
+void Commentaire::setText(std::string text) {
+	_texte = text;
+	std::replace(_texte.begin(),_texte.end(),'\"','\'');
+}
 
 void Commentaire::setAuteur(std::string auteur) {_auteur = auteur;}
 

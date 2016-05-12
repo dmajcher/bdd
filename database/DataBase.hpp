@@ -23,6 +23,7 @@ class DataBase {
 		bool _isRestaurant = false;
 		Bar* _currentBar = nullptr;
 		Restaurant* _currentEtab = nullptr;
+		std::vector<Commentaire*> _currentComments ;
 		std::string _tempConge = "OOOOOOOOOOOOOO";
 		std::string _currentAdr;
 	
@@ -44,11 +45,14 @@ class DataBase {
 		void initUsersTable();
 		void initCommentsTable();
 		void initEtablishmentTable();
+		void initLabelsPrototypeTable();
+		void initLabelsContainerTable();
 		void checkError(int, char*);
 		template<typename xml, class etab>
 		void restCase(xml ,etab);
 		int xmlParser(std::string);
 		int recursiveParser(TiXmlElement*);
+		void addAndDeleteCommentsObj();
 		void restInfos(TiXmlElement*);
 		void barInfos(TiXmlElement*);
 		void requeteR1();
