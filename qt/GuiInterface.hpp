@@ -34,12 +34,15 @@ class GuiInterface: public QApplication {
 		QWidget* _t;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
+		// LogWidget* _connection = nullptr;
 
 	public:
 		GuiInterface(DataBase*, int, char**);
 		void connectWidgets();
 	public slots:
 		void searchSigSlot(std::string);
+		void loginSlot();
+		void signinSlot();
 
 };
 

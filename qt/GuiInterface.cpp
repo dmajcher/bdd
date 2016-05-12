@@ -33,8 +33,8 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 		_searchPage = new PageRecherche(_dataBase, askedSearch, _height, _width, _mainWindow);
 		_searchWidget->move(_width/15+2*_width/13+ _width/70,_height/6-_searchWidget->height()-_height/200);
 		_currentWindow = _searchPage;
-		_currentWindow->raise();
-		_currentWindow->show();
+		// _currentWindow->raise();
+		// _currentWindow->show();
 	}
 	else {
 		_searchPage->makeSearchTableSlot(askedSearch);
@@ -43,7 +43,20 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 }
 
 
+void GuiInterface::loginSlot() {
+	// _connection = new LogWidget(_width, _height, 1, _mainWindow);
+
+}
+
+void GuiInterface::signinSlot() {
+	// _connection = new LogWidget(_width, _height, 2, _mainWindow);
+
+
+}
+
 
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
+	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
+	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
 }

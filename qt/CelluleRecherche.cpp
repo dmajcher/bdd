@@ -18,20 +18,24 @@ void CelluleRecherche::initItem(int width, int height){
 	_estabName->setStyleSheet("QLabel{font: 16pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_estabName->raise();
 	_estabName->show();
+	_estabName->setFont(QFont("URW Gothic L", 16));
 
 	_localite = new QLabel(const_cast<char*>(_etab->getAdresse().c_str()),this);
 	_localite->setGeometry(QRect(width*8,height/2+height/4,width*2, height/5));
 	_localite->raise();
 	_localite->show();
+	_localite->setFont(QFont("URW Gothic L", 8));
 
-	//int  score = _etab->getScore();
-	int score = 0;
+	float  score = _etab->getNote();
 	std::string label5 = "Note: "+std::to_string(score);
+	if (score == -1)
+		label5 = "Aucune note";
 	_score = new QLabel(this);
 	_score->setGeometry(QRect(width*8,height/8,width*2, height/5));
 	_score->setText(QString(label5.c_str()));
 	_score->raise();
 	_score->show();
+	_score->setFont(QFont("URW Gothic L", 10));
 	this->raise();
 	this->show();
 }

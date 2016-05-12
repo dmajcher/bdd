@@ -33,6 +33,7 @@ class SearchWidget: public QWidget {
 
 	public slots:
 		void searchSlot();
+		void entrySlot();
 
 	signals:
 		void searchSig(std::string);

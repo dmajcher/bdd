@@ -5,11 +5,13 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 	_height = height;
 	_width = width;
 	_db = db;
-	_parent->setStyleSheet("background:url(../qt/Images/wood.jpg)");
+	_parent = parent;
+	setStyle();
+	_parent->setStyleSheet("background : url(../qt/Images/wood.jpg)");
 	// _searchEntry = searchEntry;
 	// initPage();
 	//makeLabelTableSlot();
-	setStyle();
+	// setStyle();
 	makeSearchTableSlot(request);
 	// connectEntry();
 	// raise();
@@ -19,7 +21,7 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 
 void PageRecherche::setStyle() {
 	this->resize(_width, _height);
-	this->setStyleSheet("QWidget{background :transparent;}");
+	this->setStyleSheet("background : transparent");
 	this->raise();
 	this->show();
 }

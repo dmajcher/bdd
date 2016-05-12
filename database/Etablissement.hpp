@@ -9,6 +9,7 @@ class Etablissement {
 	std::string _adresse;
 	std::string _numTel;
 	int _localite;
+	float _note;
 	std::string _siteWeb;
 	std::string _adminCreateur;
 	std::string _dateDeCreation;
@@ -21,6 +22,7 @@ public:
 	std::string getAdresse();
 	std::string getNumTel();
 	int getLocalite();
+	float getNote();
 	std::string getSiteWeb();
 	std::string getAdmin();
 	std::string getDateCreation();
@@ -32,6 +34,7 @@ public:
 	void setAdresse(std::string);
 	void setNumTel(std::string);
 	void setAdmin(std::string);
+	void setNote(float);
 	void setLocalite(int);
 	void setSiteWeb(std::string);
 	void setCoords(float, float);
