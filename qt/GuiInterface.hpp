@@ -8,7 +8,6 @@
 #include <QMainWindow>
 #include <QRect>
 #include <QCheckBox>
-#include <QWidget>
 #include <QSize>
 #include <string>
 #include <iostream>
@@ -17,6 +16,7 @@
 #include "HomeWindow.hpp"
 #include "../database/DataBase.hpp"
 #include "HomeWindow.hpp"
+#include "TaskBar.hpp"
 #include <iostream>
 
 
@@ -28,9 +28,8 @@ class GuiInterface: public QApplication {
 		DataBase* _dataBase;
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
-		PageRecherche* _searchPage;
-		QWidget* _w;
-		QWidget* _t;
+		TaskBar* _taskBar;
+		PageRecherche* _searchPage = nullptr;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
 

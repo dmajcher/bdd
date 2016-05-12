@@ -11,11 +11,14 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	setApplicationName("RestHoBar");
 	setWindowIcon(QIcon("../qt/Images/test.png"));
 	_mainWindow->setStyleSheet("background : transparent");
+	_taskBar = new TaskBar(_width, _height, _mainWindow);
 	_searchWidget = new SearchWidget(_width, _height, _mainWindow);
 	_homeWindow = new HomeWindow(_width, _height, _searchWidget->height(), _searchWidget->width(), _mainWindow);
 	_currentWindow = _homeWindow;
 	_searchWidget->raise();
 	_searchWidget->show();
+	_taskBar->raise();
+	_taskBar->show();
 	connectWidgets();
 	_mainWindow->resize(_width, _height);
 	_mainWindow->show();

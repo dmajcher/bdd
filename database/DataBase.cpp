@@ -17,17 +17,17 @@ DataBase::DataBase(char* dataBaseName) {
 	User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
 	User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
 	User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
-    addUser(newUser);
-	addUser(newUser2);
-	addUser(newUser3);
-	addUser(newUser4);
-	addUser(newUser5);
-	addUser(newUser6);
-	addUser(newUser7);
+ //    addUser(newUser);
+	// addUser(newUser2);
+	// addUser(newUser3);
+	// addUser(newUser4);
+	// addUser(newUser5);
+	// addUser(newUser6);
+	// addUser(newUser7);
 
-	xmlParser("../database/Restaurants.xml");
-	_isRestaurant = false;
-	xmlParser("../database/Cafes.xml");
+	// xmlParser("../database/Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("../database/Cafes.xml");
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
     resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
