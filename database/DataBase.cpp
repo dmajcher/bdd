@@ -254,7 +254,6 @@ void DataBase::restCase(xml temp,etab currentEtab){
 	std::string tempText;
 		if (temp->GetText()){tempText = temp->GetText();}
 		std::string elem = temp->Value();
-		std::cout<<elem<<std::endl;
 		std::string::size_type sz;
 		if (elem =="Name"){currentEtab->setNom(tempText);}
 		else if (elem =="Street"){_currentAdr = tempText;}
@@ -288,7 +287,6 @@ void DataBase::restInfos(TiXmlElement* temp){
 	std::string tempText;
 	if (temp->GetText()){tempText = temp->GetText();}
 	std::string elem = temp->Value();
-	std::cout<<elem<<std::endl;
 	std::string::size_type sz;
 	if(elem =="On"){
 		if (temp->Attribute("hour")){tempCongeAttrib = temp->Attribute("hour");}
@@ -309,7 +307,6 @@ void DataBase::barInfos(TiXmlElement* temp){
 	std::string tempText;
 	if (temp->GetText()){tempText = temp->GetText();}
 	std::string elem = temp->Value();
-	std::cout<<elem<<std::endl;
 	std::string::size_type sz;
 	if(elem == "Smoking"){_currentBar->setFumeur(true);}
 	else if (elem == "Snack"){_currentBar->setPetiteResto(true);}

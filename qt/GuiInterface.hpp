@@ -28,7 +28,7 @@ class GuiInterface: public QApplication {
 		DataBase* _dataBase;
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
-		PageRecherche* _searchPage;
+		PageRecherche* _searchPage = nullptr;
 		QWidget* _w;
 		QWidget* _t;
 		SearchWidget* _searchWidget;

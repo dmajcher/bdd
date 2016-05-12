@@ -2,7 +2,7 @@
 
 void CelluleRecherche::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
-	this->setStyleSheet("QLabel{background: light grey;border: 3px solid;}");
+	this->setStyleSheet("QLabel{background: lightgrey;border: 3px solid;}");
 	std::cout<<"hllll"<<std::endl;
 	
 	// _pictureFrame = new QLabel(this);
