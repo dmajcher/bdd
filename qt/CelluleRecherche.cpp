@@ -2,7 +2,7 @@
 
 void CelluleRecherche::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
-	this->setStyleSheet("QLabel{background: transparent;border: 3px solid #f2be03;}");
+	this->setStyleSheet("QLabel{background: light grey;border: 3px solid;}");
 	std::cout<<"hllll"<<std::endl;
 	
 	// _pictureFrame = new QLabel(this);
@@ -15,7 +15,7 @@ void CelluleRecherche::initItem(int width, int height){
 	
 	_estabName = new QLabel(const_cast<char*>(_etab->getNom().c_str()),this);
 	_estabName->setGeometry(QRect(width*2,height/8, width*5, height/5));
-	_estabName->setStyleSheet("QLabel{font: 16pt; background: transparent;border :0px solid #f2be03 !important ;color:#f2be03;};");
+	_estabName->setStyleSheet("QLabel{font: 16pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_estabName->raise();
 	_estabName->show();
 
@@ -32,6 +32,8 @@ void CelluleRecherche::initItem(int width, int height){
 	_score->setText(QString(label5.c_str()));
 	_score->raise();
 	_score->show();
+	this->raise();
+	this->show();
 }
 
 unsigned int CelluleRecherche::getEid(){
@@ -39,6 +41,7 @@ unsigned int CelluleRecherche::getEid(){
 }
 
 CelluleRecherche::CelluleRecherche(Etablissement* etab,int width,int height,QWidget* parent): QLabel(parent){
+	std::cout<<"cell constr"<<std::endl;
 	_etab = etab;
 	_bar = dynamic_cast<Bar*>(_etab);
 	_resto = dynamic_cast<Restaurant*>(_etab);

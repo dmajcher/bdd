@@ -1,22 +1,31 @@
 #include "PageRecherche.hpp"
 
-PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int width, QWidget*parent,SearchWidget* searchEntry){
+PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int width, QWidget* parent) : QWidget(parent){
 	std::cout<<"yooop"<<std::endl;
 	_height = height;
 	_width = width;
 	_db = db;
-	_searchEntry = searchEntry;
-	this->setParent(parent);
-	this->show();
-	this->raise();
-	initPage();
+	// _searchEntry = searchEntry;
+	// initPage();
 	//makeLabelTableSlot();
+	setStyle();
 	makeSearchTableSlot(request);
-	connectEntry();
+	// connectEntry();
+	// raise();
+	// show();
 }
 
+
+void PageRecherche::setStyle() {
+	this->resize(_width, _height);
+	this->setStyleSheet("QWidget{background :url(Images/wood.jpg);}");
+	this->raise();
+	this->show();
+}
+
+
 void PageRecherche::initPage(){
-	_searchEntry->setGeometry(_width/15+2*_width/13+ _width/70,_height/4-_searchEntry->height()-_height/200,_searchEntry->width(),_searchEntry->height());
+	_searchEntry->move(_width/15+2*_width/13+ _width/70,_height/4-_searchEntry->height()-_height/200);
 }
 
 void PageRecherche::connectEntry(){
@@ -25,10 +34,10 @@ void PageRecherche::connectEntry(){
 
 void PageRecherche::makeSearchTableSlot(std::string request){
 
-	_searchTable = nullptr;
 	delete _searchTable; 
 	_searchTable = new TableRecherche(_db->getEtabByCond(request),this);
-    _searchTable->setGeometry(QRect(_width/15+2*_width/13+ _width/70,_height/4,_width-_width/3,_height/2 +_height/5));
+	std::cout<<"setgeo"<<std::endl;
+    _searchTable->setGeometry(_width/15+2*_width/13+ _width/70,_height/4,_width-_width/3,_height/2 +_height/5);
     _searchTable->raise();
     _searchTable->show();
 }

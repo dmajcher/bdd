@@ -10,6 +10,7 @@
 #include <vector>
 #include <QLabel>
 #include <iostream>
+#include <string>
 #include "SearchWidget.hpp"
 #include "../database/Etablissement.hpp"
 #include "CelluleRecherche.hpp"
@@ -20,11 +21,11 @@ Q_OBJECT
 	QWidget* _parent;
 	std::vector<QLabel*> _currentTableItems;
 	std::vector<Etablissement*> _etabs;
-	void initTable();
 	void connectCells();
 	void buildTable();
 public:
 	TableRecherche(std::vector<Etablissement*>,QWidget*);
+		void initTable();
 	 ~TableRecherche();
 	//void initRows();
 public slots:

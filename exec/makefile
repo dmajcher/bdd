@@ -34,11 +34,16 @@ commentaire.o: ../database/Commentaire.cpp ../database/Commentaire.hpp
 gui:
 	cd ../qt && $(MAKE)
 
+newdb:
+	cd .. && rm database.db
+	$(MAKE)
+
 clean: 
-	cd ../qt && $(MAKE) clean
+	cd ../objects && rm -rf *.o && rm -rf moc*
 
 reset: clean
 	cd ../qt && qmake 
+	cd .. && rm database.db
 	$(MAKE)
 
 newgui:

@@ -3,7 +3,7 @@
 void TableRecherche::initTable(){
 	this->horizontalHeader()->hide();
 	this->verticalHeader()->hide();
-	this->setStyleSheet("QTableWidget{background: transparent;};");
+	this->setStyleSheet("QTableWidget{background: transparent;border-radius: 5px;}");
 	this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	this->verticalHeader()->setDefaultSectionSize(this->height()*4+this->height()/3);
 	this->setShowGrid(false);
@@ -11,7 +11,9 @@ void TableRecherche::initTable(){
 }
 
 void TableRecherche::buildTable(){
+	std::cout<<_etabs.size()<<std::endl;
 	for (int i = 0;i<_etabs.size();++i){
+		std::cout<<"cell "<<i<<std::endl;
 		_currentTableItems.push_back(new CelluleRecherche(_etabs[i],this->horizontalHeader()->defaultSectionSize(),this->verticalHeader()->defaultSectionSize(),this));
 		setCellWidget(i,0,_currentTableItems[i]);
 	}
@@ -26,9 +28,12 @@ void TableRecherche::goToEtabProfileSlot(int row,int column){
 }
 
 TableRecherche::TableRecherche(std::vector<Etablissement*> etabs,QWidget* parent): QTableWidget(etabs.size(),1,parent){
-	initTable();
-	connectCells();
+	std::cout<<"table constr"<<std::endl;
 	_etabs = etabs;
+	initTable();
+	buildTable();
+	connectCells();
+	std::cout<<_etabs.size()<<std::endl;
 	this->raise();
 	this->show();
 }
