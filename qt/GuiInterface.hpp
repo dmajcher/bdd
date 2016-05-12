@@ -29,6 +29,8 @@ class GuiInterface: public QApplication {
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
 		PageRecherche* _searchPage;
+		QWidget* _w;
+		QWidget* _t;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
 

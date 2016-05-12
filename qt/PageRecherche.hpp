@@ -12,6 +12,7 @@
 #include <QString>
 #include <string>
 #include <iostream>
+#include <unistd.h>
 #include "TableRecherche.hpp"
 #include "../database/DataBase.hpp"
 #include "SearchWidget.hpp"
@@ -22,7 +23,7 @@ class PageRecherche: public QWidget {
 	std::vector<std::string> _establishmentList;
 	int _width,_height;
 	QWidget* _parent;
-	TableRecherche* _searchTable;
+	TableRecherche* _searchTable=nullptr;
 	SearchWidget* _searchEntry =nullptr;
 	DataBase* _db;
 
@@ -35,7 +36,8 @@ class PageRecherche: public QWidget {
 	//void makeTableFriendAndSearch(unsigned);
 
 public:
-	PageRecherche(DataBase*, std::string,int,int, QWidget*,SearchWidget*);
+	PageRecherche(DataBase*, std::string,int,int, QWidget*);
+	void setStyle();
 	//void keyPressEvent(QKeyEvent*);
 	 ~PageRecherche();
 public slots:

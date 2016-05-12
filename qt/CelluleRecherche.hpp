@@ -5,6 +5,7 @@
 #include <QRect>
 #include <QFont>
 #include <QLabel>
+#include <string>
 #include <iostream>
 #include <QString>
 #include "../database/Etablissement.hpp"

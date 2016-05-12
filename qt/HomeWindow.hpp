@@ -4,18 +4,22 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
-#include <QLineEdit>
 
 
 class HomeWindow: public QWidget {
 	private:
 		int _width;
 		int _height;
+        int _h;
+        int _w;
 		QWidget* _parent;
-		QLineEdit* _searchBar;
+        QWidget* _icoWidget;
+        QWidget* _panoWidget;
 
 	public:
-		HomeWindow(int, int, QWidget*);
+		HomeWindow(int, int, int, int, QWidget*);
+        void setStyle();
+        ~HomeWindow();
 
 
 };

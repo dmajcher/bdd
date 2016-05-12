@@ -36,7 +36,7 @@ void SearchWidget::setWidgetsPosition() {
 
 
 void SearchWidget::setWidgetsStyle() {
-	_searchEntry->setPlaceholderText("Rechercher par nom ou localité");
+	_searchEntry->setPlaceholderText("Rechercher par nom, ville, adresse ou localité");
 	_hotelCheck->setText("Hôtels");
 	_barCheck->setText("Bars");
 	_restoCheck->setText("Restaurants");
@@ -52,13 +52,13 @@ void SearchWidget::setWidgetsStyle() {
 
 void SearchWidget::connectWidgets() {
 	connect(_searchButton, SIGNAL(clicked()), this, SLOT(searchSlot()));
+	connect(_searchEntry, SIGNAL(returnPressed()), this, SLOT(searchSlot()));
 }
-
 
 
 void SearchWidget::searchSlot() {
 	std::string gu = "\"";
 	std::string askedSearch = _searchEntry->text().toStdString();
-	std::string cond = "Nom LIKE "+gu+"\%"+askedSearch+"\%"+gu + " OR Localite = "+gu+askedSearch+gu;
+	std::string cond = "Nom LIKE "+gu+"\%"+askedSearch+"\%"+gu + " OR Localite = "+gu+askedSearch+gu +" OR Adresse LIKE " +gu+"\%"+askedSearch+"\%"+gu;
 	emit searchSig(cond);
 }

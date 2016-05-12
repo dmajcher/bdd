@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <iostream>
+#include <string>
 
 
 class SearchWidget: public QWidget {
