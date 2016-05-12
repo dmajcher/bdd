@@ -30,6 +30,8 @@ class GuiInterface: public QApplication {
 		QWidget* _currentWindow;
 		TaskBar* _taskBar;
 		PageRecherche* _searchPage = nullptr;
+		QWidget* _w;
+		QWidget* _t;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
 

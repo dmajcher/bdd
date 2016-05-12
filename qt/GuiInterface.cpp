@@ -31,7 +31,7 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 	if (_searchPage == nullptr) {
 		delete _currentWindow;
 		_searchPage = new PageRecherche(_dataBase, askedSearch, _height, _width, _mainWindow);
-		_searchWidget->move(_width/15+2*_width/13+ _width/70,_height/4-_searchWidget->height()-_height/200);
+		_searchWidget->move(_width/15+2*_width/13+ _width/70,_height/6-_searchWidget->height()-_height/200);
 		_currentWindow = _searchPage;
 		_currentWindow->raise();
 		_currentWindow->show();
