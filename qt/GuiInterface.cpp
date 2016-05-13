@@ -90,6 +90,14 @@ void GuiInterface::canceledSlot() {
 	_taskBar->showButtons();
 }
 
+
+void GuiInterface::loggedSlot() {
+	_user = _connection->getCurrentUser();
+	canceledSlot();
+	_taskBar->setStatusLogged();
+}
+
+
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
@@ -102,3 +110,5 @@ void GuiInterface::connectLog() {
 	connect(_connection, SIGNAL(canceled()),this, SLOT(canceledSlot()));
 	connect(_currentWindow,SIGNAL(canceled()),this,SLOT(canceledSlot()));
 }
+
+

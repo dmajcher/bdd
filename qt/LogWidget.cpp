@@ -84,7 +84,8 @@ void LogWidget::confirmSlot() {
 				_errorText->show();
 			}
 			else {
-				cancelSlot();
+				_user = &newUser;
+				emit logSig();
 			}
 		}
 	}
@@ -107,7 +108,8 @@ void LogWidget::confirmSlot() {
 				_errorText->show();
 			}
 			else {
-				cancelSlot();
+				_user = &meUser;
+				emit logSig();
 			}
 		}
 	}
@@ -122,6 +124,10 @@ void LogWidget::cancelSlot() {
 void LogWidget::connectButtons() {
 	connect(_logButton, SIGNAL(clicked()), this, SLOT(confirmSlot()));
 	connect(_cancelButton, SIGNAL(clicked()), this, SLOT(cancelSlot()));
+}
+
+User* LogWidget::getCurrentUser() {
+	return _user;
 }
 
 

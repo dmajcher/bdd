@@ -318,7 +318,15 @@ void DataBase::addLabel(Label &newLabel) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
+	std::string eidConcerne = std::to_string(newLabel.getEid());
+	std::string lid = "(SELECT MAX(LID) FROM Labels)";
+	if (eidConcerne == "-1") 
+		eidConcerne = "(SELECT MAX(EID) FROM Etablissements)";
 	std::string query = "INSERT INTO Labels(Etiquette, NbEtab) VALUES(" +gu+newLabel.getEtiquette()+gu+vir +"0)";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	query = "INSERT INTO LabelContainer(UID, LID, EidConcerne) VALUES(" +gu+newLabel.getAuteur()+gu+vir +\
+	lid+vir+eidConcerne+")";
 }
 
 
