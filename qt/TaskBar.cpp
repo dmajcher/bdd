@@ -41,6 +41,8 @@ void TaskBar::hideLog() {
 }
 
 void TaskBar::showButtons() {
+	_loginButton->raise();
+	_signinButton->raise();
 	_loginButton->show();
 	_signinButton->show();
 }
@@ -55,13 +57,19 @@ void TaskBar::signinSlot() {
 
 
 void TaskBar::logOutSlot() {
-	_signinButton->setText("");
+	_signinButton->setText("Créer un compte");
+	disconnect(_signinButton, SIGNAL(clicked()), this, SLOT(logOutSlot()));
+	showButtons();
+	connectButtons();
+	emit logoutSig();
 }
 
 
 void TaskBar::setStatusLogged() {
 	hideLog();
 	_signinButton->setText("Se déconnecter");
+	disconnect(_signinButton, SIGNAL(clicked()), this, SLOT(signinSlot()));
+	disconnect(_loginButton,SIGNAL(clicked()), this, SLOT(loginSlot()));
 	connect(_signinButton, SIGNAL(clicked()), this, SLOT(logOutSlot()));
 	_signinButton->raise();
 }

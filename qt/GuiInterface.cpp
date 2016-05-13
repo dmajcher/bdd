@@ -40,8 +40,8 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 	else {
 		_searchPage->makeSearchTableSlot(askedSearch);
 	}
-	_searchWidget->raise();
 	_taskBar->raise();
+	_searchWidget->raise();
 }
 
 void GuiInterface::makeEtabProfileSlot(unsigned Eid){
@@ -49,9 +49,11 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_searchWidget->hide();
 	_profilePage = new ProfilePage(Eid,_dataBase,_height,_width,_mainWindow);
 	_currentWindow = _profilePage;
-	connectLog();
 	_currentWindow->raise();
 	_currentWindow->show();
+	_taskBar->raise();
+	_searchWidget->raise();
+	connectLog();
 
 }
 
@@ -100,17 +102,21 @@ void GuiInterface::loggedSlot() {
 }
 
 
+void GuiInterface::logoutSlot() {
+	_user = nullptr;
+}
+
+
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
+	connect(_taskBar, SIGNAL(logoutSig()), this, SLOT(logoutSlot()));
 	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
 }
 
 
 void GuiInterface::connectLog() {
-	connect(_connection, SIGNAL(canceled()),this, SLOT(canceledSlot()));
-	connect(_currentWindow,SIGNAL(canceled()),this,SLOT(canceledSlot()));
+	connect(_currentWindow, SIGNAL(canceled()),this, SLOT(canceledSlot()));
+	connect(_currentWindow, SIGNAL(logSig()),this, SLOT(loggedSlot()));
 }
-
-

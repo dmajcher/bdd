@@ -16,6 +16,7 @@ class TaskBar: public QWidget {
 		QWidget* _parent;
 		QPushButton* _signinButton;
 		QPushButton* _loginButton;
+		QPushButton* _adminButton;
 
 	public: 
 		TaskBar(int, int, QWidget*);
@@ -34,6 +35,7 @@ class TaskBar: public QWidget {
 	signals:
 		void loginSig();
 		void signinSig();
+		void logoutSig();
 
 };
 

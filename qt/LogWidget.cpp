@@ -100,7 +100,6 @@ void LogWidget::confirmSlot() {
 		else {
 			std::string cond = "(Email = "+gu+pseudo+gu+" OR NameId = "+gu+pseudo+gu+") AND Password = "+gu+password+gu;
 			User meUser = _database->getUserByCond(cond); 
-			std::cout<<meUser.getName();
 			if (meUser.getName() == "") {
 				_errorText->move(_width/2 - _entryWidth/2,  _pseudoEntry->y() - _entryHeight);
 				_errorText->setText("Nom ou mot de passe invalide");

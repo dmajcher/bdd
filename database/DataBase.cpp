@@ -360,8 +360,9 @@ void DataBase::addLabel(Label &newLabel) {
 	checkError(errorStatus, errorMsg);
 	query = "INSERT INTO LabelContainer(UID, LID, EidConcerne) VALUES(" +gu+newLabel.getAuteur()+gu+vir +\
 	lid+vir+eidConcerne+")";
+	errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
 }
-
 
 
 int DataBase::addUser(User &newUser) {
@@ -493,7 +494,6 @@ User DataBase::getUserByCond(std::string cond) {
     User* userRequestedPtr = &userRequested;
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getUserCallback, userRequestedPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
-	std::cout<<userRequested.getName()<<std::endl;
 	return userRequested;
 }
 
