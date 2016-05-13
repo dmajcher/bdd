@@ -75,14 +75,13 @@ class ProfilePage: public QWidget {
 	void initPage();
 	void connectButton();
 	void makeCommentTable();
+	void makeLabelTable();
 public:
 	ProfilePage(unsigned,DataBase*,int,int, QWidget*);
 	void setStyle();
 	 ~ProfilePage();
 public slots:
 	void returnSlot();
-	//void makeCommentsTableSlot();
-	//void makeLabelsTableSlot();
 	//void searchSlot();
 signals:
 	void canceled();

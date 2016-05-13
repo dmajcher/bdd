@@ -237,6 +237,8 @@ void ProfilePage::makeCommentTable(){
     _commentTable->show();
 }
 
+void ProfilePage::makeLabelTable()
+
 // void ProfilePage::connectButton(){
 // 	connect(_searchEntry,SIGNAL(searchSig(std::string)),this,SLOT(makeSearchTableSlot(std::string)));
 // }
