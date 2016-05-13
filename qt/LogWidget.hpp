@@ -25,7 +25,11 @@ class LogWidget: public QWidget {
 		LogWidget(int, int, int, QWidget*);
 		void setLogStyle();
 		void setSignStyle();
+		void connectButtons();
 		~LogWidget();
+
+	public slots:
+		void confirmSlot();
 
 } ;
 
