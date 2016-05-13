@@ -14,18 +14,22 @@ LogWidget::LogWidget(int width, int height, int state, DataBase* db, QWidget* pa
 	_passwordEntry = new QLineEdit(this);
 	_logButton = new QPushButton(this);
 	_cancelButton = new QPushButton(this);
+	_errorText = new QLabel(this);
 	parent->setStyleSheet("background : url(../qt/Images/wood.jpg)");
 	_pseudoEntry->setFont(QFont("URW Gothic L", 12));
 	_passwordEntry->setFont(QFont("URW Gothic L", 12));
 	_cancelButton->setFont(QFont("URW Gothic L", 12));
 	_logButton->setFont(QFont("URW Gothic L", 12));
-
+	_errorText->setFont(QFont("URW Gothic L", 10));
+	_errorText->setGeometry(_width/2 - _entryWidth/2,  _height/3 - _entryHeight, _entryWidth, _entryHeight);
 	_pseudoEntry->setGeometry(_width/2 - _entryWidth/2, _height/3 + (2*_entryHeight), _entryWidth, _entryHeight);
 	_passwordEntry->setGeometry(_width/2 - _entryWidth/2, _height/3 + (4*_entryHeight), _entryWidth, _entryHeight);
 	_logButton->setGeometry(_width/2 - _buttonWidth/2, _height/3 + (6*_entryHeight), _buttonWidth, _height/20);
 	_cancelButton->setGeometry(_width - _buttonWidth - _height/20, _height-_buttonWidth/2, _buttonWidth, _height/20);
 	_cancelButton->setStyleSheet("QPushButton::hover{background : lightgrey} QPushButton{background : rgba(255,255,255,180) ; border-radius : 5px}");
 	_logButton->setStyleSheet("QPushButton::hover{background : lightgrey} QPushButton{background : rgba(255,255,255,180) ; border-radius : 5px}");
+	_errorText->setStyleSheet("background : transparent; color : red");
+	_passwordEntry->setEchoMode(QLineEdit::Password);
 	if (_state == 2)
 		setSignStyle();
 	else
@@ -58,20 +62,60 @@ void LogWidget::setLogStyle() {
 
 
 void LogWidget::confirmSlot() {
-	if (_state = 2) {
-		std::string pseudo = _pseudoEntry->text().toStdString();
-		std::string password = _passwordEntry->text().toStdString();
+	std::string pseudo = _pseudoEntry->text().toStdString();
+	std::string password = _passwordEntry->text().toStdString();
+	if (_state == 2) {
 		std::string email = _emailEntry->text().toStdString();
-		User newUser(pseudo, password, email, 160511, false);
-		_database->addUser(newUser);
+		if (pseudo == "" || password == "" || email == "") { 
+			_errorText->move(_width/2 - _entryWidth/2,  _height/3 - _entryHeight);
+			_errorText->setText("Pseudonyme, password ou email vide");
+			_errorText->raise();
+			_errorText->show();
+		}
+		else {
+			User newUser(pseudo, password, email, 160511, false);
+			int check = _database->addUser(newUser);
+			if (check) {
+				_pseudoEntry->clear();
+				_emailEntry->clear();
+				_errorText->move(_width/2 - _entryWidth/2,  _height/3 - _entryHeight);
+				_errorText->setText("Pseudonyme ou email déjà utilisé");
+				_errorText->raise();
+				_errorText->show();
+			}
+			else {
+				cancelSlot();
+			}
+		}
 	}
-
+	else {
+		std::string gu = "\"";
+		if (pseudo == "" || password == "") {
+			_errorText->move(_width/2 - _entryWidth/2,  _pseudoEntry->y() - _entryHeight);
+			_errorText->setText("Nom ou mot de passe vide");
+			_errorText->raise();
+			_errorText->show();
+		}
+		else {
+			std::string cond = "(Email = "+gu+pseudo+gu+" OR NameId = "+gu+pseudo+gu+") AND Password = "+gu+password+gu;
+			User meUser = _database->getUserByCond(cond); 
+			std::cout<<meUser.getName();
+			if (meUser.getName() == "") {
+				_errorText->move(_width/2 - _entryWidth/2,  _pseudoEntry->y() - _entryHeight);
+				_errorText->setText("Nom ou mot de passe invalide");
+				_errorText->raise();
+				_errorText->show();
+			}
+			else {
+				cancelSlot();
+			}
+		}
+	}
 }
 
 
 void LogWidget::cancelSlot() {
 	emit canceled();
-
 }
 
 
@@ -87,4 +131,5 @@ LogWidget::~LogWidget() {
 	delete _logButton;
 	delete _cancelButton;
 	delete _emailEntry;
+	delete _errorText;
 }

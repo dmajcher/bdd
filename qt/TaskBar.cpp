@@ -31,11 +31,13 @@ void TaskBar::setWidgetStyle() {
 
 void TaskBar::hideSign() {
 	_signinButton->hide();
+	_loginButton->show();
 }
 
 
 void TaskBar::hideLog() {
 	_loginButton->hide();
+	_signinButton->show();
 }
 
 void TaskBar::showButtons() {

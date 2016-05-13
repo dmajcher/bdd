@@ -30,7 +30,7 @@ class DataBase {
 	public:
 		DataBase(char*);
 		~DataBase();
-		void addUser(User&);
+		int addUser(User&);
 		void addEtablissement(Etablissement&, std::string);
 		void addRestaurant(Restaurant&);
 		void addBar(Bar&);
@@ -39,7 +39,7 @@ class DataBase {
 		void delUser(User&);
 		void delEtablissement(Etablissement&);
 		void delCommentaire(Commentaire&);
-		User getUserByName(std::string);
+		User getUserByCond(std::string);
 		std::vector<Commentaire*> getCommByCond(std::string);
 		std::vector<Etablissement*> getEtabByCond(std::string);
 		void updateData(std::string, std::string, std::string, std::string);

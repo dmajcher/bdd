@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QLabel>
 #include <QLineEdit>
 #include "../database/DataBase.hpp"
 
@@ -22,6 +23,7 @@ class LogWidget: public QWidget {
 		QLineEdit* _pseudoEntry;
 		QLineEdit* _passwordEntry;
 		QLineEdit* _emailEntry = nullptr;
+		QLabel* _errorText;
 
 	public:
 		LogWidget(int, int, int, DataBase*, QWidget*);

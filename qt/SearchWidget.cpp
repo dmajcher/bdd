@@ -86,6 +86,7 @@ void SearchWidget::searchSlot() {
 		count += 1;
 	}
 	if (count == 0) {
+		_searchEntry->clear();
 		_searchEntry->setPlaceholderText("Sélectionnez un ou plusieurs établissements à rechercher");
 		_searchEntry->setStyleSheet("color : red");
 	}
