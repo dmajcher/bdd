@@ -112,7 +112,7 @@ void DataBase::initLabelsPrototypeTable(){
 	const char* tableCreation = "CREATE TABLE IF NOT EXISTS Labels("\
 	"LID INTEGER PRIMARY KEY AUTOINCREMENT,"\
 	"Etiquette TEXT NOT NULL UNIQUE,"\
-	"Nbetab INT)";
+	"NbEtab INTEGER)";
 	errorStatus = sqlite3_exec(_dataBase, tableCreation, NULL, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
@@ -124,7 +124,7 @@ void DataBase::initLabelsContainerTable(){
 	"UID TEXT NOT NULL,"\
 	"EidConcerne INTEGER NOT NULL,"\
 	"LID INTEGER NOT NULL,"\
-	"PRIMARY KEY ( UID , EidConcerne , LID ),"\
+	"PRIMARY KEY (UID , EidConcerne , LID),"\
 	"FOREIGN KEY (UID) REFERENCES Utilisateurs ON DELETE CASCADE,"\
 	"FOREIGN KEY (EidConcerne) REFERENCES Etablissements ON DELETE CASCADE,"\
 	"FOREIGN KEY (LID) REFERENCES Labels ON DELETE CASCADE)";
@@ -314,6 +314,14 @@ void DataBase::barInfos(TiXmlElement* temp){
 }
 
 
+void DataBase::addLabel(Label &newLabel) {
+	char* errorMsg;
+	std::string vir = ",";
+	std::string gu = "\"";
+	std::string query = "INSERT INTO Labels(Etiquette, NbEtab) VALUES(" +gu+newLabel.getEtiquette()+gu+vir +"0)";
+}
+
+
 
 int DataBase::addUser(User &newUser) {
 	char* errorMsg;
@@ -451,7 +459,6 @@ User DataBase::getUserByCond(std::string cond) {
 
 
 std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
-	std::cout<<cond<<std::endl;
 	char* errorMsg;
 	std::string gu = "\"";
 	std::string query = "SELECT Auteur, Date, Texte, Score, EidConcerne FROM Commentaires WHERE(" +cond+")";
@@ -463,9 +470,41 @@ std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
 }
 
 
+std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
+	char* errorMsg;
+	std::string gu = "\"";
+	std::string query = "SELECT DISTINCT LID, COUNT(LID) FROM LabelContainers WHERE("+cond+" and LID = LID)";
+	std::string lid;
+	std::vector<Label*> labelVec;
+	std::vector<Label*> * labelVecPtr;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getLabelCallback, labelVecPtr, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	for (int i = 0; i<labelVec.size(); ++i) {
+		lid = std::to_string(labelVec[i]->getLid()) + ")";
+		query = "SELECT Etiquette FROM Labels WHERE(LID = " +lid;
+		errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtiqCallback, labelVec[i], &errorMsg);
+		checkError(errorStatus, errorMsg);
+	} 
+}
+
+
+
+int DataBase::getLabelCallback(void* labVecPtr, int argc, char** argv, char** azColName) {
+	std::vector<Label*> * vecPtr = (std::vector<Label*>*) labVecPtr;
+	vecPtr->push_back(new Label(atoi(argv[0]), atoi(argv[1])));
+}
+
+
+
+int DataBase::getEtiqCallback(void* labPtr, int argc, char** argv, char** azColName){
+	Label* label = (Label*) labPtr;
+	label->setEtiquette(argv[0]);
+}
+
+
 
 int DataBase::getCommCallback(void* commVecPtr, int argc, char** argv, char** azColName) {
-	std::vector<Commentaire*>* vectorPtr = (std::vector<Commentaire*>*) commVecPtr;
+	std::vector<Commentaire*> * vectorPtr = (std::vector<Commentaire*>*) commVecPtr;
 	vectorPtr->push_back(new Commentaire(argv[0], argv[1], argv[2], atoi(argv[3]), atoi(argv[4])));
 	return 0;
 }

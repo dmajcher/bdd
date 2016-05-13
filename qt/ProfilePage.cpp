@@ -36,7 +36,7 @@ void ProfilePage::initPage(){
 	_mainLabel = new QLabel(this);
 	_mainLabel->setGeometry(QRect(0,_height/8,_width,_height/5));
     _mainLabel->setStyleSheet("QLabel {background: rgba(255,255,255,180);border-radius:10px;border-color:grey;border:5px}");
-    _mainLabel->setFont(QFont("URW Gothic L", 13));
+    _mainLabel->setFont(QFont("URW Gothic L", 12));
 
     _logo = new QLabel(this);
 	_logo->setGeometry(QRect(_width/20,_height/8,_width/5,_height/5));
@@ -56,7 +56,7 @@ void ProfilePage::initPage(){
 void ProfilePage::fillLabel(){
 	_name = new QLabel(const_cast<char*>(_etab->getNom().c_str()),this);
 	_name->setGeometry(QRect(_width/15+2*_width/13+ _width/20,_height/8,2*_width/13,_height/15));
-	_name->setStyleSheet("QLabel{font: 25pt;background: transparent;}");
+	_name->setStyleSheet("QLabel{font: 18pt;background: transparent;}");
 	_name->setFont(QFont("URW Gothic L", 10));
 
 		//int  score = _etab->getScore();
@@ -237,7 +237,7 @@ void ProfilePage::makeCommentTable(){
     _commentTable->show();
 }
 
-void ProfilePage::makeLabelTable()
+void ProfilePage::makeLabelTable() {}
 
 // void ProfilePage::connectButton(){
 // 	connect(_searchEntry,SIGNAL(searchSig(std::string)),this,SLOT(makeSearchTableSlot(std::string)));
