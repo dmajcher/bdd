@@ -5,7 +5,7 @@ void TableCommentaire::initTable(){
 	this->verticalHeader()->hide();
 	this->setStyleSheet("QTableWidget{background: transparent;border-radius: 5px;}");
 	this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	this->verticalHeader()->setDefaultSectionSize(this->height()*4+this->height()/3);
+	this->verticalHeader()->setDefaultSectionSize(this->height()+this->height()/3);
 	this->setShowGrid(false);
 	this->setFrameStyle(QFrame::NoFrame);
 }

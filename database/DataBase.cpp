@@ -211,19 +211,25 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 			_tempConge="00000000000000";
 			addRestaurant(*_currentEtab);
 			addAndDeleteCommentsObj();
+			addAndDeleteLabObj();
 
 		}
 		// _currentEtab = new Etablissement();
 		_currentEtab = new Restaurant(-1,false,false,"",-1);
 		_currentEtab->setDate(temp->Attribute("creationDate"));
+		User* currentUser  = new User(temp->Attribute("nickname"),"","",int,true);
+		addUser(*currentUser);
 		_currentEtab->setAdmin(temp->Attribute("nickname"));
 	}
 	else if (info == "Cafe"){
 		if (_currentBar)
 			addBar(*_currentBar);
 			addAndDeleteCommentsObj();
+			addAndDeleteLabObj();
 		_currentBar = new Bar(false,false);
 		_currentBar->setDate(temp->Attribute("creationDate"));
+		User* currentUser  = new User(temp->Attribute("nickname"),"","",int,true);
+		addUser(*currentUser);
 		_currentBar->setAdmin(temp->Attribute("nickname"));
 	}
 
@@ -250,8 +256,17 @@ void DataBase::addAndDeleteCommentsObj(){
 	_currentComments.clear();
 }
 
+void DataBase::addAndDeleteLabObj(){
+	for (int i = 0;i<_currentLabels.size();++i){
+		addLabel(*_currentLabels[i]);
+		delete _currentLabels[i];
+	}
+	_currentLabels.clear();
+}
+
 template<typename xml, class etab>
 void DataBase::restCase(xml temp,etab currentEtab){
+	User* currentUser;
 	std::string tempText;
 		if (temp->GetText()){tempText = temp->GetText();}
 		std::string elem = temp->Value();
@@ -272,12 +287,25 @@ void DataBase::restCase(xml temp,etab currentEtab){
 		else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
 		else if(elem =="Comment"){
 			Commentaire* currentComment = new Commentaire("","","",0);
+			currentUser = new User(temp->Attribute("nickname"),"","",0,false);
+			addUser(*currentUser);
 			currentComment->setAuteur(temp->Attribute("nickname"));
 			currentComment->setDate(temp->Attribute("date"));
 			currentComment->setScore(std::stoi(temp->Attribute("score")));
 			currentComment->setText(tempText);
 			_currentComments.push_back(currentComment);
-		} 
+		}
+		else if(elem=="Tag"){
+			TiXmlElement* tempUser = temp->FirstChildElement()
+			while(tempUser){
+				currentUser=new User(temp->Attribute("nickname"));
+				addUser(*currentUser);
+				Label* currentLabel = new Label(-1,-1);
+				currentLabel->setAuteur(temp->Attribute("nickname"));
+				_currentLabels.push_back(currentLabel);
+				if(tempUser->NextSiblingElement()){tempUser = tempUser->NextSiblingElement();}
+			}
+		}
 }
 
 

@@ -17,6 +17,7 @@ void CelluleCommentaire::initItem(int width, int height){
 	_auteur->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_auteur->raise();
 	_auteur->show();
+	
 	_text = new QTextEdit(this);
 	_text->setReadOnly(true);
 	_text->setGeometry(QRect(width,height/3+height/8, width*9, height/2));

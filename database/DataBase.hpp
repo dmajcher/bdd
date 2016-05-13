@@ -24,6 +24,7 @@ class DataBase {
 		Bar* _currentBar = nullptr;
 		Restaurant* _currentEtab = nullptr;
 		std::vector<Commentaire*> _currentComments ;
+		std::vector<Label*> _currenLabels;
 		std::string _tempConge = "OOOOOOOOOOOOOO";
 		std::string _currentAdr;
 	

@@ -201,8 +201,6 @@ void ProfilePage::fillLabel(){
 		_seats->raise();
 		_seats->show();
 
-
-
 	}
 
 }
@@ -216,14 +214,18 @@ void ProfilePage::returnSlot(){
 }
 
 void ProfilePage::makeCommentTable(){
-	delete _commentTable;
 	_commentTable = new TableCommentaire(_db->getCommByCond(_requestCom),this);
     _commentTable->setGeometry(QRect(_width/5+_width/37,_height/3+_height/22,_width/2+_width/4+_width/20,_height/3+_height/9+_height/225));
     _commentTable->raise();
     _commentTable->show();
 }
 
-void ProfilePage::makeLabelTable()
+void ProfilePage::makeLabelTable(){
+	_labelTable = new TableLabel(db->getCommByCond(_requestCom),this);
+	_labelTable->setGeometry(QRect(_0,_height/3+_height/22,_width/7,_height/3+_height/9+_height/225));
+    _labelTable->raise();
+    _labelTable->show();
+}
 
 // void ProfilePage::connectButton(){
 // 	connect(_searchEntry,SIGNAL(searchSig(std::string)),this,SLOT(makeSearchTableSlot(std::string)));

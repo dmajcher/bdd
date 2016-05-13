@@ -15,8 +15,9 @@
 #include <iostream>
 #include <unistd.h>
 #include "TableCommentaire.hpp"
+#include "TableLabel.hpp"
 #include "../database/Commentaire.hpp"
-//#include "../database/Label.hpp"
+#include "../database/Label.hpp"
 #include "../database/DataBase.hpp"
 #include "SearchWidget.hpp"
 #include "../database/Etablissement.hpp"
@@ -30,10 +31,7 @@ class ProfilePage: public QWidget {
 	int _width,_height;
 	QWidget* _parent;
 	TableCommentaire* _commentTable =nullptr;
-	//TableCommentaire* _commentaireTable=nullptr;
-	//TableLabels* _labelsTable=nullptr;
-	std::vector<Commentaire*> commentsVect;
-	//std::vector<Label*> LabelsVect;
+	TableLabels* _labelTable=nullptr;
 	std::string _requestCom;
 	DataBase* _db;
 
