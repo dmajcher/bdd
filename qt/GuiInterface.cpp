@@ -57,6 +57,18 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 
 }
 
+
+void GuiInterface::adminSlot() {
+	delete _currentWindow;
+	_adminWindow = new AdminWidget(_width, _height, _dataBase, _user, _mainWindow);
+	_currentWindow = _adminWindow;
+	_adminWindow->raise();
+	_adminWindow->show();
+	_searchWidget->hide(); 
+	_taskBar->raise();
+}
+
+
 void GuiInterface::loginSlot() {
 	delete _currentWindow;
 	_connection = new LogWidget(_width, _height, 1, _dataBase, _mainWindow);
@@ -97,8 +109,11 @@ void GuiInterface::canceledSlot() {
 
 void GuiInterface::loggedSlot() {
 	_user = _connection->getCurrentUser();
+	_user->getName();
 	this->canceledSlot();
 	_taskBar->setStatusLogged();
+	// if (_user->isAdmin())
+		_taskBar->setAdminTools();
 }
 
 
@@ -112,6 +127,7 @@ void GuiInterface::connectWidgets() {
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
 	connect(_taskBar, SIGNAL(logoutSig()), this, SLOT(logoutSlot()));
+	connect(_taskBar, SIGNAL(adminSig()), this, SLOT(adminSlot()));
 	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
 }
 

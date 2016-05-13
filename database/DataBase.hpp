@@ -61,6 +61,8 @@ class DataBase {
 		void barInfos(TiXmlElement*);
 		void requeteR1();
 		void requeteR2();
+		void requeteR4();
+		void requeteR5();
 		static int getEtabCallback(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getRestoCallback(void*, int, char**, char**);

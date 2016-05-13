@@ -19,6 +19,7 @@
 #include "ProfilePage.hpp"
 #include "TaskBar.hpp"
 #include "LogWidget.hpp"
+#include "AdminWidget.hpp"
 #include <iostream>
 
 
@@ -32,6 +33,7 @@ class GuiInterface: public QApplication {
 		QWidget* _currentWindow;
 		ProfilePage* _profilePage;
 		TaskBar* _taskBar;
+		AdminWidget* _adminWindow = nullptr;
 		PageRecherche* _searchPage = nullptr;
 		QWidget* _w;
 		QWidget* _t;
@@ -53,6 +55,7 @@ class GuiInterface: public QApplication {
 		void canceledSlot();
 		void loggedSlot();
 		void logoutSlot();
+		void adminSlot();
 };
 
 

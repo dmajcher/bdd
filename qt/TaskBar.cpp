@@ -29,6 +29,23 @@ void TaskBar::setWidgetStyle() {
 }
 
 
+
+void TaskBar::adminManageSlot() {
+	emit adminSig();
+}
+
+
+void TaskBar::setAdminTools() {
+	_adminButton = new QPushButton(this);
+	_adminButton->setGeometry(_loginButton->x() + _buttonWidth+_buttonWidth/4 - _height/10, _height/40, _height/20, _height/20);
+	_adminButton->setStyleSheet("QPushButton::hover{background : lightgrey} QPushButton{background : rgba(255,255,255,180) ; border-radius : 5px}");
+	_adminButton->setIcon(QIcon("../qt/Images/settings.png"));
+	_adminButton->raise();
+	_adminButton->show();
+	connect(_adminButton, SIGNAL(clicked()), this, SLOT(adminManageSlot()));
+}
+
+
 void TaskBar::hideSign() {
 	_signinButton->hide();
 	_loginButton->show();
@@ -47,6 +64,7 @@ void TaskBar::showButtons() {
 	_signinButton->show();
 }
 
+
 void TaskBar::loginSlot() {
 	emit loginSig();
 }
@@ -57,6 +75,7 @@ void TaskBar::signinSlot() {
 
 
 void TaskBar::logOutSlot() {
+	delete _adminButton;
 	_signinButton->setText("Créer un compte");
 	disconnect(_signinButton, SIGNAL(clicked()), this, SLOT(logOutSlot()));
 	showButtons();

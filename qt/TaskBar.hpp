@@ -16,7 +16,7 @@ class TaskBar: public QWidget {
 		QWidget* _parent;
 		QPushButton* _signinButton;
 		QPushButton* _loginButton;
-		QPushButton* _adminButton;
+		QPushButton* _adminButton = nullptr;
 
 	public: 
 		TaskBar(int, int, QWidget*);
@@ -26,16 +26,19 @@ class TaskBar: public QWidget {
 		void hideLog();
 		void showButtons();
 		void setStatusLogged();
+		void setAdminTools();
 
 	public slots:
 		void loginSlot();
 		void signinSlot();
 		void logOutSlot();
+		void adminManageSlot();
 
 	signals:
 		void loginSig();
 		void signinSig();
 		void logoutSig();
+		void adminSig();
 
 };
 
