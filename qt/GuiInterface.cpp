@@ -53,9 +53,10 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_currentWindow->show();
 
 }
+
 void GuiInterface::loginSlot() {
 	delete _currentWindow;
-	_connection = new LogWidget(_width, _height, 1, _mainWindow);
+	_connection = new LogWidget(_width, _height, 1, _dataBase, _mainWindow);
 	_connection->raise();
 	_connection->show();
 	_searchWidget->hide(); 
@@ -68,7 +69,7 @@ void GuiInterface::loginSlot() {
 
 void GuiInterface::signinSlot() {
 	delete _currentWindow;
-	_connection = new LogWidget(_width, _height, 2, _mainWindow);
+	_connection = new LogWidget(_width, _height, 2, _dataBase, _mainWindow);
 	_connection->raise();
 	_connection->show();
 	_searchWidget->hide();
@@ -86,6 +87,7 @@ void GuiInterface::canceledSlot() {
 	_searchWidget->raise();
 	_searchWidget->show();
 	_taskBar->raise();
+	_taskBar->showButtons();
 }
 
 void GuiInterface::connectWidgets() {

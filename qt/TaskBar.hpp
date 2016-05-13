@@ -23,6 +23,7 @@ class TaskBar: public QWidget {
 		void setWidgetStyle();
 		void hideSign();
 		void hideLog();
+		void showButtons();
 
 	public slots:
 		void loginSlot();

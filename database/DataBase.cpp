@@ -25,9 +25,9 @@ DataBase::DataBase(char* dataBaseName) {
 	// addUser(newUser5);
 	// addUser(newUser6);
 	// addUser(newUser7);
-	xmlParser("../database/Restaurants.xml");
-	_isRestaurant = false;
-	xmlParser("../database/Cafes.xml");
+	// xmlParser("../database/Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("../database/Cafes.xml");
 
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
@@ -463,6 +463,7 @@ std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
 int DataBase::getCommCallback(void* commVecPtr, int argc, char** argv, char** azColName) {
 	std::vector<Commentaire*>* vectorPtr = (std::vector<Commentaire*>*) commVecPtr;
 	vectorPtr->push_back(new Commentaire(argv[0], argv[1], argv[2], atoi(argv[3]), atoi(argv[4])));
+	return 0;
 }
 
 

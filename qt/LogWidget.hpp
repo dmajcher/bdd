@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
+#include "../database/DataBase.hpp"
 
 
 class LogWidget: public QWidget {
@@ -15,6 +16,7 @@ class LogWidget: public QWidget {
 		int _entryHeight;
 		int _entryWidth;
 		int _buttonWidth;
+		DataBase* _database;
 		QPushButton* _logButton;
 		QPushButton* _cancelButton;
 		QLineEdit* _pseudoEntry;
@@ -22,7 +24,7 @@ class LogWidget: public QWidget {
 		QLineEdit* _emailEntry = nullptr;
 
 	public:
-		LogWidget(int, int, int, QWidget*);
+		LogWidget(int, int, int, DataBase*, QWidget*);
 		void setLogStyle();
 		void setSignStyle();
 		void connectButtons();

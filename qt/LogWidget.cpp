@@ -1,13 +1,14 @@
 #include "LogWidget.hpp"
 
 
-LogWidget::LogWidget(int width, int height, int state, QWidget* parent) : QWidget(parent){
+LogWidget::LogWidget(int width, int height, int state, DataBase* db, QWidget* parent) : QWidget(parent){
 	_width = width;
 	_height = height;
 	_state = state;
 	_entryWidth = _width/8;
 	_entryHeight = _height/30;
 	_buttonWidth = _width/10;
+	_database = db;
 	this->resize(_width, _height);
 	_pseudoEntry = new QLineEdit(this);
 	_passwordEntry = new QLineEdit(this);
@@ -57,6 +58,13 @@ void LogWidget::setLogStyle() {
 
 
 void LogWidget::confirmSlot() {
+	if (_state = 2) {
+		std::string pseudo = _pseudoEntry->text().toStdString();
+		std::string password = _passwordEntry->text().toStdString();
+		std::string email = _emailEntry->text().toStdString();
+		User newUser(pseudo, password, email, 160511, false);
+		_database->addUser(newUser);
+	}
 
 }
 
