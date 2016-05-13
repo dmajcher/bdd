@@ -49,6 +49,7 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_searchWidget->hide();
 	_profilePage = new ProfilePage(Eid,_dataBase,_height,_width,_mainWindow);
 	_currentWindow = _profilePage;
+	connectLog();
 	_currentWindow->raise();
 	_currentWindow->show();
 
@@ -56,28 +57,47 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 
 void GuiInterface::loginSlot() {
 	delete _currentWindow;
-	_connection = new LogWidget(_width, _height, 1, _mainWindow);
+	_connection = new LogWidget(_width, _height, 1, _dataBase, _mainWindow);
 	_connection->raise();
 	_connection->show();
 	_searchWidget->hide(); 
 	_taskBar->raise();
+	_taskBar->hideLog();
 	_currentWindow = _connection;
+	connectLog();
 
 }
 
 void GuiInterface::signinSlot() {
 	delete _currentWindow;
-	_connection = new LogWidget(_width, _height, 2, _mainWindow);
+	_connection = new LogWidget(_width, _height, 2, _dataBase, _mainWindow);
 	_connection->raise();
 	_connection->show();
 	_searchWidget->hide();
 	_taskBar->raise();
+	_taskBar->hideSign();
 	_currentWindow = _connection;
-
+	connectLog();
+}
+void GuiInterface::canceledSlot() {
+	delete _currentWindow;
+	_homeWindow = new HomeWindow(_width, _height, _searchWidget->height(), _searchWidget->width(), _mainWindow);
+	_currentWindow = _homeWindow;
+	_searchWidget->raise();
+	_searchWidget->show();
+	_taskBar->raise();
+	_taskBar->showButtons();
 }
 
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
+	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
+}
+
+
+void GuiInterface::connectLog() {
+	connect(_connection, SIGNAL(canceled()),this, SLOT(canceledSlot()));
+	connect(_currentWindow,SIGNAL(canceled()),this,SLOT(canceledSlot()));
 }

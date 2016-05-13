@@ -3,7 +3,9 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QLabel>
 #include <QLineEdit>
+#include "../database/DataBase.hpp"
 
 
 class LogWidget: public QWidget {
@@ -15,14 +17,16 @@ class LogWidget: public QWidget {
 		int _entryHeight;
 		int _entryWidth;
 		int _buttonWidth;
+		DataBase* _database;
 		QPushButton* _logButton;
 		QPushButton* _cancelButton;
 		QLineEdit* _pseudoEntry;
 		QLineEdit* _passwordEntry;
 		QLineEdit* _emailEntry = nullptr;
+		QLabel* _errorText;
 
 	public:
-		LogWidget(int, int, int, QWidget*);
+		LogWidget(int, int, int, DataBase*, QWidget*);
 		void setLogStyle();
 		void setSignStyle();
 		void connectButtons();
@@ -30,6 +34,10 @@ class LogWidget: public QWidget {
 
 	public slots:
 		void confirmSlot();
+		void cancelSlot();
+
+	signals:
+		void canceled();
 
 } ;
 

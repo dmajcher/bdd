@@ -15,4 +15,4 @@ OBJECTS_DIR=../objects
 MOC_DIR=../objects
 # Input
 HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp CelluleRecherche.hpp PageRecherche.hpp TableRecherche.hpp TaskBar.hpp LogWidget.hpp ProfilePage.hpp CelluleCommentaire.hpp TableCommentaire.hpp
-SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRecherche.cpp PageRecherche.cpp TableRecherche.cpp TaskBar.cpp LogWidget.cpp main.cpp ProfilePage.cpp CelluleCommentaire.cpp TableCommentaire.cpp
+SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRecherche.cpp PageRecherche.cpp TableRecherche.cpp TaskBar.cpp LogWidget.cpp ProfilePage.cpp CelluleCommentaire.cpp TableCommentaire.cpp  main.cpp

@@ -315,7 +315,7 @@ void DataBase::barInfos(TiXmlElement* temp){
 
 
 
-void DataBase::addUser(User &newUser) {
+int DataBase::addUser(User &newUser) {
 	char* errorMsg;
 	std::string vir = ",";
 	std::string gu = "\"";
@@ -323,7 +323,9 @@ void DataBase::addUser(User &newUser) {
 	gu+newUser.getName()+gu+vir +gu+newUser.getEmail()+gu+vir +gu+newUser.getPassword()+gu+vir +std::to_string(newUser.getCreationDate())+vir+\
 	std::to_string(newUser.isAdmin())+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	int check = errorStatus;
 	checkError(errorStatus, errorMsg);
+	return check;
 }
 
 
@@ -434,14 +436,15 @@ void DataBase::delCommentaire(Commentaire &commToDel) {
  
 
 
-User DataBase::getUserByName(std::string nameId) {
+User DataBase::getUserByCond(std::string cond) {
 	char* errorMsg;
 	std::string gu="\"";
-	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE(NameId = "+gu+nameId+gu+")";
+	std::string query = "SELECT NameId, Email, Password, dateInscription FROM Utilisateurs WHERE("+cond+")";
 	User userRequested("", "", "", -1, -1);
     User* userRequestedPtr = &userRequested;
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getUserCallback, userRequestedPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
+	std::cout<<userRequested.getName()<<std::endl;
 	return userRequested;
 }
 
@@ -578,10 +581,10 @@ int DataBase::getHotelCallback(void* hotelPtr, int argc, char** argv, char** azC
 
 int DataBase::getUserCallback(void* userPtr, int argc, char** argv, char** azColName) {
     User* tempUser = (User*) userPtr; 	
-    tempUser->setName(argv[0]);
-    tempUser->setEmail(argv[1]);
-    tempUser->setPassword(argv[2]);
-    tempUser->setCreationDate(atoi(argv[3]));
+    tempUser->setName(argv[0] ? argv[0] : "NULL");
+    tempUser->setEmail(argv[1] ? argv[1] : "NULL");
+    tempUser->setPassword(argv[2] ? argv[2] : "NULL");
+    tempUser->setCreationDate(atoi(argv[3] ? argv[3] : "-1"));
     return 0;	
 }
 
@@ -592,6 +595,7 @@ void DataBase::updateData(std::string table, std::string key, std::string newVal
 	std::string gu = "\"";
 	std::string query = "UPDATE "+table+" SET "+key+" = "+gu+newValue+gu+" WHERE("+cond+")";
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
+	checkError(errorStatus, errorMsg);
 }
 
 
@@ -599,7 +603,6 @@ void DataBase::updateData(std::string table, std::string key, std::string newVal
 void DataBase::checkError(int errorStatus, char* errorMsg) {
     if (errorStatus) {
         fprintf(stderr, "Error on database: %s\n", errorMsg);
-        exit(0);
 	}
     else {
         fprintf(stdout, "Operation succeed\n");
