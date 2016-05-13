@@ -1,6 +1,6 @@
-#include "TableRecherche.hpp"
+#include "TableCommentaire.hpp"
 
-void TableRecherche::initTable(){
+void TableCommentaire::initTable(){
 	this->horizontalHeader()->hide();
 	this->verticalHeader()->hide();
 	this->setStyleSheet("QTableWidget{background: transparent;border-radius: 5px;}");
@@ -10,25 +10,25 @@ void TableRecherche::initTable(){
 	this->setFrameStyle(QFrame::NoFrame);
 }
 
-void TableRecherche::buildTable(){
-	std::cout<<_etabs.size()<<std::endl;
-	for (int i = 0;i<_etabs.size();++i){
+void TableCommentaire::buildTable(){
+	std::cout<<_comments.size()<<std::endl;
+	for (int i = 0;i<_comments.size();++i){
 		std::cout<<"cell "<<i<<std::endl;
-		_currentTableItems.push_back(new CelluleRecherche(_etabs[i],this->horizontalHeader()->defaultSectionSize(),this->verticalHeader()->defaultSectionSize(),this));
+		_currentTableItems.push_back(new CelluleRecherche(_comments[i],this->horizontalHeader()->defaultSectionSize(),this->verticalHeader()->defaultSectionSize(),this));
 		setCellWidget(i,0,_currentTableItems[i]);
 	}
 }                                           
 
-void TableRecherche::connectCells(){
+void TableCommentaire::connectCells(){
 	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEtabProfileSlot(int,int)));
 }
 
-void TableRecherche::goToEtabProfileSlot(int row,int column){
+void TableCommentaire::goToEtabProfileSlot(int row,int column){
 	emit visitEtabSig(dynamic_cast<CelluleRecherche*>(_currentTableItems[row])->getEid());
 }
 
-TableRecherche::TableRecherche(std::vector<Etablissement*> etabs,QWidget* parent): QTableWidget(etabs.size(),1,parent){
-	_etabs = etabs;
+TableCommentaire::TableCommentaire(std::vector<Commentaire*> comments,QWidget* parent): QTableWidget(comments.size(),1,parent){
+	_comments = comments;
 	initTable();
 	buildTable();
 	connectCells();
@@ -36,7 +36,7 @@ TableRecherche::TableRecherche(std::vector<Etablissement*> etabs,QWidget* parent
 	this->show();
 }
 
-TableRecherche::~TableRecherche(){
+TableCommentaire::~TableCommentaire(){
 	for (int i = 0;i<_currentTableItems.size();++i){
 		delete _currentTableItems[i];
 	}

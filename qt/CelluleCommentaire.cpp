@@ -1,4 +1,4 @@
-#include "CelluleRecherche.hpp"
+include "CelluleRecherche.hpp"
 
 void CelluleRecherche::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));

@@ -1,5 +1,5 @@
-#ifndef TABLERECHERCHE_HPP
-#define TABLERECHERCHE_HPP
+#ifndef TABLECOMMENATAIRE_HPP
+#define TABLECOMMENATAIRE_HPP
 
 #include <QWidget>
 #include <QTableWidget>
@@ -11,22 +11,21 @@
 #include <QLabel>
 #include <iostream>
 #include <string>
-#include "SearchWidget.hpp"
-#include "../database/Etablissement.hpp"
-#include "CelluleRecherche.hpp"
+#include "../database/Commentaire.hpp"
+#include "CelluleCommentaire.hpp"
 
 
-class TableRecherche : public QTableWidget{
+class TableCommentaire : public QTableWidget{
 Q_OBJECT
 	QWidget* _parent;
 	std::vector<QLabel*> _currentTableItems;
-	std::vector<Etablissement*> _etabs;
+	std::vector<Commentaire*> _comments;
 	void connectCells();
 	void buildTable();
 public:
-	TableRecherche(std::vector<Etablissement*>,QWidget*);
+	TableCommentaire(std::vector<Commentaire*>,QWidget*);
 		void initTable();
-	 ~TableRecherche();
+	 ~TableCommentaire();
 	//void initRows();
 public slots:
 	void goToEtabProfileSlot(int,int);
@@ -34,4 +33,4 @@ signals:
 	void visitEtabSig(unsigned);
 };
 
-#endif /* TABLERECHERCHE_HPP */
+#endif /* TABLECOMMENATAIRE_HPP */

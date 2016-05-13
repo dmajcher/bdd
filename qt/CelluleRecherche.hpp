@@ -19,10 +19,13 @@ Q_OBJECT
 	QLabel* _estabName;
 	QLabel* _localite;
 	QLabel* _score;
+	QLabel* _typeEtab;
+
 	Etablissement* _etab;
 	Restaurant* _resto;
 	Bar* _bar;
 	Hotel* _hotel;
+	
 	void initItem(int,int);
 public:
 	unsigned int getEid();

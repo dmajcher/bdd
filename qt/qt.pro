@@ -14,5 +14,5 @@ DESTDIR=../exec
 OBJECTS_DIR=../objects
 MOC_DIR=../objects
 # Input
-HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp CelluleRecherche.hpp PageRecherche.hpp TableRecherche.hpp
-SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRecherche.cpp PageRecherche.cpp TableRecherche.cpp main.cpp
+HEADERS += GuiInterface.hpp HomeWindow.hpp SearchWidget.hpp CelluleRecherche.hpp PageRecherche.hpp TableRecherche.hpp ProfilePage.hpp
+SOURCES += GuiInterface.cpp HomeWindow.cpp SearchWidget.cpp CelluleRecherche.cpp PageRecherche.cpp TableRecherche.cpp main.cpp ProfilePage.cpp
