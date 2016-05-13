@@ -33,8 +33,9 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 		_searchPage = new PageRecherche(_dataBase, askedSearch, _height, _width, _mainWindow);
 		_searchWidget->move(_width/15+2*_width/13+ _width/70,_height/6-_searchWidget->height()-_height/200);
 		_currentWindow = _searchPage;
-		// _currentWindow->raise();
-		// _currentWindow->show();
+		connectWidgets();
+		_currentWindow->raise();
+		_currentWindow->show();
 	}
 	else {
 		_searchPage->makeSearchTableSlot(askedSearch);
@@ -43,7 +44,15 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 	_taskBar->raise();
 }
 
+void GuiInterface::makeEtabProfileSlot(unsigned Eid){
+	_currentWindow->deleteLater();
+	_searchWidget->hide();
+	_profilePage = new ProfilePage(Eid,_dataBase,_height,_width,_mainWindow);
+	_currentWindow = _profilePage;
+	_currentWindow->raise();
+	_currentWindow->show();
 
+}
 void GuiInterface::loginSlot() {
 	delete _currentWindow;
 	_connection = new LogWidget(_width, _height, 1, _mainWindow);
@@ -79,11 +88,11 @@ void GuiInterface::canceledSlot() {
 	_taskBar->raise();
 }
 
-
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
+	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
 }
 
 

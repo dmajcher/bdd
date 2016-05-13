@@ -31,7 +31,7 @@ class PageRecherche: public QWidget {
 	//void showWindow();
 	void connectEntry();
 	void connectButtons();
-	//void connectFriendAndSearch();
+	void connectEtabVisit();
 	//void connectChangeUser();
 	//void makeTableFriendAndSearch(unsigned);
 
@@ -42,10 +42,10 @@ public:
 	 ~PageRecherche();
 public slots:
 	void makeSearchTableSlot(std::string);
+	void makeEtabProfileSlot(unsigned);
 	//void searchSlot();
 signals:
-	//void changeUserSig(unsigned int);
-	//void goBackToMenuSig();
+	void profileSig(unsigned);
 };
 
 

@@ -4,6 +4,7 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 	std::cout<<"yooop"<<std::endl;
 	_height = height;
 	_width = width;
+	_parent = parent;
 	_db = db;
 	_parent = parent;
 	setStyle();
@@ -13,6 +14,7 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 	//makeLabelTableSlot();
 	// setStyle();
 	makeSearchTableSlot(request);
+	connectEtabVisit();
 	// connectEntry();
 	// raise();
 	// show();
@@ -34,9 +36,15 @@ void PageRecherche::initPage(){
 void PageRecherche::connectEntry(){
 	connect(_searchEntry,SIGNAL(searchSig(std::string)),this,SLOT(makeSearchTableSlot(std::string)));
 }
+void PageRecherche::connectEtabVisit(){
+	connect(_searchTable,SIGNAL(visitEtabSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
+}
+void PageRecherche::makeEtabProfileSlot(unsigned eid){
+	std::cout<<eid<<std::endl;
+	emit profileSig(eid);
+}
 
 void PageRecherche::makeSearchTableSlot(std::string request){
-
 	delete _searchTable; 
 	_searchTable = new TableRecherche(_db->getEtabByCond(request),this);
     _searchTable->setGeometry(_width/15+2*_width/13+ _width/70,_height/4,_width-_width/3,_height/2 +_height/5);
@@ -46,5 +54,4 @@ void PageRecherche::makeSearchTableSlot(std::string request){
 
 PageRecherche::~PageRecherche(){
 	delete _searchTable;
-	delete _searchEntry;
 }

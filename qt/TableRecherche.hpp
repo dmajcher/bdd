@@ -31,8 +31,7 @@ public:
 public slots:
 	void goToEtabProfileSlot(int,int);
 signals:
-	void deleteTextOrEntrySig();
-	void changeUserSig(unsigned);
+	void visitEtabSig(unsigned);
 };
 
 #endif /* TABLERECHERCHE_HPP */

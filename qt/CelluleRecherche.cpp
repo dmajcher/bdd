@@ -2,7 +2,7 @@
 
 void CelluleRecherche::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
-	this->setStyleSheet("QLabel{background: lightgrey;border: 3px solid;}");
+	this->setStyleSheet("QLabel{background: lightgrey;border: 1px solid;}");
 	std::cout<<"hllll"<<std::endl;
 	
 	// _pictureFrame = new QLabel(this);
@@ -21,7 +21,7 @@ void CelluleRecherche::initItem(int width, int height){
 	_estabName->setFont(QFont("URW Gothic L", 16));
 
 	_localite = new QLabel(const_cast<char*>(_etab->getAdresse().c_str()),this);
-	_localite->setGeometry(QRect(width*8,height/2+height/4,width*2, height/5));
+	_localite->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
 	_localite->raise();
 	_localite->show();
 	_localite->setFont(QFont("URW Gothic L", 8));
@@ -31,7 +31,7 @@ void CelluleRecherche::initItem(int width, int height){
 	if (score == -1)
 		label5 = "Aucune note";
 	_score = new QLabel(this);
-	_score->setGeometry(QRect(width*8,height/8,width*2, height/5));
+	_score->setGeometry(QRect(width*7,height/8,width*3, height/5));
 	_score->setText(QString(label5.c_str()));
 	_score->raise();
 	_score->show();

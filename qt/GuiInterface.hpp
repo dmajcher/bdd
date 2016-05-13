@@ -16,6 +16,7 @@
 #include "HomeWindow.hpp"
 #include "../database/DataBase.hpp"
 #include "HomeWindow.hpp"
+#include "ProfilePage.hpp"
 #include "TaskBar.hpp"
 #include "LogWidget.hpp"
 #include <iostream>
@@ -29,6 +30,7 @@ class GuiInterface: public QApplication {
 		DataBase* _dataBase;
 		QMainWindow* _mainWindow;
 		QWidget* _currentWindow;
+		ProfilePage* _profilePage;
 		TaskBar* _taskBar;
 		PageRecherche* _searchPage = nullptr;
 		QWidget* _w;
@@ -44,10 +46,10 @@ class GuiInterface: public QApplication {
 
 	public slots:
 		void searchSigSlot(std::string);
+		void makeEtabProfileSlot(unsigned);
 		void loginSlot();
 		void signinSlot();
 		void canceledSlot();
-
 };
 
 

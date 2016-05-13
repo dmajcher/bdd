@@ -1,0 +1,60 @@
+#include "CelluleCommentaire.hpp"
+
+void CelluleCommentaire::initItem(int width, int height){
+	this->setGeometry(QRect(0,0, width, height));
+	this->setStyleSheet("QLabel{background: lightgrey;border: 1px solid;}");
+	std::cout<<"hllll"<<std::endl;
+	
+	// _pictureFrame = new QLabel(this);
+	// _pictureFrame->setPixmap(QPixmap(QString::fromStdString()));
+	// _pictureFrame->setAlignment(Qt::AlignTop | Qt::AlignCenter);
+	// _pictureFrame->setGeometry(QRect(width-width/3,0, width, height));
+	// _pictureFrame->raise();
+	// _pictureFrame->show();
+	// _pictureFrame->setStyleSheet("QLabel{background: transparent;border: 4px solid #f2be03};");
+	
+	_auteur = new QLabel(const_cast<char*>(_comment->getAuteur().c_str()),this);
+	_auteur->setGeometry(QRect(width*2,height/8, width*5, height/5));
+	_auteur->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
+	_auteur->raise();
+	_auteur->show();
+
+	_text = new QLabel(const_cast<char*>(_comment->getTexte().c_str()),this);
+	_text->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
+	_text->raise();
+	_text->show();
+
+	_date = new QLabel(const_cast<char*>(_comment->getDate().c_str()),this);
+	_date->setGeometry(QRect(width*7,height/8,width*3, height/5));
+	_date->setStyleSheet("QLabel{background: transparent;border :0px };");
+	_date->raise();
+	_date->show();
+
+	int  score = _comment->getScore();
+	std::string label5 = "Note: "+std::to_string(score);
+	_note = new QLabel(this);
+	_note->setGeometry(QRect(width*2,height/2+height/4, width*5, height/5));
+	_note->setText(QString(label5.c_str()));
+	_note->raise();
+	_note->show();
+	this->raise();
+	this->show();
+}
+
+// unsigned int CelluleCommentaire::getEid(){
+// 	return _etab->getEid();
+// }
+
+CelluleCommentaire::CelluleCommentaire(Commentaire* comment,int width,int height,QWidget* parent): QLabel(parent){
+	std::cout<<"cell constr"<<std::endl;
+	_comment = comment;
+	initItem(width,height);
+}
+
+CelluleCommentaire::~CelluleCommentaire(){
+	//delete _pictureFrame;
+	delete _auteur;
+	delete _text;
+	delete _date;
+	delete _note;
+}
