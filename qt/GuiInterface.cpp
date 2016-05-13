@@ -40,6 +40,7 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 		_searchPage->makeSearchTableSlot(askedSearch);
 	}
 	_searchWidget->raise();
+	_taskBar->raise();
 }
 
 
@@ -48,7 +49,8 @@ void GuiInterface::loginSlot() {
 	_connection = new LogWidget(_width, _height, 1, _mainWindow);
 	_connection->raise();
 	_connection->show();
-	_searchWidget->hide();
+	_searchWidget->hide(); 
+	_taskBar->raise();
 	_currentWindow = _connection;
 
 }
@@ -59,6 +61,7 @@ void GuiInterface::signinSlot() {
 	_connection->raise();
 	_connection->show();
 	_searchWidget->hide();
+	_taskBar->raise();
 	_currentWindow = _connection;
 
 
