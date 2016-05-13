@@ -79,6 +79,8 @@ void GuiInterface::signinSlot() {
 	_currentWindow = _connection;
 	connectLog();
 }
+
+
 void GuiInterface::canceledSlot() {
 	delete _currentWindow;
 	_homeWindow = new HomeWindow(_width, _height, _searchWidget->height(), _searchWidget->width(), _mainWindow);
@@ -93,7 +95,7 @@ void GuiInterface::canceledSlot() {
 
 void GuiInterface::loggedSlot() {
 	_user = _connection->getCurrentUser();
-	canceledSlot();
+	this->canceledSlot();
 	_taskBar->setStatusLogged();
 }
 
