@@ -6,11 +6,13 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 	_width = width;
 	_parent = parent;
 	_db = db;
-	parent->setStyleSheet("background:url(../qt/Images/wood.jpg)");
+	_parent = parent;
+	setStyle();
+	_parent->setStyleSheet("background : url(../qt/Images/wood.jpg)");
 	// _searchEntry = searchEntry;
 	// initPage();
 	//makeLabelTableSlot();
-	setStyle();
+	// setStyle();
 	makeSearchTableSlot(request);
 	connectEtabVisit();
 	// connectEntry();
@@ -21,7 +23,7 @@ PageRecherche::PageRecherche(DataBase* db,std::string request,int height,int wid
 
 void PageRecherche::setStyle() {
 	this->resize(_width, _height);
-	this->setStyleSheet("QWidget{background :transparent;}");
+	this->setStyleSheet("background : transparent");
 	this->raise();
 	this->show();
 }
@@ -45,8 +47,7 @@ void PageRecherche::makeEtabProfileSlot(unsigned eid){
 void PageRecherche::makeSearchTableSlot(std::string request){
 	delete _searchTable; 
 	_searchTable = new TableRecherche(_db->getEtabByCond(request),this);
-	std::cout<<"setgeo"<<std::endl;
-    _searchTable->setGeometry(_width/15+2*_width/13+ _width/70,_height/6,_width-_width/3,_height/2 +_height/5);
+    _searchTable->setGeometry(_width/15+2*_width/13+ _width/70,_height/4,_width-_width/3,_height/2 +_height/5);
     _searchTable->raise();
     _searchTable->show();
 }

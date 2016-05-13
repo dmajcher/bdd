@@ -17,17 +17,18 @@ DataBase::DataBase(char* dataBaseName) {
 	User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
 	User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
 	User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
-    addUser(newUser);
-	addUser(newUser2);
-	addUser(newUser3);
-	addUser(newUser4);
-	addUser(newUser5);
-	addUser(newUser6);
-	addUser(newUser7);
 
-	xmlParser("../database/Restaurants.xml");
-	_isRestaurant = false;
-	xmlParser("../database/Cafes.xml");
+ //    addUser(newUser);
+	// addUser(newUser2);
+	// addUser(newUser3);
+	// addUser(newUser4);
+	// addUser(newUser5);
+	// addUser(newUser6);
+	// addUser(newUser7);
+	// xmlParser("../database/Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("../database/Cafes.xml");
+
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
     resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
@@ -97,7 +98,7 @@ void DataBase::initCommentsTable() {
 	"Auteur TEXT NOT NULL,"\
 	"Date TEXT NOT NULL,"\
 	"Texte TEXT NOT NULL,"\
-	"Score INTEGER NOT NULL,"\
+	"Score INT NOT NULL,"\
 	"EidConcerne INTEGER NOT NULL,"\
 	"FOREIGN KEY (EidConcerne) REFERENCES Etablissements ON DELETE CASCADE,"\
 	"FOREIGN KEY (Auteur) REFERENCES Utilisateurs ON DELETE CASCADE)";
@@ -446,6 +447,26 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
+std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
+	char* errorMsg;
+	std::string gu = "\"";
+	std::string query = "SELECT Auteur, Date, Texte, Score, EidConcerne FROM Commentaires WHERE(" +cond+")";
+	std::vector<Commentaire*> commVec;
+	std::vector<Commentaire*> * commVecPtr = &commVec;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getCommCallback, commVecPtr, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	return commVec;
+}
+
+
+
+int DataBase::getCommCallback(void* commVecPtr, int argc, char** argv, char** azColName) {
+	std::vector<Commentaire*>* vectorPtr = (std::vector<Commentaire*>*) commVecPtr;
+	vectorPtr->push_back(new Commentaire(argv[0], argv[1], argv[2], atoi(argv[3]), atoi(argv[4])));
+}
+
+
+
 std::vector<Etablissement*> DataBase::getEtabByCond(std::string condition) {
 	char* errorMsg;
 	std::string gu="\"";
@@ -458,15 +479,14 @@ std::vector<Etablissement*> DataBase::getEtabByCond(std::string condition) {
 	std::vector<Etablissement*> * vectorPtr = &etabVector;
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtabCallback, vectorPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
-
 	Bar* barPtr;
 	Restaurant* restoPtr;
 	Hotel* hotelPtr;
 	for (int i = 0; i<etabVector.size(); ++i) {
+		eid = std::to_string(etabVector[i]->getEid()) + ")";
 		barPtr = dynamic_cast<Bar*>(etabVector[i]);
 		restoPtr = dynamic_cast<Restaurant*>(etabVector[i]);
 		hotelPtr = dynamic_cast<Hotel*>(etabVector[i]);
-		eid = std::to_string(etabVector[i]->getEid()) + ")";
 		if (barPtr != nullptr) {
 			query = barQuery + eid;
 			errorStatus = sqlite3_exec(_dataBase, query.c_str(), getBarCallback, etabVector[i], &errorMsg);
@@ -480,9 +500,11 @@ std::vector<Etablissement*> DataBase::getEtabByCond(std::string condition) {
 			errorStatus = sqlite3_exec(_dataBase, query.c_str(), getHotelCallback, etabVector[i], &errorMsg);
 		}
 		checkError(errorStatus, errorMsg);
-
+		query = "SELECT AVG(Score) FROM Commentaires WHERE(EidConcerne = "+eid;
+		errorStatus = sqlite3_exec(_dataBase, query.c_str(), getNoteCallback, etabVector[i], &errorMsg);
+		checkError(errorStatus, errorMsg);
 	}
-
+	std::cout<<"end"<<std::endl;
 	return etabVector;
 }
 
@@ -509,6 +531,14 @@ int DataBase::getEtabCallback(void* etabVectorPtr, int argc, char** argv, char**
    	vectorPtr->at(vectorPtr->size()-1)->setDate(argv[8]);
    	vectorPtr->at(vectorPtr->size()-1)->setCoords(atof(argv[9]), atof(argv[10]));
    	return 0;	
+}
+
+
+
+int DataBase::getNoteCallback(void* notePtr, int argc, char** argv, char** azColName) {
+	Etablissement* note = (Etablissement*) notePtr;
+	note->setNote(atof(argv[0] ? argv[0] : "-1.0"));
+	return 0;
 }
 
 
@@ -551,6 +581,15 @@ int DataBase::getUserCallback(void* userPtr, int argc, char** argv, char** azCol
     tempUser->setPassword(argv[2]);
     tempUser->setCreationDate(atoi(argv[3]));
     return 0;	
+}
+
+
+
+void DataBase::updateData(std::string table, std::string key, std::string newValue, std::string cond) {
+	char* errorMsg;
+	std::string gu = "\"";
+	std::string query = "UPDATE "+table+" SET "+key+" = "+gu+newValue+gu+" WHERE("+cond+")";
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), NULL, 0, &errorMsg);
 }
 
 

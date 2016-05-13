@@ -40,8 +40,9 @@ class DataBase {
 		void delEtablissement(Etablissement&);
 		void delCommentaire(Commentaire&);
 		User getUserByName(std::string);
+		std::vector<Commentaire*> getCommByCond(std::string);
 		std::vector<Etablissement*> getEtabByCond(std::string);
-		// Etablissement getEtablissement(int);
+		void updateData(std::string, std::string, std::string, std::string);
 		void initUsersTable();
 		void initCommentsTable();
 		void initEtablishmentTable();
@@ -64,6 +65,8 @@ class DataBase {
 		static int getRestoCallback(void*, int, char**, char**);
 		static int getBarCallback(void*, int, char**, char**);
 		static int getHotelCallback(void*, int, char**, char**);
+		static int getNoteCallback(void*, int, char**, char**);
+		static int getCommCallback(void*, int, char**, char**);
 		static int printCallback(void*, int, char**, char**);
 
 

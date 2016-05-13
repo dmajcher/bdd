@@ -11,6 +11,8 @@ std::string Etablissement::getNumTel(){return _numTel;}
 
 int Etablissement::getLocalite(){return _localite;} 
 
+float Etablissement::getNote(){return _note;}
+
 std::string Etablissement::getSiteWeb(){return _siteWeb;}
 
 std::string Etablissement::getAdmin(){return _adminCreateur;}
@@ -43,6 +45,10 @@ void Etablissement::setNom(std::string name) {
 
 void Etablissement::setAdresse(std::string addr) {
 	_adresse = addr;
+}
+
+void Etablissement::setNote(float note) {
+    _note = note;
 }
 
 void Etablissement::setNumTel(std::string numTel) {

@@ -11,11 +11,14 @@ GuiInterface::GuiInterface(DataBase* database, int argc, char** argv) : QApplica
 	setApplicationName("RestHoBar");
 	setWindowIcon(QIcon("../qt/Images/test.png"));
 	_mainWindow->setStyleSheet("background : transparent");
+	_taskBar = new TaskBar(_width, _height, _mainWindow);
 	_searchWidget = new SearchWidget(_width, _height, _mainWindow);
 	_homeWindow = new HomeWindow(_width, _height, _searchWidget->height(), _searchWidget->width(), _mainWindow);
 	_currentWindow = _homeWindow;
 	_searchWidget->raise();
 	_searchWidget->show();
+	_taskBar->raise();
+	_taskBar->show();
 	connectWidgets();
 	_mainWindow->resize(_width, _height);
 	_mainWindow->show();
@@ -49,8 +52,31 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_currentWindow->show();
 
 }
+void GuiInterface::loginSlot() {
+	delete _currentWindow;
+	_connection = new LogWidget(_width, _height, 1, _mainWindow);
+	_connection->raise();
+	_connection->show();
+	_searchWidget->hide();
+	_currentWindow = _connection;
+
+}
+
+void GuiInterface::signinSlot() {
+	delete _currentWindow;
+	_connection = new LogWidget(_width, _height, 2, _mainWindow);
+	_connection->raise();
+	_connection->show();
+	_searchWidget->hide();
+	_currentWindow = _connection;
+
+
+
+}
 
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
+	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
+	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
 	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
 }

@@ -18,29 +18,24 @@ void CelluleRecherche::initItem(int width, int height){
 	_estabName->setStyleSheet("QLabel{font: 16pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_estabName->raise();
 	_estabName->show();
+	_estabName->setFont(QFont("URW Gothic L", 16));
 
 	_localite = new QLabel(const_cast<char*>(_etab->getAdresse().c_str()),this);
 	_localite->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
 	_localite->raise();
 	_localite->show();
+	_localite->setFont(QFont("URW Gothic L", 8));
 
-	_typeEtab = new QLabel(this);
-	_typeEtab->setGeometry(QRect(width*2,height/2+height/4, width*5, height/5));
-	_typeEtab->setStyleSheet("QLabel{background: transparent;border :0px };");
-	if (_bar){_typeEtab->setText("Bar");}
-	else if(_resto){_typeEtab->setText("Restaurant");}
-	else{_typeEtab->setText("Hotel");}
-	_typeEtab->raise();
-	_typeEtab->show();
-
-	//int  score = _etab->getScore();
-	int score = 0;
+	float  score = _etab->getNote();
 	std::string label5 = "Note: "+std::to_string(score);
+	if (score == -1)
+		label5 = "Aucune note";
 	_score = new QLabel(this);
 	_score->setGeometry(QRect(width*7,height/8,width*3, height/5));
 	_score->setText(QString(label5.c_str()));
 	_score->raise();
 	_score->show();
+	_score->setFont(QFont("URW Gothic L", 10));
 	this->raise();
 	this->show();
 }
