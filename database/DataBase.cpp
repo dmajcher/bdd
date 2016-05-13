@@ -25,9 +25,9 @@ DataBase::DataBase(char* dataBaseName) {
 	// addUser(newUser5);
 	// addUser(newUser6);
 	// addUser(newUser7);
-	// xmlParser("../database/Restaurants.xml");
-	// _isRestaurant = false;
-	// xmlParser("../database/Cafes.xml");
+	xmlParser("../database/Restaurants.xml");
+	_isRestaurant = false;
+	xmlParser("../database/Cafes.xml");
 
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 

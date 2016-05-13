@@ -22,7 +22,7 @@ Q_OBJECT
 	
 	void initItem(int,int);
 public:
-	unsigned int getEid();
+	//unsigned int getEid();
 	CelluleCommentaire(Commentaire*,int,int,QWidget*);
 	~CelluleCommentaire();
 

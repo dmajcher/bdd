@@ -105,7 +105,7 @@ void ProfilePage::fillLabel(){
 
 void ProfilePage::makeCommentTable(){
 	delete _commentTable; 
-	_commentTable = new TableCommentaire(_db->getComByCond(_request),this);
+	_commentTable = new TableCommentaire(_db->getCommByCond(_request),this);
     _commentTable->setGeometry(QRect(_width/15+2*_width/13+ _width/70,_height/3+_height/22,_width-_width/3,_height/3+_height/9+_height/225));
     _commentTable->raise();
     _commentTable->show();

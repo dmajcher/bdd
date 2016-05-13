@@ -1,6 +1,6 @@
-include "CelluleRecherche.hpp"
+#include "CelluleCommentaire.hpp"
 
-void CelluleRecherche::initItem(int width, int height){
+void CelluleCommentaire::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
 	this->setStyleSheet("QLabel{background: lightgrey;border: 1px solid;}");
 	std::cout<<"hllll"<<std::endl;
@@ -13,54 +13,48 @@ void CelluleRecherche::initItem(int width, int height){
 	// _pictureFrame->show();
 	// _pictureFrame->setStyleSheet("QLabel{background: transparent;border: 4px solid #f2be03};");
 	
-	_estabName = new QLabel(const_cast<char*>(_etab->getNom().c_str()),this);
-	_estabName->setGeometry(QRect(width*2,height/8, width*5, height/5));
-	_estabName->setStyleSheet("QLabel{font: 16pt; background: transparent;border :0px solid #f2be03 !important;};");
-	_estabName->raise();
-	_estabName->show();
+	_auteur = new QLabel(const_cast<char*>(_comment->getAuteur().c_str()),this);
+	_auteur->setGeometry(QRect(width*2,height/8, width*5, height/5));
+	_auteur->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
+	_auteur->raise();
+	_auteur->show();
 
-	_localite = new QLabel(const_cast<char*>(_etab->getAdresse().c_str()),this);
-	_localite->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
-	_localite->raise();
-	_localite->show();
+	_text = new QLabel(const_cast<char*>(_comment->getTexte().c_str()),this);
+	_text->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
+	_text->raise();
+	_text->show();
 
-	_typeEtab = new QLabel(this);
-	_typeEtab->setGeometry(QRect(width*2,height/2+height/4, width*5, height/5));
-	_typeEtab->setStyleSheet("QLabel{background: transparent;border :0px };");
-	if (_bar){_typeEtab->setText("Bar");}
-	else if(_resto){_typeEtab->setText("Restaurant");}
-	else{_typeEtab->setText("Hotel");}
-	_typeEtab->raise();
-	_typeEtab->show();
+	_date = new QLabel(const_cast<char*>(_comment->getDate().c_str()),this);
+	_date->setGeometry(QRect(width*7,height/8,width*3, height/5));
+	_date->setStyleSheet("QLabel{background: transparent;border :0px };");
+	_date->raise();
+	_date->show();
 
-	//int  score = _etab->getScore();
-	int score = 0;
+	int  score = _comment->getScore();
 	std::string label5 = "Note: "+std::to_string(score);
-	_score = new QLabel(this);
-	_score->setGeometry(QRect(width*7,height/8,width*3, height/5));
-	_score->setText(QString(label5.c_str()));
-	_score->raise();
-	_score->show();
+	_note = new QLabel(this);
+	_note->setGeometry(QRect(width*2,height/2+height/4, width*5, height/5));
+	_note->setText(QString(label5.c_str()));
+	_note->raise();
+	_note->show();
 	this->raise();
 	this->show();
 }
 
-unsigned int CelluleRecherche::getEid(){
-	return _etab->getEid();
-}
+// unsigned int CelluleCommentaire::getEid(){
+// 	return _etab->getEid();
+// }
 
-CelluleRecherche::CelluleRecherche(Etablissement* etab,int width,int height,QWidget* parent): QLabel(parent){
+CelluleCommentaire::CelluleCommentaire(Commentaire* comment,int width,int height,QWidget* parent): QLabel(parent){
 	std::cout<<"cell constr"<<std::endl;
-	_etab = etab;
-	_bar = dynamic_cast<Bar*>(_etab);
-	_resto = dynamic_cast<Restaurant*>(_etab);
-	_hotel = dynamic_cast<Hotel*>(_etab);
+	_comment = comment;
 	initItem(width,height);
 }
 
-CelluleRecherche::~CelluleRecherche(){
+CelluleCommentaire::~CelluleCommentaire(){
 	//delete _pictureFrame;
-	delete _estabName;
-	delete _localite;
-	delete _score;
+	delete _auteur;
+	delete _text;
+	delete _date;
+	delete _note;
 }
