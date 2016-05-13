@@ -8,12 +8,13 @@
 #include <string>
 #include <iostream>
 #include <QString>
+#include <QTextEdit>
 #include "../database/Commentaire.hpp"
 
 class CelluleCommentaire: public QLabel{
 Q_OBJECT
 	QLabel* _pictureFrame;
-	QLabel* _text;
+	QTextEdit* _text;
 	QLabel* _note;
 	QLabel* _auteur;
 	QLabel* _date;

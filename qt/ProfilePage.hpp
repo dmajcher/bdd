@@ -42,10 +42,10 @@ class ProfilePage: public QWidget {
 	Bar* _bar;
 	Hotel* _hotel;
 
-	QPushButton* LabelsButton;
-	QPushButton* CommentsButton;
+	QPushButton* _returnButton;
 	
 	QLabel* _mainLabel;
+	QLabel* _logo;
 	QLabel* _name;
 	QLabel* _score;
 	QLabel* _site;
@@ -57,21 +57,35 @@ class ProfilePage: public QWidget {
 	QLabel* _latlong;
 
 	QLabel* _petiteResto;
+	QLabel* _petiteRestoIco;
+	QLabel* _fumeur;
+
+	QLabel* _priceIco;
+	QLabel* _price;
+	QLabel* _deliveryIco;
+	QLabel* _takeAwayIco;
+	QLabel* _takeAway;
+	QLabel* _horraireIco;
+	QLabel* _horraire;
+	QLabel* _seatsIco;
+	QLabel*	_seats;
 
 
 	void fillLabel();
 	void initPage();
-	void connectButtons();
+	void connectButton();
 	void makeCommentTable();
 public:
 	ProfilePage(unsigned,DataBase*,int,int, QWidget*);
 	void setStyle();
 	 ~ProfilePage();
 public slots:
+	void returnSlot();
 	//void makeCommentsTableSlot();
 	//void makeLabelsTableSlot();
 	//void searchSlot();
 signals:
+	void canceled();
 	//void goBackToMenuSig();
 };
 

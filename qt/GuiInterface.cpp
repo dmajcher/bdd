@@ -53,6 +53,7 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_currentWindow->show();
 
 }
+
 void GuiInterface::loginSlot() {
 	delete _currentWindow;
 	_connection = new LogWidget(_width, _height, 1, _mainWindow);
@@ -73,13 +74,10 @@ void GuiInterface::signinSlot() {
 	_taskBar->raise();
 	_currentWindow = _connection;
 
-
-
 }
 
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
-	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
 }
