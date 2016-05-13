@@ -8,7 +8,7 @@ ifeq ($(GCC),TRUE)
 	COMPILATORC=gcc 
 endif
 
-links: database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o gui
+links: database.o user.o etablissement.o restaurant.o bar.o hotel.o commentaire.o label.o gui
 
 database.o: ../database/DataBase.hpp ../database/DataBase.cpp
 	$(COMPILATORG) -c ../database/DataBase.cpp -o ../objects/DataBase.o $(FLAGS)
@@ -30,6 +30,9 @@ hotel.o: ../database/Hotel.cpp ../database/Hotel.hpp
 
 commentaire.o: ../database/Commentaire.cpp ../database/Commentaire.hpp
 	$(COMPILATORG) -c ../database/Commentaire.cpp -o ../objects/Commentaire.o $(FLAGS)
+
+label.o: ../database/Label.cpp ../database/Label.hpp
+	$(COMPILATORG) -c ../database/Label.cpp -o ../objects/Label.o $(FLAGS)
 
 gui:
 	cd ../qt && $(MAKE)

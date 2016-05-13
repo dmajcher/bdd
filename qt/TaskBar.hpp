@@ -24,10 +24,12 @@ class TaskBar: public QWidget {
 		void hideSign();
 		void hideLog();
 		void showButtons();
+		void setStatusLogged();
 
 	public slots:
 		void loginSlot();
 		void signinSlot();
+		void logOutSlot();
 
 	signals:
 		void loginSig();

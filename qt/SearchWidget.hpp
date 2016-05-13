@@ -30,6 +30,7 @@ class SearchWidget: public QWidget {
 		void setWidgetsPosition();
 		void setWidgetsStyle();
 		void connectWidgets();
+		void centerWidget();
 
 	public slots:
 		void searchSlot();

@@ -8,6 +8,7 @@ void TableCommentaire::initTable(){
 	this->verticalHeader()->setDefaultSectionSize(this->height()+this->height()/3);
 	this->setShowGrid(false);
 	this->setFrameStyle(QFrame::NoFrame);
+	this->setFont(QFont("URW Gothic L", 13));
 }
 
 void TableCommentaire::buildTable(){

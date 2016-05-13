@@ -85,9 +85,18 @@ void GuiInterface::canceledSlot() {
 	_currentWindow = _homeWindow;
 	_searchWidget->raise();
 	_searchWidget->show();
+	_searchWidget->centerWidget();
 	_taskBar->raise();
 	_taskBar->showButtons();
 }
+
+
+void GuiInterface::loggedSlot() {
+	_user = _connection->getCurrentUser();
+	canceledSlot();
+	_taskBar->setStatusLogged();
+}
+
 
 void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
@@ -101,3 +110,5 @@ void GuiInterface::connectLog() {
 	connect(_connection, SIGNAL(canceled()),this, SLOT(canceledSlot()));
 	connect(_currentWindow,SIGNAL(canceled()),this,SLOT(canceledSlot()));
 }
+
+

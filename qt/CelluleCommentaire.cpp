@@ -17,6 +17,7 @@ void CelluleCommentaire::initItem(int width, int height){
 	_auteur->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_auteur->raise();
 	_auteur->show();
+	_auteur->setFont(QFont("URW Gothic L", 10));
 	
 	_text = new QTextEdit(this);
 	_text->setReadOnly(true);
@@ -25,12 +26,14 @@ void CelluleCommentaire::initItem(int width, int height){
 	_text->append(const_cast<char*>(_comment->getTexte().c_str()));
 	_text->raise();
 	_text->show();
+	_text->setFont(QFont("URW Gothic L", 10));
 
 	_date = new QLabel(const_cast<char*>(_comment->getDate().c_str()),this);
 	_date->setGeometry(QRect(width*7,height/8,width*3, height/5));
 	_date->setStyleSheet("QLabel{background: transparent;border :0px };");
 	_date->raise();
 	_date->show();
+	_date->setFont(QFont("URW Gothic L", 10));
 
 	int  score = _comment->getScore();
 	std::string label5 = "Note: "+std::to_string(score);
@@ -40,6 +43,7 @@ void CelluleCommentaire::initItem(int width, int height){
 	_note->setText(QString(label5.c_str()));
 	_note->raise();
 	_note->show();
+	_note->setFont(QFont("URW Gothic L", 10));
 	this->raise();
 	this->show();
 }

@@ -14,6 +14,7 @@
 #include "Bar.hpp"
 #include "Hotel.hpp"
 #include "Commentaire.hpp"
+#include "Label.hpp"
 
 
 class DataBase {
@@ -37,12 +38,14 @@ class DataBase {
 		void addBar(Bar&);
 		void addHotel(Hotel&);
 		void addCommentaire(Commentaire&);
+		void addLabel(Label&);
 		void delUser(User&);
 		void delEtablissement(Etablissement&);
 		void delCommentaire(Commentaire&);
 		User getUserByCond(std::string);
 		std::vector<Commentaire*> getCommByCond(std::string);
 		std::vector<Etablissement*> getEtabByCond(std::string);
+		std::vector<Label*> getLabelByCond(std::string);
 		void updateData(std::string, std::string, std::string, std::string);
 		void initUsersTable();
 		void initCommentsTable();
@@ -59,8 +62,6 @@ class DataBase {
 		void barInfos(TiXmlElement*);
 		void requeteR1();
 		void requeteR2();
-		// void debut_element(void *user_data, const xmlChar *, const xmlChar **);
-		//int getHighestId(char*);
 		static int getEtabCallback(void*, int, char**, char**);
 		static int getUserCallback(void*, int, char**, char**);
 		static int getRestoCallback(void*, int, char**, char**);
@@ -68,6 +69,8 @@ class DataBase {
 		static int getHotelCallback(void*, int, char**, char**);
 		static int getNoteCallback(void*, int, char**, char**);
 		static int getCommCallback(void*, int, char**, char**);
+		static int getLabelCallback(void*, int, char**, char**);
+		static int getEtiqCallback(void*, int, char**, char**);
 		static int printCallback(void*, int, char**, char**);
 
 

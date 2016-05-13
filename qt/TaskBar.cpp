@@ -54,6 +54,19 @@ void TaskBar::signinSlot() {
 }
 
 
+void TaskBar::logOutSlot() {
+	_signinButton->setText("");
+}
+
+
+void TaskBar::setStatusLogged() {
+	hideLog();
+	_signinButton->setText("Se déconnecter");
+	connect(_signinButton, SIGNAL(clicked()), this, SLOT(logOutSlot()));
+	_signinButton->raise();
+}
+
+
 
 void TaskBar::connectButtons() {
 	connect(_signinButton, SIGNAL(clicked()), this, SLOT(signinSlot()));

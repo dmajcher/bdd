@@ -38,6 +38,7 @@ class GuiInterface: public QApplication {
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
 		LogWidget* _connection = nullptr;
+		User* _user = nullptr;
 
 	public:
 		GuiInterface(DataBase*, int, char**);
@@ -50,6 +51,7 @@ class GuiInterface: public QApplication {
 		void loginSlot();
 		void signinSlot();
 		void canceledSlot();
+		void loggedSlot();
 };
 
 

@@ -17,6 +17,7 @@ class LogWidget: public QWidget {
 		int _entryHeight;
 		int _entryWidth;
 		int _buttonWidth;
+		User* _user = nullptr;
 		DataBase* _database;
 		QPushButton* _logButton;
 		QPushButton* _cancelButton;
@@ -30,6 +31,7 @@ class LogWidget: public QWidget {
 		void setLogStyle();
 		void setSignStyle();
 		void connectButtons();
+		User* getCurrentUser();
 		~LogWidget();
 
 	public slots:
@@ -38,6 +40,7 @@ class LogWidget: public QWidget {
 
 	signals:
 		void canceled();
+		void logSig();
 
 } ;
 

@@ -34,6 +34,11 @@ void SearchWidget::setWidgetsPosition() {
 }
 
 
+void SearchWidget::centerWidget() {
+	this->move(_thisWidth-_borderSize/2, (_height/2-(_thisHeight-_borderSize/2)));	
+}
+
+
 
 void SearchWidget::setWidgetsStyle() {
 	_searchEntry->setPlaceholderText("Rechercher par nom, ville, adresse ou localité");
