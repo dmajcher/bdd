@@ -12,6 +12,8 @@ ProfilePage::ProfilePage(unsigned eid,DataBase* db,int height,int width, QWidget
 	_resto = dynamic_cast<Restaurant*>(_etab);
 	_hotel = dynamic_cast<Hotel*>(_etab);
 	parent->setStyleSheet("background:url(../qt/Images/wood.jpg)");
+	makeLabelTable();
+	std::cout<<"sorti"<<std::endl;
 	makeCommentTable();
 	initPage();
 	fillLabel();
@@ -59,8 +61,7 @@ void ProfilePage::fillLabel(){
 	_name->setStyleSheet("QLabel{font: 18pt;background: transparent;}");
 	_name->setFont(QFont("URW Gothic L", 10));
 
-		//int  score = _etab->getScore();
-	int score = 0;
+	float score = _etab->getNote();
 	std::string label5 = "Note: "+std::to_string(score);
 	_score = new QLabel(this);
 	_score->setGeometry(QRect(_width/15+2*_width/13+ _width/20,_height/8+_height/20,2*_width/13,_height/15));
@@ -221,10 +222,14 @@ void ProfilePage::fillLabel(){
 
 void ProfilePage::connectButton(){
 	connect(_returnButton,SIGNAL(clicked()),this,SLOT(returnSlot()));
+	connect(_commentTable,SIGNAL(sig(std::string)),this,SLOT(slot(std::string)));
 }
 
 void ProfilePage::returnSlot(){
 	emit canceled();
+}
+void ProfilePage::slot(std::string auteur){
+	emit sig(auteur);
 }
 
 void ProfilePage::makeCommentTable(){

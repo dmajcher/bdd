@@ -25,9 +25,10 @@ DataBase::DataBase(char* dataBaseName) {
 	// addUser(newUser5);
 	// addUser(newUser6);
 	// addUser(newUser7);
-	xmlParser("../database/Restaurants.xml");
-	_isRestaurant = false;
-	xmlParser("../database/Cafes.xml");
+	// User* tempUser = new User("Fred","","Fred",0,true);
+	// xmlParser("../database/Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("../database/Cafes.xml");
 
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
@@ -184,7 +185,6 @@ void DataBase::initEtablishmentTable() {
 
 
 int DataBase::xmlParser(std::string filename){
-	std::cout<<filename<<std::endl;
 	TiXmlDocument doc(filename);
 	if(!doc.LoadFile()){
     	std::cerr << "erreur lors du chargement" << std::endl;
@@ -514,10 +514,10 @@ std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
 std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 	char* errorMsg;
 	std::string gu = "\"";
-	std::string query = "SELECT DISTINCT LID, COUNT(LID) FROM LabelContainers WHERE("+cond+" and LID = LID)";
+	std::string query = "SELECT LID, COUNT(LID) FROM LabelContainer WHERE("+cond+") GROUP BY LID";
 	std::string lid;
 	std::vector<Label*> labelVec;
-	std::vector<Label*> * labelVecPtr;
+	std::vector<Label*> * labelVecPtr = &labelVec;
 	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getLabelCallback, labelVecPtr, &errorMsg);
 	checkError(errorStatus, errorMsg);
 	for (int i = 0; i<labelVec.size(); ++i) {
@@ -525,7 +525,8 @@ std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 		query = "SELECT Etiquette FROM Labels WHERE(LID = " +lid;
 		errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtiqCallback, labelVec[i], &errorMsg);
 		checkError(errorStatus, errorMsg);
-	} 
+	}
+	return labelVec;
 }
 
 
@@ -533,6 +534,7 @@ std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 int DataBase::getLabelCallback(void* labVecPtr, int argc, char** argv, char** azColName) {
 	std::vector<Label*> * vecPtr = (std::vector<Label*>*) labVecPtr;
 	vecPtr->push_back(new Label(atoi(argv[0]), atoi(argv[1])));
+	return 0;
 }
 
 
@@ -540,6 +542,7 @@ int DataBase::getLabelCallback(void* labVecPtr, int argc, char** argv, char** az
 int DataBase::getEtiqCallback(void* labPtr, int argc, char** argv, char** azColName){
 	Label* label = (Label*) labPtr;
 	label->setEtiquette(argv[0]);
+	return 0;
 }
 
 
@@ -701,7 +704,6 @@ void DataBase::requeteR1() {
 }
 
 
-
 void DataBase::requeteR2() {
 	char* errorMsg;
 	std::string sd = "SELECT EidConcerne FROM Commentaires WHERE(Auteur IN (SELECT Auteur, COUNT(Auteur) AS CNT FROM ("\
@@ -710,6 +712,9 @@ void DataBase::requeteR2() {
 	int errorStatus = sqlite3_exec(_dataBase, sd.c_str(), printCallback, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
+
+// void DataBase::requeteR3(){}
+// 	 SELECT EidConcerne,COUNT(EidConcerne) AS CNT FROM Commentaires GROUP BY EidConcerne HAVING CNT<=1
 
 
 

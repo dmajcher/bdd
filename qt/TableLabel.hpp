@@ -20,7 +20,6 @@ Q_OBJECT
 	QWidget* _parent;
 	std::vector<QLabel*> _currentTableItems;
 	std::vector<Label*> _labels;
-	void connectCells();
 	void buildTable();
 public:
 	TableLabel(std::vector<Label*>,QWidget*);

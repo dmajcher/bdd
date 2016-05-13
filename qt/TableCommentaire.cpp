@@ -5,10 +5,9 @@ void TableCommentaire::initTable(){
 	this->verticalHeader()->hide();
 	this->setStyleSheet("QTableWidget{background: transparent;border-radius: 5px;}");
 	this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-	this->verticalHeader()->setDefaultSectionSize(this->height()+this->height()/3);
+	this->verticalHeader()->setDefaultSectionSize(this->height()*4+this->height()/3);
 	this->setShowGrid(false);
 	this->setFrameStyle(QFrame::NoFrame);
-	this->setFont(QFont("URW Gothic L", 13));
 }
 
 void TableCommentaire::buildTable(){
@@ -21,20 +20,22 @@ void TableCommentaire::buildTable(){
 }                                           
 
 void TableCommentaire::connectCells(){
-	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEtabProfileSlot(int,int)));
+	for(int i = 0;i<_comments.size();++i){
+		connect(_currentTableItems[i],SIGNAL(sig(std::string)),this,SLOT(goToEtabProfileSlot(std::string)));
+	}
 }
 
-// void TableCommentaire::goToEtabProfileSlot(int row,int column){
-// 	emit visitEtabSig(dynamic_cast<CelluleCommentaire*>(_currentTableItems[row])->getEid());
-// }
+void TableCommentaire::goToEtabProfileSlot(std::string auteur){
+	emit sig(auteur);
+}
 
 TableCommentaire::TableCommentaire(std::vector<Commentaire*> comments,QWidget* parent): QTableWidget(comments.size(),1,parent){
 	_comments = comments;
 	initTable();
 	buildTable();
-	connectCells();
 	this->raise();
 	this->show();
+	connectCells();
 }
 
 TableCommentaire::~TableCommentaire(){

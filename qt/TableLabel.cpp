@@ -19,19 +19,21 @@ void TableLabel::buildTable(){
 	}
 }                                           
 
-void TableLabel::connectCells(){
-	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEtabProfileSlot(int,int)));
-}
+// void TableLabel::connectCells(){
+// 	connect(this,SIGNAL(cellPressed(int,int)),this,SLOT(goToEtabProfileSlot(int,int)));
+// }
 
 // void TableLabel::goToEtabProfileSlot(int row,int column){
 // 	emit visitEtabSig(dynamic_cast<CelluleCommentaire*>(_currentTableItems[row])->getEid());
 // }
 
 TableLabel::TableLabel(std::vector<Label*> labels,QWidget* parent): QTableWidget(labels.size(),1,parent){
+	std::cout<<"cell "<<std::endl;
 	_labels = labels;
+	std::cout<<"cell "<<std::endl;
 	initTable();
+	std::cout<<"cell "<<std::endl;
 	buildTable();
-	connectCells();
 	this->raise();
 	this->show();
 }

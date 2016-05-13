@@ -80,9 +80,11 @@ public:
 	 ~ProfilePage();
 public slots:
 	void returnSlot();
+	void slot(std::string);
 	//void searchSlot();
 signals:
 	void canceled();
+	void sig(std::string);
 	//void goBackToMenuSig();
 };
 
