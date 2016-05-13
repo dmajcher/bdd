@@ -235,8 +235,8 @@ void ProfilePage::makeCommentTable(){
 }
 
 void ProfilePage::makeLabelTable(){
-	_labelTable = new TableLabel(db->getCommByCond(_requestCom),this);
-	_labelTable->setGeometry(QRect(_0,_height/3+_height/22,_width/7,_height/3+_height/9+_height/225));
+	_labelTable = new TableLabel(_db->getLabelByCond(_requestCom),this);
+	_labelTable->setGeometry(QRect(0,_height/3+_height/22,_width/7,_height/3+_height/9+_height/225));
     _labelTable->raise();
     _labelTable->show();
 }
@@ -268,6 +268,7 @@ ProfilePage::~ProfilePage(){
 		delete _priceIco;
 	}
 	delete _commentTable;
+	delete _labelTable;
 	delete _name;
 	delete _score;
 	delete _siteIco;

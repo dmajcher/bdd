@@ -31,7 +31,7 @@ class ProfilePage: public QWidget {
 	int _width,_height;
 	QWidget* _parent;
 	TableCommentaire* _commentTable =nullptr;
-	TableLabels* _labelTable=nullptr;
+	TableLabel* _labelTable=nullptr;
 	std::string _requestCom;
 	DataBase* _db;
 

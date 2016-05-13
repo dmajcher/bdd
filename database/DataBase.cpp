@@ -10,13 +10,13 @@ DataBase::DataBase(char* dataBaseName) {
 	initCommentsTable();
 	initLabelsPrototypeTable();
 	initLabelsContainerTable();
-	User newUser("Boris", "legrand", "boris@gmail.com", 160502, 0);
-	User newUser2("Fred", "password123", "fred@gmail.com", 160501, 0);
-	User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, 0);
-	User newUser4("Ivan", "legrand", "ivan@gmail.com", 160502, 0);
-	User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
-	User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
-	User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
+	// User newUser("Boris", "legrand", "boris@gmail.com", 160502, 0);
+	// User newUser2("Fred", "password123", "fred@gmail.com", 160501, 0);
+	// User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, 0);
+	// User newUser4("Ivan", "legrand", "ivan@gmail.com", 160502, 0);
+	// User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
+	// User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
+	// User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
 
  //    addUser(newUser);
 	// addUser(newUser2);
@@ -25,9 +25,9 @@ DataBase::DataBase(char* dataBaseName) {
 	// addUser(newUser5);
 	// addUser(newUser6);
 	// addUser(newUser7);
-	// xmlParser("../database/Restaurants.xml");
-	// _isRestaurant = false;
-	// xmlParser("../database/Cafes.xml");
+	xmlParser("../database/Restaurants.xml");
+	_isRestaurant = false;
+	xmlParser("../database/Cafes.xml");
 
     Restaurant resto(12, true, true, "FOOOOOO", 50);
 
@@ -217,7 +217,7 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 		// _currentEtab = new Etablissement();
 		_currentEtab = new Restaurant(-1,false,false,"",-1);
 		_currentEtab->setDate(temp->Attribute("creationDate"));
-		User* currentUser  = new User(temp->Attribute("nickname"),"","",int,true);
+		User* currentUser  = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,true);
 		addUser(*currentUser);
 		_currentEtab->setAdmin(temp->Attribute("nickname"));
 	}
@@ -228,7 +228,7 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 			addAndDeleteLabObj();
 		_currentBar = new Bar(false,false);
 		_currentBar->setDate(temp->Attribute("creationDate"));
-		User* currentUser  = new User(temp->Attribute("nickname"),"","",int,true);
+		User* currentUser  = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,true);
 		addUser(*currentUser);
 		_currentBar->setAdmin(temp->Attribute("nickname"));
 	}
@@ -257,6 +257,7 @@ void DataBase::addAndDeleteCommentsObj(){
 }
 
 void DataBase::addAndDeleteLabObj(){
+	std::cout<<_currentLabels.size()<<std::endl;
 	for (int i = 0;i<_currentLabels.size();++i){
 		addLabel(*_currentLabels[i]);
 		delete _currentLabels[i];
@@ -287,7 +288,7 @@ void DataBase::restCase(xml temp,etab currentEtab){
 		else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
 		else if(elem =="Comment"){
 			Commentaire* currentComment = new Commentaire("","","",0);
-			currentUser = new User(temp->Attribute("nickname"),"","",0,false);
+			currentUser = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,false);
 			addUser(*currentUser);
 			currentComment->setAuteur(temp->Attribute("nickname"));
 			currentComment->setDate(temp->Attribute("date"));
@@ -296,14 +297,18 @@ void DataBase::restCase(xml temp,etab currentEtab){
 			_currentComments.push_back(currentComment);
 		}
 		else if(elem=="Tag"){
-			TiXmlElement* tempUser = temp->FirstChildElement()
+			TiXmlElement* tempUser = temp->FirstChildElement();
 			while(tempUser){
-				currentUser=new User(temp->Attribute("nickname"));
+				currentUser=new User(tempUser->Attribute("nickname"),"",tempUser->Attribute("nickname"),0,false);
 				addUser(*currentUser);
 				Label* currentLabel = new Label(-1,-1);
-				currentLabel->setAuteur(temp->Attribute("nickname"));
+				currentLabel->setAuteur(tempUser->Attribute("nickname"));
+				std::cout<<"Tag"<<std::endl;
+				currentLabel->setEtiquette(temp->Attribute("name"));
+				std::cout<<"Tag"<<std::endl;
 				_currentLabels.push_back(currentLabel);
 				if(tempUser->NextSiblingElement()){tempUser = tempUser->NextSiblingElement();}
+				else{tempUser=nullptr;}
 			}
 		}
 }

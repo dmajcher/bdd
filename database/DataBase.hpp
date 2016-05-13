@@ -25,7 +25,7 @@ class DataBase {
 		Bar* _currentBar = nullptr;
 		Restaurant* _currentEtab = nullptr;
 		std::vector<Commentaire*> _currentComments ;
-		std::vector<Label*> _currenLabels;
+		std::vector<Label*> _currentLabels;
 		std::string _tempConge = "OOOOOOOOOOOOOO";
 		std::string _currentAdr;
 	
@@ -58,6 +58,7 @@ class DataBase {
 		int xmlParser(std::string);
 		int recursiveParser(TiXmlElement*);
 		void addAndDeleteCommentsObj();
+		void addAndDeleteLabObj();
 		void restInfos(TiXmlElement*);
 		void barInfos(TiXmlElement*);
 		void requeteR1();
