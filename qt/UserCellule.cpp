@@ -1,24 +1,18 @@
-#include "CelluleCommentaire.hpp"
+#include "UserCellule.hpp"
 
-void CelluleCommentaire::initItem(int width, int height){
+void UserCellule::initItem(int width, int height){
 	this->setGeometry(QRect(0,0, width, height));
 	this->setStyleSheet("QLabel{background: lightgrey;border: 1px solid;}");
 	std::cout<<"hllll"<<std::endl;
 	
-	// _pictureFrame = new QLabel(this);
-	// _pictureFrame->setPixmap(QPixmap(QString::fromStdString()));
-	// _pictureFrame->setAlignment(Qt::AlignTop | Qt::AlignCenter);
-	// _pictureFrame->setGeometry(QRect(width-width/3,0, width, height));
-	// _pictureFrame->raise();
-	// _pictureFrame->show();
-	// _pictureFrame->setStyleSheet("QLabel{background: transparent;border: 4px solid #f2be03};");
-	_auteur = new QPushButton(const_cast<char*>(_comment->getAuteur().c_str()),this);
-	_auteur->setGeometry(QRect(width,height/8, width*5, height/5));
-	_auteur->setStyleSheet("QPushButton{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
-	_auteur->raise();
-	_auteur->show();
-	_auteur->setFont(QFont("URW Gothic L", 10));
-
+	int etab = _comment->getEidConcerne();
+	_etab = new QLabel(QString(std::to_string(etab).c_str()));
+	_etab->setGeometry(QRect(width,height/8, width*5, height/5));
+	_etab->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
+	_etab->raise();
+	_etab->show();
+	_etab->setFont(QFont("URW Gothic L", 10));
+	
 	_text = new QTextEdit(this);
 	_text->setReadOnly(true);
 	_text->setGeometry(QRect(width,height/3+height/8, width*9, height/2));
@@ -47,28 +41,20 @@ void CelluleCommentaire::initItem(int width, int height){
 	this->raise();
 	this->show();
 }
-void CelluleCommentaire::connectButton(){
-	connect(_auteur,SIGNAL(clicked()),this,SLOT(slot()));
-}
 
-void CelluleCommentaire::slot(){
-	std::cout<<"########"<<std::endl;
-	emit sig(_comment->getAuteur());
-}
-// unsigned int CelluleCommentaire::getEid(){
+// unsigned int UserCellule::getEid(){
 // 	return _etab->getEid();
 // }
 
-CelluleCommentaire::CelluleCommentaire(Commentaire* comment,int width,int height,QWidget* parent): QLabel(parent){
+UserCellule::UserCellule(Commentaire* comment,int width,int height,QWidget* parent): QLabel(parent){
 	std::cout<<"cell constr"<<std::endl;
 	_comment = comment;
 	initItem(width,height);
-	connectButton();
 }
 
-CelluleCommentaire::~CelluleCommentaire(){
+UserCellule::~UserCellule(){
 	//delete _pictureFrame;
-	delete _auteur;
+	delete _etab;
 	delete _text;
 	delete _date;
 	delete _note;

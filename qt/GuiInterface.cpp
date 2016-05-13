@@ -54,7 +54,19 @@ void GuiInterface::makeEtabProfileSlot(unsigned Eid){
 	_taskBar->raise();
 	_searchWidget->raise();
 	connectLog();
+	connectWidgets();
+}
 
+void GuiInterface::makeUserProfileSlot(std::string auteur){
+	_currentWindow->deleteLater();
+	_searchWidget->hide();
+	_userProfile = new UserProfilePage(auteur,_dataBase,_height,_width,_mainWindow);
+	_currentWindow = _userProfile;
+	_currentWindow->raise();
+	_currentWindow->show();
+	_taskBar->raise();
+	_searchWidget->raise();
+	connectLog();
 }
 
 
@@ -129,6 +141,7 @@ void GuiInterface::connectWidgets() {
 	connect(_taskBar, SIGNAL(logoutSig()), this, SLOT(logoutSlot()));
 	connect(_taskBar, SIGNAL(adminSig()), this, SLOT(adminSlot()));
 	connect(_currentWindow,SIGNAL(profileSig(unsigned)),this,SLOT(makeEtabProfileSlot(unsigned)));
+	connect(_currentWindow,SIGNAL(sig(std::string)),this,SLOT(makeUserProfileSlot(std::string)));
 }
 
 

@@ -12,6 +12,8 @@ ProfilePage::ProfilePage(unsigned eid,DataBase* db,int height,int width, QWidget
 	_resto = dynamic_cast<Restaurant*>(_etab);
 	_hotel = dynamic_cast<Hotel*>(_etab);
 	parent->setStyleSheet("background:url(../qt/Images/wood.jpg)");
+	makeLabelTable();
+	std::cout<<"sorti"<<std::endl;
 	makeCommentTable();
 	initPage();
 	fillLabel();
@@ -59,8 +61,7 @@ void ProfilePage::fillLabel(){
 	_name->setStyleSheet("QLabel{font: 18pt;background: transparent;}");
 	_name->setFont(QFont("URW Gothic L", 10));
 
-		//int  score = _etab->getScore();
-	int score = 0;
+	float score = _etab->getNote();
 	std::string label5 = "Note: "+std::to_string(score);
 	_score = new QLabel(this);
 	_score->setGeometry(QRect(_width/15+2*_width/13+ _width/20,_height/8+_height/20,2*_width/13,_height/15));
@@ -215,30 +216,35 @@ void ProfilePage::fillLabel(){
 		_seats->show();
 		_seats->setFont(QFont("URW Gothic L", 10));
 
-
-
 	}
 
 }
 
 void ProfilePage::connectButton(){
 	connect(_returnButton,SIGNAL(clicked()),this,SLOT(returnSlot()));
+	connect(_commentTable,SIGNAL(sig(std::string)),this,SLOT(slot(std::string)));
 }
 
 void ProfilePage::returnSlot(){
 	emit canceled();
 }
+void ProfilePage::slot(std::string auteur){
+	emit sig(auteur);
+}
 
 void ProfilePage::makeCommentTable(){
-	delete _commentTable;
 	_commentTable = new TableCommentaire(_db->getCommByCond(_requestCom),this);
     _commentTable->setGeometry(QRect(_width/5+_width/37,_height/3+_height/22,_width/2+_width/4+_width/20,_height/3+_height/9+_height/225));
     _commentTable->raise();
     _commentTable->show();
 }
 
-void ProfilePage::makeLabelTable() {}
-
+void ProfilePage::makeLabelTable(){
+	_labelTable = new TableLabel(_db->getLabelByCond(_requestCom),this);
+	_labelTable->setGeometry(QRect(0,_height/3+_height/22,_width/7,_height/3+_height/9+_height/225));
+    _labelTable->raise();
+    _labelTable->show();
+}
 // void ProfilePage::connectButton(){
 // 	connect(_searchEntry,SIGNAL(searchSig(std::string)),this,SLOT(makeSearchTableSlot(std::string)));
 // }
@@ -267,6 +273,7 @@ ProfilePage::~ProfilePage(){
 		delete _priceIco;
 	}
 	delete _commentTable;
+	delete _labelTable;
 	delete _name;
 	delete _score;
 	delete _siteIco;

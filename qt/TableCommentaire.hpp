@@ -28,9 +28,9 @@ public:
 	 ~TableCommentaire();
 	//void initRows();
 public slots:
-	//void goToEtabProfileSlot(int,int);
+	void goToEtabProfileSlot(std::string);
 signals:
-	//void visitEtabSig(unsigned);
+	void sig(std::string);
 };
 
 #endif /* TABLECOMMENATAIRE_HPP */

@@ -10,9 +10,74 @@ DataBase::DataBase(char* dataBaseName) {
 	initCommentsTable();
 	initLabelsPrototypeTable();
 	initLabelsContainerTable();
+<<<<<<< HEAD
 	xmlParser("../database/Restaurants.xml");
 	_isRestaurant = false;
 	xmlParser("../database/Cafes.xml");
+=======
+	// User newUser("Boris", "legrand", "boris@gmail.com", 160502, 0);
+	// User newUser2("Fred", "password123", "fred@gmail.com", 160501, 0);
+	// User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, 0);
+	// User newUser4("Ivan", "legrand", "ivan@gmail.com", 160502, 0);
+	// User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
+	// User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
+	// User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
+
+ //    addUser(newUser);
+	// addUser(newUser2);
+	// addUser(newUser3);
+	// addUser(newUser4);
+	// addUser(newUser5);
+	// addUser(newUser6);
+	// addUser(newUser7);
+	// User* tempUser = new User("Fred","","Fred",0,true);
+	// xmlParser("../database/Restaurants.xml");
+	// _isRestaurant = false;
+	// xmlParser("../database/Cafes.xml");
+
+    Restaurant resto(12, true, true, "FOOOOOO", 50);
+
+    resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
+    Commentaire comm1("Brenda", "10/05/16", "bon", 5, 1);
+    Commentaire comm2("Brenda", "10/05/16", "bon", 5, 2);
+    Commentaire comm3("Brenda", "10/05/16", "bon", 5, 3);
+    Commentaire comm4("Brenda", "10/05/16", "bon", 5, 4);
+    Commentaire comm6("Flo", "10/05/16", "bon", 5, 1);
+    Commentaire comm7("Flo", "10/05/16", "bon", 5, 2);
+    Commentaire comm8("Flo", "10/05/16", "bon", 5, 3);
+        Commentaire comm12("Flo", "10/05/16", "bon", 5, 4);
+       Commentaire comm13("Flo", "10/05/16", "bon", 5, 5);
+    Commentaire comm9("David", "10/05/16", "bon", 5, 3);
+    Commentaire comm10("David", "10/05/16", "bon", 5, 4);
+    Commentaire comm11("David", "10/05/16", "bon", 5, 1);
+    // addCommentaire(comm1);
+    // addCommentaire(comm2);
+    // addCommentaire(comm3);
+    // addCommentaire(comm4);
+    // addCommentaire(comm6);
+    // addCommentaire(comm7);
+    // addCommentaire(comm8);
+    // addCommentaire(comm9);
+    // addCommentaire(comm10);
+    // addCommentaire(comm11);
+    // addCommentaire(comm12);
+    // addCommentaire(comm13);
+    // requeteR2();
+
+    // std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
+    // std::cout<<t.size()<<std::endl;
+ //    Bar* barPtr;
+ //    Restaurant* restoPtr;
+ //    Hotel* hotelPtr;
+ //    barPtr = dynamic_cast<Bar*>(t[0]);
+	// restoPtr = dynamic_cast<Restaurant*>(t[0]);
+	// hotelPtr = dynamic_cast<Hotel*>(t[0]);
+	// Restaurant rest = *restoPtr;
+
+
+    // comm.setCid(1);
+    // delCommentaire(comm);
+>>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 }
 
 
@@ -126,7 +191,6 @@ void DataBase::initEtablishmentTable() {
 
 
 int DataBase::xmlParser(std::string filename){
-	std::cout<<filename<<std::endl;
 	TiXmlDocument doc(filename);
 	if(!doc.LoadFile()){
     	std::cerr << "erreur lors du chargement" << std::endl;
@@ -153,19 +217,25 @@ int DataBase::recursiveParser(TiXmlElement *temp){
 			_tempConge="00000000000000";
 			addRestaurant(*_currentEtab);
 			addAndDeleteCommentsObj();
+			addAndDeleteLabObj();
 
 		}
 		// _currentEtab = new Etablissement();
 		_currentEtab = new Restaurant(-1,false,false,"",-1);
 		_currentEtab->setDate(temp->Attribute("creationDate"));
+		User* currentUser  = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,true);
+		addUser(*currentUser);
 		_currentEtab->setAdmin(temp->Attribute("nickname"));
 	}
 	else if (info == "Cafe"){
 		if (_currentBar)
 			addBar(*_currentBar);
 			addAndDeleteCommentsObj();
+			addAndDeleteLabObj();
 		_currentBar = new Bar(false,false);
 		_currentBar->setDate(temp->Attribute("creationDate"));
+		User* currentUser  = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,true);
+		addUser(*currentUser);
 		_currentBar->setAdmin(temp->Attribute("nickname"));
 	}
 
@@ -192,8 +262,18 @@ void DataBase::addAndDeleteCommentsObj(){
 	_currentComments.clear();
 }
 
+void DataBase::addAndDeleteLabObj(){
+	std::cout<<_currentLabels.size()<<std::endl;
+	for (int i = 0;i<_currentLabels.size();++i){
+		addLabel(*_currentLabels[i]);
+		delete _currentLabels[i];
+	}
+	_currentLabels.clear();
+}
+
 template<typename xml, class etab>
 void DataBase::restCase(xml temp,etab currentEtab){
+	User* currentUser;
 	std::string tempText;
 		if (temp->GetText()){tempText = temp->GetText();}
 		std::string elem = temp->Value();
@@ -214,12 +294,29 @@ void DataBase::restCase(xml temp,etab currentEtab){
 		else if(elem =="Site"){currentEtab->setSiteWeb(temp->Attribute("link"));}
 		else if(elem =="Comment"){
 			Commentaire* currentComment = new Commentaire("","","",0);
+			currentUser = new User(temp->Attribute("nickname"),"",temp->Attribute("nickname"),0,false);
+			addUser(*currentUser);
 			currentComment->setAuteur(temp->Attribute("nickname"));
 			currentComment->setDate(temp->Attribute("date"));
 			currentComment->setScore(std::stoi(temp->Attribute("score")));
 			currentComment->setText(tempText);
 			_currentComments.push_back(currentComment);
-		} 
+		}
+		else if(elem=="Tag"){
+			TiXmlElement* tempUser = temp->FirstChildElement();
+			while(tempUser){
+				currentUser=new User(tempUser->Attribute("nickname"),"",tempUser->Attribute("nickname"),0,false);
+				addUser(*currentUser);
+				Label* currentLabel = new Label(-1,-1);
+				currentLabel->setAuteur(tempUser->Attribute("nickname"));
+				std::cout<<"Tag"<<std::endl;
+				currentLabel->setEtiquette(temp->Attribute("name"));
+				std::cout<<"Tag"<<std::endl;
+				_currentLabels.push_back(currentLabel);
+				if(tempUser->NextSiblingElement()){tempUser = tempUser->NextSiblingElement();}
+				else{tempUser=nullptr;}
+			}
+		}
 }
 
 
@@ -423,7 +520,11 @@ std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
 std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 	char* errorMsg;
 	std::string gu = "\"";
+<<<<<<< HEAD
 	std::string query = "SELECT DISTINCT LID, COUNT(LID) FROM LabelContainer WHERE("+cond+" and LID = LID)";
+=======
+	std::string query = "SELECT LID, COUNT(LID) FROM LabelContainer WHERE("+cond+") GROUP BY LID";
+>>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 	std::string lid;
 	std::vector<Label*> labelVec;
 	std::vector<Label*> * labelVecPtr = &labelVec;
@@ -434,7 +535,11 @@ std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 		query = "SELECT Etiquette FROM Labels WHERE(LID = " +lid;
 		errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtiqCallback, labelVec[i], &errorMsg);
 		checkError(errorStatus, errorMsg);
+<<<<<<< HEAD
 	} 
+=======
+	}
+>>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 	return labelVec;
 }
 
@@ -613,7 +718,6 @@ void DataBase::requeteR1() {
 }
 
 
-
 void DataBase::requeteR2() {
 	char* errorMsg;
 	std::string sd = "SELECT EidConcerne FROM Commentaires WHERE(Auteur IN (SELECT Auteur, COUNT(Auteur) AS CNT FROM ("\
@@ -622,6 +726,9 @@ void DataBase::requeteR2() {
 	int errorStatus = sqlite3_exec(_dataBase, sd.c_str(), printCallback, 0, &errorMsg);
 	checkError(errorStatus, errorMsg);
 }
+
+// void DataBase::requeteR3(){}
+// 	 SELECT EidConcerne,COUNT(EidConcerne) AS CNT FROM Commentaires GROUP BY EidConcerne HAVING CNT<=1
 
 
 void DataBase::requeteR4() {
