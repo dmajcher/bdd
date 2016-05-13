@@ -448,6 +448,7 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
+	std::cout<<cond<<std::endl;
 	char* errorMsg;
 	std::string gu = "\"";
 	std::string query = "SELECT Auteur, Date, Texte, Score, EidConcerne FROM Commentaires WHERE(" +cond+")";
