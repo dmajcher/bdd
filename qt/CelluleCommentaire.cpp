@@ -12,28 +12,26 @@ void CelluleCommentaire::initItem(int width, int height){
 	// _pictureFrame->raise();
 	// _pictureFrame->show();
 	// _pictureFrame->setStyleSheet("QLabel{background: transparent;border: 4px solid #f2be03};");
-	
 	_auteur = new QLabel(const_cast<char*>(_comment->getAuteur().c_str()),this);
-	_auteur->setGeometry(QRect(width*2,height/8, width*5, height/5));
+	_auteur->setGeometry(QRect(width,height/8, width*5, height/5));
 	_auteur->setStyleSheet("QLabel{font: 14pt; background: transparent;border :0px solid #f2be03 !important;};");
 	_auteur->raise();
 	_auteur->show();
-
 	_text = new QLabel(const_cast<char*>(_comment->getTexte().c_str()),this);
-	_text->setGeometry(QRect(width*7,height/2+height/4,width*3, height/5));
+	_text->setGeometry(QRect(width,height/2+height/4, width*9, height/5));
+	_text->setStyleSheet("QLabel{background: transparent;border :0px };");
 	_text->raise();
 	_text->show();
-
 	_date = new QLabel(const_cast<char*>(_comment->getDate().c_str()),this);
 	_date->setGeometry(QRect(width*7,height/8,width*3, height/5));
 	_date->setStyleSheet("QLabel{background: transparent;border :0px };");
 	_date->raise();
 	_date->show();
-
 	int  score = _comment->getScore();
 	std::string label5 = "Note: "+std::to_string(score);
 	_note = new QLabel(this);
-	_note->setGeometry(QRect(width*2,height/2+height/4, width*5, height/5));
+	_note->setGeometry(QRect(width*12,height/2+height/4,width*5, height/5));
+	_note->setStyleSheet("QLabel{background: transparent;border :0px };");
 	_note->setText(QString(label5.c_str()));
 	_note->raise();
 	_note->show();

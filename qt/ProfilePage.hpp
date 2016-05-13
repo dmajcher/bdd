@@ -29,12 +29,12 @@ class ProfilePage: public QWidget {
 
 	int _width,_height;
 	QWidget* _parent;
-	TableCommentaire* _commentTable;
+	TableCommentaire* _commentTable =nullptr;
 	//TableCommentaire* _commentaireTable=nullptr;
 	//TableLabels* _labelsTable=nullptr;
 	std::vector<Commentaire*> commentsVect;
 	//std::vector<Label*> LabelsVect;
-	std::string _request;
+	std::string _requestCom;
 	DataBase* _db;
 
 	Etablissement* _etab;

@@ -5,12 +5,14 @@ ProfilePage::ProfilePage(unsigned eid,DataBase* db,int height,int width, QWidget
 	_width = width;
 	_parent = parent;
 	_db = db;
-	std::string _request = "EID = "+ std::to_string(eid); 
-	_etab = _db->getEtabByCond(_request)[0];
+	_requestCom = "EidConcerne = "+ std::to_string(eid);
+	std::string request = "EID = "+ std::to_string(eid);
+	_etab = _db->getEtabByCond(request)[0];
 	_bar = dynamic_cast<Bar*>(_etab);
 	_resto = dynamic_cast<Restaurant*>(_etab);
 	_hotel = dynamic_cast<Hotel*>(_etab);
 	parent->setStyleSheet("background:url(../qt/Images/wood.jpg)");
+	makeCommentTable();
 	initPage();
 	fillLabel();
 	setStyle();
@@ -104,9 +106,9 @@ void ProfilePage::fillLabel(){
 
 
 void ProfilePage::makeCommentTable(){
-	delete _commentTable; 
-	_commentTable = new TableCommentaire(_db->getCommByCond(_request),this);
-    _commentTable->setGeometry(QRect(_width/15+2*_width/13+ _width/70,_height/3+_height/22,_width-_width/3,_height/3+_height/9+_height/225));
+	delete _commentTable;
+	_commentTable = new TableCommentaire(_db->getCommByCond(_requestCom),this);
+    _commentTable->setGeometry(QRect(_width/5,_height/3+_height/22,_width/2+_width/4,_height/3+_height/9+_height/225));
     _commentTable->raise();
     _commentTable->show();
 }
