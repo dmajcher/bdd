@@ -55,17 +55,20 @@ void LogWidget::setLogStyle() {
 }
 
 
+void LogWidget::confirmSlot() {
+	
+}
+
 
 void LogWidget::connectButtons() {
 	connect(_logButton, SIGNAL(clicked()), this, SLOT(confirmSlot()));
 }
 
 
-void LogWidget::~LogWidget() {
+LogWidget::~LogWidget() {
 	delete _pseudoEntry;
 	delete _passwordEntry;
 	delete _logButton;
-	delete _entryWidth;
 	delete _cancelButton;
 	delete _emailEntry;
 }
