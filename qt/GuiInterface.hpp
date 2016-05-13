@@ -52,6 +52,7 @@ class GuiInterface: public QApplication {
 		void signinSlot();
 		void canceledSlot();
 		void loggedSlot();
+		void logoutSlot();
 };
 
 
