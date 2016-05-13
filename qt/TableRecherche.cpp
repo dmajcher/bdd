@@ -8,6 +8,7 @@ void TableRecherche::initTable(){
 	this->verticalHeader()->setDefaultSectionSize(this->height()*4+this->height()/3);
 	this->setShowGrid(false);
 	this->setFrameStyle(QFrame::NoFrame);
+	this->setFont(QFont("URW Gothic L", 13));
 }
 
 void TableRecherche::buildTable(){

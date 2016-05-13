@@ -85,6 +85,7 @@ void GuiInterface::canceledSlot() {
 	_currentWindow = _homeWindow;
 	_searchWidget->raise();
 	_searchWidget->show();
+	_searchWidget->centerWidget();
 	_taskBar->raise();
 	_taskBar->showButtons();
 }

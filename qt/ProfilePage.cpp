@@ -24,6 +24,7 @@ ProfilePage::ProfilePage(unsigned eid,DataBase* db,int height,int width, QWidget
 void ProfilePage::setStyle() {
 	this->resize(_width, _height);
 	this->setStyleSheet("QWidget{background :transparent;}");
+	this->setFont(QFont("URW Gothic L", 13));
 	this->raise();
 	this->show();
 }
@@ -35,6 +36,7 @@ void ProfilePage::initPage(){
 	_mainLabel = new QLabel(this);
 	_mainLabel->setGeometry(QRect(0,_height/8,_width,_height/5));
     _mainLabel->setStyleSheet("QLabel {background: rgba(255,255,255,180);border-radius:10px;border-color:grey;border:5px}");
+    _mainLabel->setFont(QFont("URW Gothic L", 13));
 
     _logo = new QLabel(this);
 	_logo->setGeometry(QRect(_width/20,_height/8,_width/5,_height/5));
@@ -48,12 +50,14 @@ void ProfilePage::initPage(){
 	_returnButton->setStyleSheet("QPushButton::hover{background : lightgrey} QPushButton{background : rgba(255,255,255,180) ; border-radius : 5px}");
 	_returnButton->show();
 	_returnButton->raise();
+	_returnButton->setFont(QFont("URW Gothic L", 13));
 }
 
 void ProfilePage::fillLabel(){
 	_name = new QLabel(const_cast<char*>(_etab->getNom().c_str()),this);
 	_name->setGeometry(QRect(_width/15+2*_width/13+ _width/20,_height/8,2*_width/13,_height/15));
 	_name->setStyleSheet("QLabel{font: 25pt;background: transparent;}");
+	_name->setFont(QFont("URW Gothic L", 10));
 
 		//int  score = _etab->getScore();
 	int score = 0;
@@ -64,6 +68,7 @@ void ProfilePage::fillLabel(){
 	_score->setText(QString(label5.c_str()));
 	_score->raise();
 	_score->show();
+	_score->setFont(QFont("URW Gothic L", 10));
 
 	_siteIco = new QLabel(this);
 	_siteIco->setGeometry(QRect(_width/15+2*_width/13+ _width/20,_height/8+_height/20+_height/15,_width/15,_height/15));
@@ -77,6 +82,7 @@ void ProfilePage::fillLabel(){
 	_site->setStyleSheet("QLabel{background: transparent;}");
 	_site->raise();
 	_site->show();
+	_site->setFont(QFont("URW Gothic L", 10));
 
 	_telIco = new QLabel(this);
 	_telIco->setGeometry(QRect(_width/15+2*_width/13+ _width/20+_width/25+_width/4,_height/8+_height/20+_height/15,_width/15,_height/15));
@@ -90,6 +96,7 @@ void ProfilePage::fillLabel(){
 	_tel->setStyleSheet("QLabel{background: transparent;}");
 	_tel->raise();
 	_tel->show();
+	_tel->setFont(QFont("URW Gothic L", 10));
 
 	_adressIco = new QLabel(this);
 	_adressIco->setGeometry(QRect(_width/15+2*_width/13+ _width/20+2*_width/12,_height/8,_width/15,_height/15));
@@ -103,6 +110,7 @@ void ProfilePage::fillLabel(){
 	_adress->setStyleSheet("QLabel{background: transparent;}");
 	_adress->raise();
 	_adress->show();
+	_adress->setFont(QFont("URW Gothic L", 10));
 
 	float lat = _etab->getLatitude();
 	float longi = _etab->getLongitude();
@@ -113,6 +121,7 @@ void ProfilePage::fillLabel(){
 	_latlong->setStyleSheet("QLabel{background: transparent;}");
 	_latlong->raise();
 	_latlong->show();
+	_latlong->setFont(QFont("URW Gothic L", 10));
 
 	if (_bar){
 		_fumeur = new QLabel(this);
@@ -122,6 +131,7 @@ void ProfilePage::fillLabel(){
 		else{_fumeur->setPixmap(QPixmap("../qt/Images/nosmoking.png"));}
 		_fumeur->raise();
 		_fumeur->show();
+		_fumeur->setFont(QFont("URW Gothic L", 10));
 
 		_petiteRestoIco = new QLabel(this);
 		_petiteRestoIco->setGeometry(QRect(_width/15+2*_width/13+ _width/20+_width/25+_width/4+_width/25+_width/5 + _width/14,_height/8+_height/20+_height/10,_width/15,_height/15));
@@ -133,6 +143,7 @@ void ProfilePage::fillLabel(){
 		_petiteResto->setAlignment(Qt::AlignTop);
 		_petiteResto->raise();
 		_petiteResto->show();
+		_petiteResto->setFont(QFont("URW Gothic L", 10));
 
 		if (_bar->hasPetiteResto()){
 			_petiteResto->setStyleSheet("QLabel{background: transparent;color:green;}");
@@ -165,6 +176,7 @@ void ProfilePage::fillLabel(){
 		_takeAway->setAlignment(Qt::AlignTop);
 		_takeAway->raise();
 		_takeAway->show();
+		_takeAway->setFont(QFont("URW Gothic L", 10));
 
 		if (_resto->hasTakeAway()){
 			_takeAway->setStyleSheet("QLabel{background: transparent;color:green;}");
@@ -187,6 +199,7 @@ void ProfilePage::fillLabel(){
 		_price->setText(QString(std::to_string(_resto->getPrix()).c_str()));
 		_price->raise();
 		_price->show();
+		_price->setFont(QFont("URW Gothic L", 10));
 
 		_seatsIco = new QLabel(this);
 		_seatsIco->setGeometry(QRect(_width/15+2*_width/13+ _width/20+_width/25+_width/4+_width/26+_width/5+_width/12,_height/8+_height/30+_height/9,_width/6,_height/15));
@@ -200,6 +213,7 @@ void ProfilePage::fillLabel(){
 		_seats->setText(QString(std::to_string(_resto->getNbPlaces()).c_str()));
 		_seats->raise();
 		_seats->show();
+		_seats->setFont(QFont("URW Gothic L", 10));
 
 
 
