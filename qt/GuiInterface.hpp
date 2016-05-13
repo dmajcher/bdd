@@ -17,6 +17,7 @@
 #include "../database/DataBase.hpp"
 #include "HomeWindow.hpp"
 #include "TaskBar.hpp"
+#include "LogWidget.hpp"
 #include <iostream>
 
 
@@ -34,7 +35,7 @@ class GuiInterface: public QApplication {
 		QWidget* _t;
 		SearchWidget* _searchWidget;
 		HomeWindow* _homeWindow;
-		// LogWidget* _connection = nullptr;
+		LogWidget* _connection = nullptr;
 
 	public:
 		GuiInterface(DataBase*, int, char**);

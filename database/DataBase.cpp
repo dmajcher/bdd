@@ -447,6 +447,26 @@ User DataBase::getUserByName(std::string nameId) {
 
 
 
+std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
+	char* errorMsg;
+	std::string gu = "\"";
+	std::string query = "SELECT Auteur, Date, Texte, Score, EidConcerne FROM Commentaires WHERE(" +cond+")";
+	std::vector<Commentaire*> commVec;
+	std::vector<Commentaire*> * commVecPtr = &commVec;
+	int errorStatus = sqlite3_exec(_dataBase, query.c_str(), getCommCallback, commVecPtr, &errorMsg);
+	checkError(errorStatus, errorMsg);
+	return commVec;
+}
+
+
+
+int DataBase::getCommCallback(void* commVecPtr, int argc, char** argv, char** azColName) {
+	std::vector<Commentaire*>* vectorPtr = (std::vector<Commentaire*>*) commVecPtr;
+	vectorPtr->push_back(new Commentaire(argv[0], argv[1], argv[2], atoi(argv[3]), atoi(argv[4])));
+}
+
+
+
 std::vector<Etablissement*> DataBase::getEtabByCond(std::string condition) {
 	char* errorMsg;
 	std::string gu="\"";

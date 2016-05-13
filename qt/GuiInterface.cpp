@@ -44,12 +44,23 @@ void GuiInterface::searchSigSlot(std::string askedSearch) {
 
 
 void GuiInterface::loginSlot() {
-	// _connection = new LogWidget(_width, _height, 1, _mainWindow);
+	delete _currentWindow;
+	_connection = new LogWidget(_width, _height, 1, _mainWindow);
+	_connection->raise();
+	_connection->show();
+	_searchWidget->hide();
+	_currentWindow = _connection;
 
 }
 
 void GuiInterface::signinSlot() {
-	// _connection = new LogWidget(_width, _height, 2, _mainWindow);
+	delete _currentWindow;
+	_connection = new LogWidget(_width, _height, 2, _mainWindow);
+	_connection->raise();
+	_connection->show();
+	_searchWidget->hide();
+	_currentWindow = _connection;
+
 
 
 }
