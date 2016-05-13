@@ -30,6 +30,10 @@ class LogWidget: public QWidget {
 
 	public slots:
 		void confirmSlot();
+		void cancelSlot();
+
+	signals:
+		void canceled();
 
 } ;
 

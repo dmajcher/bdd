@@ -21,6 +21,8 @@ class TaskBar: public QWidget {
 		TaskBar(int, int, QWidget*);
 		void connectButtons();
 		void setWidgetStyle();
+		void hideSign();
+		void hideLog();
 
 	public slots:
 		void loginSlot();

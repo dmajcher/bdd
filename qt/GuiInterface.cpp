@@ -51,7 +51,9 @@ void GuiInterface::loginSlot() {
 	_connection->show();
 	_searchWidget->hide(); 
 	_taskBar->raise();
+	_taskBar->hideLog();
 	_currentWindow = _connection;
+	connectLog();
 
 }
 
@@ -62,10 +64,19 @@ void GuiInterface::signinSlot() {
 	_connection->show();
 	_searchWidget->hide();
 	_taskBar->raise();
+	_taskBar->hideSign();
 	_currentWindow = _connection;
+	connectLog();
+}
 
 
-
+void GuiInterface::canceledSlot() {
+	delete _currentWindow;
+	_homeWindow = new HomeWindow(_width, _height, _searchWidget->height(), _searchWidget->width(), _mainWindow);
+	_currentWindow = _homeWindow;
+	_searchWidget->raise();
+	_searchWidget->show();
+	_taskBar->raise();
 }
 
 
@@ -73,4 +84,9 @@ void GuiInterface::connectWidgets() {
 	connect(_searchWidget, SIGNAL(searchSig(std::string)), this,SLOT(searchSigSlot(std::string)));
 	connect(_taskBar, SIGNAL(loginSig()), this, SLOT(loginSlot()));
 	connect(_taskBar, SIGNAL(signinSig()), this, SLOT(signinSlot()));
+}
+
+
+void GuiInterface::connectLog() {
+	connect(_connection, SIGNAL(canceled()),this, SLOT(canceledSlot()));
 }

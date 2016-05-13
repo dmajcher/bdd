@@ -29,6 +29,7 @@ LogWidget::LogWidget(int width, int height, int state, QWidget* parent) : QWidge
 		setSignStyle();
 	else
 		setLogStyle();
+	connectButtons();
 	raise();
 	show();
 }
@@ -56,12 +57,19 @@ void LogWidget::setLogStyle() {
 
 
 void LogWidget::confirmSlot() {
-	
+
+}
+
+
+void LogWidget::cancelSlot() {
+	emit canceled();
+
 }
 
 
 void LogWidget::connectButtons() {
 	connect(_logButton, SIGNAL(clicked()), this, SLOT(confirmSlot()));
+	connect(_cancelButton, SIGNAL(clicked()), this, SLOT(cancelSlot()));
 }
 
 

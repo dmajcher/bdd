@@ -40,10 +40,13 @@ class GuiInterface: public QApplication {
 	public:
 		GuiInterface(DataBase*, int, char**);
 		void connectWidgets();
+		void connectLog();
+
 	public slots:
 		void searchSigSlot(std::string);
 		void loginSlot();
 		void signinSlot();
+		void canceledSlot();
 
 };
 
