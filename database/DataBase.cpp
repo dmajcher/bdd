@@ -10,74 +10,9 @@ DataBase::DataBase(char* dataBaseName) {
 	initCommentsTable();
 	initLabelsPrototypeTable();
 	initLabelsContainerTable();
-<<<<<<< HEAD
 	xmlParser("../database/Restaurants.xml");
 	_isRestaurant = false;
 	xmlParser("../database/Cafes.xml");
-=======
-	// User newUser("Boris", "legrand", "boris@gmail.com", 160502, 0);
-	// User newUser2("Fred", "password123", "fred@gmail.com", 160501, 0);
-	// User newUser3("Brenda", "password123", "brenda@gmail.com", 160510, 0);
-	// User newUser4("Ivan", "legrand", "ivan@gmail.com", 160502, 0);
-	// User newUser5("Joelle", "password123", "joelle@gmail.com", 160501, 0);
-	// User newUser6("Sarah", "password123", "sarah@gmail.com", 160510, 0);
-	// User newUser7("Serge", "password123", "serge@gmail.com", 160510, 0);
-
- //    addUser(newUser);
-	// addUser(newUser2);
-	// addUser(newUser3);
-	// addUser(newUser4);
-	// addUser(newUser5);
-	// addUser(newUser6);
-	// addUser(newUser7);
-	// User* tempUser = new User("Fred","","Fred",0,true);
-	// xmlParser("../database/Restaurants.xml");
-	// _isRestaurant = false;
-	// xmlParser("../database/Cafes.xml");
-
-    Restaurant resto(12, true, true, "FOOOOOO", 50);
-
-    resto.setEtabInfos("Mirabelle", "hello", 1050, "0422222","","","",2.5,2.5);
-    Commentaire comm1("Brenda", "10/05/16", "bon", 5, 1);
-    Commentaire comm2("Brenda", "10/05/16", "bon", 5, 2);
-    Commentaire comm3("Brenda", "10/05/16", "bon", 5, 3);
-    Commentaire comm4("Brenda", "10/05/16", "bon", 5, 4);
-    Commentaire comm6("Flo", "10/05/16", "bon", 5, 1);
-    Commentaire comm7("Flo", "10/05/16", "bon", 5, 2);
-    Commentaire comm8("Flo", "10/05/16", "bon", 5, 3);
-        Commentaire comm12("Flo", "10/05/16", "bon", 5, 4);
-       Commentaire comm13("Flo", "10/05/16", "bon", 5, 5);
-    Commentaire comm9("David", "10/05/16", "bon", 5, 3);
-    Commentaire comm10("David", "10/05/16", "bon", 5, 4);
-    Commentaire comm11("David", "10/05/16", "bon", 5, 1);
-    // addCommentaire(comm1);
-    // addCommentaire(comm2);
-    // addCommentaire(comm3);
-    // addCommentaire(comm4);
-    // addCommentaire(comm6);
-    // addCommentaire(comm7);
-    // addCommentaire(comm8);
-    // addCommentaire(comm9);
-    // addCommentaire(comm10);
-    // addCommentaire(comm11);
-    // addCommentaire(comm12);
-    // addCommentaire(comm13);
-    // requeteR2();
-
-    // std::vector<Etablissement*> t = getEtabByName("Nom = 'Mirabelle'");
-    // std::cout<<t.size()<<std::endl;
- //    Bar* barPtr;
- //    Restaurant* restoPtr;
- //    Hotel* hotelPtr;
- //    barPtr = dynamic_cast<Bar*>(t[0]);
-	// restoPtr = dynamic_cast<Restaurant*>(t[0]);
-	// hotelPtr = dynamic_cast<Hotel*>(t[0]);
-	// Restaurant rest = *restoPtr;
-
-
-    // comm.setCid(1);
-    // delCommentaire(comm);
->>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 }
 
 
@@ -520,11 +455,7 @@ std::vector<Commentaire*> DataBase::getCommByCond(std::string cond) {
 std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 	char* errorMsg;
 	std::string gu = "\"";
-<<<<<<< HEAD
-	std::string query = "SELECT DISTINCT LID, COUNT(LID) FROM LabelContainer WHERE("+cond+" and LID = LID)";
-=======
 	std::string query = "SELECT LID, COUNT(LID) FROM LabelContainer WHERE("+cond+") GROUP BY LID";
->>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 	std::string lid;
 	std::vector<Label*> labelVec;
 	std::vector<Label*> * labelVecPtr = &labelVec;
@@ -535,11 +466,7 @@ std::vector<Label*> DataBase::getLabelByCond(std::string cond) {
 		query = "SELECT Etiquette FROM Labels WHERE(LID = " +lid;
 		errorStatus = sqlite3_exec(_dataBase, query.c_str(), getEtiqCallback, labelVec[i], &errorMsg);
 		checkError(errorStatus, errorMsg);
-<<<<<<< HEAD
 	} 
-=======
-	}
->>>>>>> 13e674687da885a6aa1aef833fd4af0a9153a915
 	return labelVec;
 }
 
